@@ -8,7 +8,7 @@ export default function TestPage() {
           About Us
         </h1>
         <p className="text-muted-foreground">
-          WM Website is not just a project; it's a commitment to building clean,
+          WM Website is not just a project; it&apos;s a commitment to building clean,
           modern, and
         </p>
       </div>

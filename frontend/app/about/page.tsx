@@ -1,70 +1,82 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  Link as LinkIcon,
-  Mail,
-} from "lucide-react";
+import type { CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeftIcon, ChevronRightIcon, Mail, X } from "lucide-react";
 
 type Person = {
   name: string;
   role: string;
   bio: string;
   image: string;
+  avatarOffsetX?: string;
   linkedin: string;
   twitter: string;
 };
+
+const teamFallbackImage = "/images/team/vacant-char.png";
 
 const management: Person[] = [
   {
     name: "Hatem El-Ghazaly",
     role: "Chief Executive Officer",
     bio: "Visionary leader with a passion for innovation and empowering teams to build impactful digital experiences.",
-    image: "/images/team/hatem.png",
+    image: "/images/team/Hatem.png",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Maha",
-    role: "Head of Operations",
-    bio: "Ensures operational excellence and seamless execution across all departments.",
-    image: "/images/team/maha.png",
+    name: "Dr. Eman Elnabrawy",
+    role: "Business Unit Manager",
+    bio: "Leads business direction with a focus on growth, coordination, and effective delivery.",
+    image: "/images/team/Eman.png",
+    avatarOffsetX: "-4px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Omar",
-    role: "Strategy Director",
-    bio: "Leads strategic planning and market positioning initiatives.",
-    image: "/images/team/omar.png",
+    name: "Shahd Awad",
+    role: "HR Manager",
+    bio: "Supports people operations and helps build a positive, organized team culture.",
+    image: "/images/team/Shahd.png",
+    avatarOffsetX: "12px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Nour",
-    role: "Marketing Lead",
-    bio: "Builds meaningful brand communication and customer engagement.",
-    image: "/images/team/nour.png",
+    name: "Dr Ibtihal Abdelhameed",
+    role: "Developer",
+    bio: "Focuses on building reliable digital experiences with clean, practical implementation.",
+    image: "/images/team/Ibtihal.png",
+    avatarOffsetX: "-2px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Sara",
-    role: "People & Culture",
-    bio: "Creates a supportive and inspiring work environment.",
-    image: "/images/team/sara.png",
+    name: "Ahmed Elnawawy",
+    role: "Accountant",
+    bio: "Handles financial clarity, accuracy, and day-to-day accounting support.",
+    image: "/images/team/Nawawi.png",
+    avatarOffsetX: "-4px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Kareem",
-    role: "Finance Manager",
-    bio: "Drives financial clarity and sustainable growth strategies.",
-    image: "/images/team/kareem.png",
+    name: "Dr Ahmed Elshahat",
+    role: "Supply Chain Manager",
+    bio: "Coordinates supply chain operations and supports smooth operational flow.",
+    image: "/images/team/Elshahat.png",
+    avatarOffsetX: "-2px",
+    linkedin: "https://linkedin.com",
+    twitter: "https://twitter.com",
+  },
+  {
+    name: "Vacant",
+    role: "Marketing Manager",
+    bio: "This role is currently open.",
+    image: "/images/team/vacant-char.png",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
@@ -72,17 +84,40 @@ const management: Person[] = [
 
 export default function AboutPage() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const selectedPerson = management[activeIndex];
 
-  const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % management.length);
+  const scrollCarousel = (direction: "left" | "right") => {
+    const container = carouselRef.current;
+    if (!container) {
+      return;
+    }
+
+    const amount =
+      direction === "left"
+        ? -container.clientWidth * 0.7
+        : container.clientWidth * 0.7;
+    container.scrollBy({ left: amount, behavior: "smooth" });
   };
 
-  const prevSlide = () => {
-    setActiveIndex(
-      (prev) => (prev - 1 + management.length) % management.length,
-    );
-  };
+  useEffect(() => {
+    if (!isModalOpen) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isModalOpen]);
 
   return (
     <section className="relative overflow-hidden bg-[#f6f8fc] py-14">
@@ -91,81 +126,184 @@ export default function AboutPage() {
         <div className="absolute right-[-10%] top-[15%] h-[420px] w-[420px] rounded-full bg-violet-200/20 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="rounded-[36px] border border-slate-200/60 bg-white/75 p-8 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-          <div className="grid gap-10 lg:grid-cols-[320px_1.7fr]">
-            <div className="flex flex-col justify-between gap-8">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                  About Us
-                </p>
-                <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.04em] text-slate-950">
-                  Our
-                  <br />
-                  Team
-                </h1>
-                <p className="mt-5 max-w-md text-sm leading-7 text-slate-500">
-                  Click a member to learn more about them. Explore our
-                  leadership team with a polished avatar row and an emphasis on
-                  the selected role.
-                </p>
-                <div className="mt-6 h-1 w-16 rounded-full bg-sky-400" />
-              </div>
+      <div className="relative w-full px-0">
+        <div className="rounded-[36px] border border-transparent bg-white/75 p-8 backdrop-blur-2xl">
+          <div className="relative overflow-hidden rounded-[36px] bg-slate-50 px-6 py-12 sm:px-8">
+            <div className="absolute left-[-12%] top-10 h-52 w-52 rounded-full bg-sky-200/30 blur-3xl" />
+            <div className="absolute right-0 top-24 h-40 w-40 rounded-full bg-violet-200/20 blur-3xl" />
 
-              <motion.div
-                key={selectedPerson.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="overflow-hidden rounded-[32px] border border-slate-200/70 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
-              >
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      Featured leader
-                    </p>
-                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
-                      {selectedPerson.name}
-                    </h2>
-                    <p className="mt-2 text-sm font-medium text-slate-500">
-                      {selectedPerson.role}
-                    </p>
-                  </div>
-                  <div className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    Leadership
-                  </div>
+            <div className="relative">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Meet the team
+              </p>
+
+              <div className="mt-6 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("left")}
+                  className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
+                  aria-label="Scroll team left"
+                >
+                  <ChevronLeftIcon className="h-5 w-5" />
+                </button>
+
+                <div
+                  ref={carouselRef}
+                  className="flex w-full gap-2 overflow-x-auto scroll-smooth py-10 px-1 lg:gap-1 lg:py-8"
+                >
+                  {management.map((person, index) => {
+                    const selected = index === activeIndex;
+
+                    return (
+                      <button
+                        key={person.name}
+                        onClick={() => {
+                          setActiveIndex(index);
+                          setIsModalOpen(true);
+                        }}
+                        className="group relative flex-shrink-0 overflow-visible rounded-[32px] bg-transparent text-left transition-transform duration-300 ease-out focus:outline-none hover:-translate-y-2"
+                        style={{ width: 250 }}
+                      >
+                        <div className="relative flex h-full min-h-[430px] flex-col items-center justify-end p-2">
+                          <div className="relative h-[388px] w-full">
+                            <div
+                              aria-hidden="true"
+                              className="absolute bottom-0 left-1/2 h-[136px] w-40 -translate-x-1/2 transition-transform duration-300 group-hover:scale-105"
+                            >
+                              <span className="absolute bottom-0 left-1/2 h-8 w-44 -translate-x-1/2 rounded-full bg-slate-900/14 blur-md" />
+                              <span
+                                className={`absolute bottom-3 left-1/2 z-0 h-[136px] w-40 -translate-x-1/2 rounded-full border transition-colors duration-300 [transform:perspective(700px)_rotateX(64deg)] shadow-[inset_0_10px_16px_rgba(255,255,255,0.85),inset_0_-12px_16px_rgba(15,23,42,0.12),0_14px_24px_rgba(15,23,42,0.10)] ${
+                                  selected
+                                    ? "border-yellow-300/80 bg-gradient-to-b from-yellow-50 via-yellow-200 to-yellow-400"
+                                    : "border-slate-200 bg-gradient-to-b from-white via-slate-100 to-slate-200 group-hover:border-yellow-300/80 group-hover:from-yellow-50 group-hover:via-yellow-200 group-hover:to-yellow-400"
+                                }`}
+                              />
+                            </div>
+
+                            <motion.img
+                              src={person.image}
+                              alt={person.name}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.35 }}
+                              style={
+                                {
+                                  "--avatar-offset-x":
+                                    person.avatarOffsetX ?? "0px",
+                                } as CSSProperties
+                              }
+                              onError={(event) => {
+                                event.currentTarget.src = teamFallbackImage;
+                              }}
+                              className={`absolute bottom-5 left-1/2 z-10 h-[360px] w-full translate-x-[calc(-50%_+_var(--avatar-offset-x))] origin-bottom object-contain transition-transform duration-300 ease-out will-change-transform ${
+                                selected
+                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_24px_40px_rgba(250,204,21,0.28)]"
+                                  : "scale-100 -translate-y-3 opacity-95 group-hover:scale-[1.05]"
+                              }`}
+                            />
+                          </div>
+
+                          <div className="mt-3 text-center">
+                            <span className="block text-sm font-semibold text-slate-900">
+                              {person.name}
+                            </span>
+                            <span className="block text-xs text-slate-500">
+                              {person.role}
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
 
-                <p className="mt-5 text-sm leading-7 text-slate-600">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("right")}
+                  className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
+                  aria-label="Scroll team right"
+                >
+                  <ChevronRightIcon className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isModalOpen ? (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-8 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              className="grid w-[min(92vw,1100px)] overflow-hidden rounded-[32px] bg-white shadow-[0_40px_120px_rgba(15,23,42,0.35)] md:grid-cols-[1.1fr_0.9fr]"
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="relative flex items-center justify-center bg-slate-50 p-6">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(250,204,21,0.16),transparent_58%)]" />
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-10 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-yellow-300/50 blur-3xl"
+                />
+                <motion.img
+                  key={selectedPerson.name}
+                  src={selectedPerson.image}
+                  alt={selectedPerson.name}
+                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  onError={(event) => {
+                    event.currentTarget.src = teamFallbackImage;
+                  }}
+                  className="relative z-10 h-[520px] w-full object-contain"
+                />
+              </div>
+
+              <div className="relative p-8 sm:p-10">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
+                  aria-label="Close team member popup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                  Team member
+                </p>
+                <h2 className="mt-3 text-4xl font-black tracking-[-0.04em] text-slate-950">
+                  {selectedPerson.name}
+                </h2>
+                <p className="mt-2 text-base font-medium text-slate-500">
+                  {selectedPerson.role}
+                </p>
+
+                <p className="mt-6 text-sm leading-7 text-slate-600">
                   {selectedPerson.bio}
                 </p>
 
-                <div className="mt-6 flex flex-wrap items-center gap-3">
+                <div className="mt-8 flex flex-wrap items-center gap-3">
                   <Link
                     href={selectedPerson.linkedin}
                     target="_blank"
                     className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
                   >
-                    <LinkIcon className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href={selectedPerson.twitter}
-                    target="_blank"
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
-                  >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                       viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      className="h-4 w-4"
+                      fill="currentColor"
+                      className="h-4 w-4 text-[#0A66C2]"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-1 .57-2.36.88A4.48 4.48 0 0 0 16.5 0c-2.5 0-4.5 2.1-4.5 4.7 0 .37.04.73.12 1.07C7.69 5.3 4.07 3.4 1.64.8c-.41.7-.64 1.53-.64 2.4 0 1.66.84 3.12 2.12 3.98A4.5 4.5 0 0 1 .96 6v.06c0 2.31 1.62 4.24 3.77 4.68-.34.09-.7.14-1.07.14-.26 0-.51-.02-.76-.07.52 1.6 2.04 2.77 3.83 2.81A9.02 9.02 0 0 1 0 19.54 12.73 12.73 0 0 0 6.92 21c8.3 0 12.84-7.17 12.84-13.39 0-.2 0-.4-.02-.6A9.22 9.22 0 0 0 23 3z"
-                      />
+                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.35V9h3.41v1.56h.05c.48-.91 1.65-1.85 3.4-1.85 3.63 0 4.29 2.39 4.29 5.5v6.24ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0Z" />
                     </svg>
                   </Link>
                   <Link
@@ -175,83 +313,11 @@ export default function AboutPage() {
                     <Mail className="h-4 w-4" />
                   </Link>
                 </div>
-              </motion.div>
-            </div>
-
-            <div className="relative overflow-hidden rounded-[36px] bg-slate-50 p-8">
-              <div className="absolute left-[-12%] top-10 h-52 w-52 rounded-full bg-sky-200/30 blur-3xl" />
-              <div className="absolute right-0 top-24 h-40 w-40 rounded-full bg-violet-200/20 blur-3xl" />
-
-              <div className="mx-auto max-w-full">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                  Meet the team
-                </p>
-
-                <div className="mt-6 flex w-full items-center justify-center">
-                  <div className="flex w-full max-w-6xl items-end justify-start gap-6 overflow-x-auto py-6 px-4">
-                    {management.map((person, index) => {
-                      const selected = index === activeIndex;
-                      return (
-                        <button
-                          key={person.name}
-                          onClick={() => setActiveIndex(index)}
-                          className={`relative flex-shrink-0 overflow-hidden rounded-2xl transition-all focus:outline-none ${
-                            selected
-                              ? "ring-4 ring-sky-300"
-                              : "ring-0 hover:scale-105"
-                          }`}
-                          style={{ minWidth: 180 }}
-                        >
-                          <motion.img
-                            src={person.image}
-                            alt={person.name}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.35 }}
-                            className={`h-[420px] w-[260px] object-cover ${
-                              selected
-                                ? "shadow-[0_40px_80px_rgba(15,23,42,0.15)] rounded-[36px]"
-                                : "opacity-95 rounded-[36px]"
-                            }`}
-                          />
-                          <div className="absolute left-0 right-0 bottom-0 flex flex-col items-start gap-0 bg-gradient-to-t from-black/50 to-transparent px-3 py-2 text-white">
-                            <span className="text-sm font-semibold">
-                              {person.name}
-                            </span>
-                            <span className="text-xs opacity-90">
-                              {person.role}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between gap-4">
-                  <div className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                    Browse avatars
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={prevSlide}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-100"
-                    >
-                      <ChevronLeftIcon className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={nextSlide}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-100"
-                    >
-                      <ChevronRightIcon className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }
