@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   Link as LinkIcon,
+  Mail,
 } from "lucide-react";
 
 type Person = {
@@ -71,6 +72,7 @@ const management: Person[] = [
 
 export default function AboutPage() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const selectedPerson = management[activeIndex];
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % management.length);
@@ -83,80 +85,80 @@ export default function AboutPage() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#f6f8fc] py-10">
-      {/* Background */}
+    <section className="relative overflow-hidden bg-[#f6f8fc] py-14">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-sky-200/30 blur-3xl" />
-        <div className="absolute right-[-10%] top-[20%] h-[400px] w-[400px] rounded-full bg-violet-200/20 blur-3xl" />
+        <div className="absolute right-[-10%] top-[15%] h-[420px] w-[420px] rounded-full bg-violet-200/20 blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
-        <div className="rounded-[36px] border border-slate-200/60 bg-white/70 p-8 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-          <div className="grid gap-10 lg:grid-cols-[280px_1fr]">
-            {/* LEFT SIDE */}
-            <div className="flex flex-col justify-between">
+        <div className="rounded-[36px] border border-slate-200/60 bg-white/75 p-8 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
+          <div className="grid gap-10 lg:grid-cols-[320px_1.7fr]">
+            <div className="flex flex-col justify-between gap-8">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
                   About Us
                 </p>
-
-                <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.04em] text-slate-900">
+                <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.04em] text-slate-950">
                   Our
                   <br />
                   Team
                 </h1>
-
-                <p className="mt-6 max-w-[200px] text-sm leading-7 text-slate-500">
-                  Click on a member to learn more about them.
+                <p className="mt-5 max-w-md text-sm leading-7 text-slate-500">
+                  Click a member to learn more about them. Explore our
+                  leadership team with a polished avatar row and an emphasis on
+                  the selected role.
                 </p>
-
-                <div className="mt-6 h-1 w-14 rounded-full bg-sky-400" />
+                <div className="mt-6 h-1 w-16 rounded-full bg-sky-400" />
               </div>
 
-              {/* PROFILE CARD */}
               <motion.div
-                key={management[activeIndex].name}
-                initial={{ opacity: 0, y: 15 }}
+                key={selectedPerson.name}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="mt-10 rounded-[28px] border border-slate-200/60 bg-white p-5 shadow-lg"
+                className="overflow-hidden rounded-[32px] border border-slate-200/70 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
               >
-                <h3 className="text-xl font-bold text-slate-900">
-                  {management[activeIndex].name}
-                </h3>
-
-                <p className="mt-1 text-sm font-medium text-slate-500">
-                  {management[activeIndex].role}
-                </p>
-
-                <div className="mt-3 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                  Leadership
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
+                      Featured leader
+                    </p>
+                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
+                      {selectedPerson.name}
+                    </h2>
+                    <p className="mt-2 text-sm font-medium text-slate-500">
+                      {selectedPerson.role}
+                    </p>
+                  </div>
+                  <div className="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    Leadership
+                  </div>
                 </div>
 
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  {management[activeIndex].bio}
+                <p className="mt-5 text-sm leading-7 text-slate-600">
+                  {selectedPerson.bio}
                 </p>
 
-                <div className="mt-5 flex items-center gap-3">
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Link
-                    href={management[activeIndex].linkedin}
+                    href={selectedPerson.linkedin}
                     target="_blank"
-                    className="rounded-full bg-slate-100 p-2 transition hover:bg-slate-200"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
                   >
-                    <LinkIcon className="h-4 w-4 text-slate-700" />
+                    <LinkIcon className="h-4 w-4" />
                   </Link>
-
                   <Link
-                    href={management[activeIndex].twitter}
+                    href={selectedPerson.twitter}
                     target="_blank"
-                    className="rounded-full bg-slate-100 p-2 transition hover:bg-slate-200"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      className="h-4 w-4 text-slate-700"
+                      className="h-4 w-4"
                     >
                       <path
                         strokeLinecap="round"
@@ -166,97 +168,83 @@ export default function AboutPage() {
                       />
                     </svg>
                   </Link>
-
                   <Link
                     href="mailto:info@wmwebsite.com"
-                    className="rounded-full bg-slate-100 p-2 transition hover:bg-slate-200"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      className="h-4 w-4 text-slate-700"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"
-                      />
-                    </svg>
+                    <Mail className="h-4 w-4" />
                   </Link>
                 </div>
               </motion.div>
             </div>
 
-            {/* RIGHT SIDE */}
-            <div className="relative flex items-center justify-center overflow-hidden rounded-[36px] bg-gradient-to-b from-[#f9fbff] to-[#f3f5fa] py-10">
-              {/* Left Arrow */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition hover:scale-105"
-              >
-                <ChevronLeftIcon className="h-5 w-5 text-slate-700" />
-              </button>
+            <div className="relative overflow-hidden rounded-[36px] bg-slate-50 p-8">
+              <div className="absolute left-[-12%] top-10 h-52 w-52 rounded-full bg-sky-200/30 blur-3xl" />
+              <div className="absolute right-0 top-24 h-40 w-40 rounded-full bg-violet-200/20 blur-3xl" />
 
-              {/* Right Arrow */}
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition hover:scale-105"
-              >
-                <ChevronRightIcon className="h-5 w-5 text-slate-700" />
-              </button>
+              <div className="mx-auto max-w-full">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Meet the team
+                </p>
 
-              <div className="flex w-full max-w-4xl items-stretch gap-6 px-8">
-                {/* Spotlight */}
-                <div className="flex-1 flex items-center justify-center">
-                  <AnimatePresence mode="wait">
-                    <motion.img
-                      key={management[activeIndex].name}
-                      src={management[activeIndex].image}
-                      alt={management[activeIndex].name}
-                      initial={{ opacity: 0, x: 40 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -40 }}
-                      transition={{ duration: 0.45 }}
-                      className="max-h-[420px] object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.18)]"
-                    />
-                  </AnimatePresence>
-                </div>
-
-                {/* Thumbnails / Names */}
-                <div className="w-56 flex-shrink-0">
-                  <div className="space-y-4">
+                <div className="mt-6 flex w-full items-center justify-center">
+                  <div className="flex w-full max-w-6xl items-end justify-start gap-6 overflow-x-auto py-6 px-4">
                     {management.map((person, index) => {
                       const selected = index === activeIndex;
                       return (
                         <button
                           key={person.name}
                           onClick={() => setActiveIndex(index)}
-                          className={`w-full rounded-lg p-3 text-left transition-shadow hover:shadow-md flex items-start gap-3 ${
-                            selected ? "bg-white/80 shadow-lg" : "bg-white/60"
+                          className={`relative flex-shrink-0 overflow-hidden rounded-2xl transition-all focus:outline-none ${
+                            selected
+                              ? "ring-4 ring-sky-300"
+                              : "ring-0 hover:scale-105"
                           }`}
+                          style={{ minWidth: 180 }}
                         >
-                          <img
+                          <motion.img
                             src={person.image}
                             alt={person.name}
-                            className={`h-20 w-20 rounded-full object-cover flex-shrink-0 ${
-                              selected ? "ring-4 ring-amber-200" : ""
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35 }}
+                            className={`h-[420px] w-[260px] object-cover ${
+                              selected
+                                ? "shadow-[0_40px_80px_rgba(15,23,42,0.15)] rounded-[36px]"
+                                : "opacity-95 rounded-[36px]"
                             }`}
                           />
-
-                          <div>
-                            <div className="text-sm font-semibold text-slate-900">
-                              {person.name.split(" ")[0]}
-                            </div>
-                            <div className="text-xs text-slate-500">
+                          <div className="absolute left-0 right-0 bottom-0 flex flex-col items-start gap-0 bg-gradient-to-t from-black/50 to-transparent px-3 py-2 text-white">
+                            <span className="text-sm font-semibold">
+                              {person.name}
+                            </span>
+                            <span className="text-xs opacity-90">
                               {person.role}
-                            </div>
+                            </span>
                           </div>
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <div className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                    Browse avatars
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={prevSlide}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-100"
+                    >
+                      <ChevronLeftIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-slate-100"
+                    >
+                      <ChevronRightIcon className="h-5 w-5" />
+                    </button>
                   </div>
                 </div>
               </div>
