@@ -2,17 +2,18 @@ import Link from "next/link";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Us" },
+  { href: "/meet_our_leaders", label: "Meet Our Leaders" },
   { href: "/contact", label: "Contact Us" },
-  { href: "/test", label: "About Copy" },
+  { href: "/about_us", label: "About Us" },
+  { href: "/employees_section", label: "Employee's Section" },
 ];
 
 export function SiteNavbar() {
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+    <header className="fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <nav className="flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="text-lg font-semibold tracking-tight">
-          WM Website
+          Willi Med
         </Link>
 
         <ul className="flex items-center gap-2 sm:gap-4">

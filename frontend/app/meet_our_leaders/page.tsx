@@ -11,6 +11,7 @@ type Person = {
   role: string;
   bio: string;
   image: string;
+  email: string;
   avatarOffsetX?: string;
   linkedin: string;
   twitter: string;
@@ -20,18 +21,20 @@ const teamFallbackImage = "/images/team/vacant-char.png";
 
 const management: Person[] = [
   {
-    name: "Hatem El-Ghazaly",
+    name: "Dr. Hatem El-Ghazaly",
     role: "Chief Executive Officer",
-    bio: "Visionary leader with a passion for innovation and empowering teams to build impactful digital experiences.",
+    bio: "Meet our Zarzadu Founder and CEO, Hatem El-Ghazaly. Hatem, the heart and vision behind Willi Med. With a blend of strategic brilliance and down-to-earth charm, he leads our team with purpose, passion, and an unwavering belief in people. He is the kind of leader who makes everyone feel seen, heard, and empowered. With his strategic guidance, the company is poised to achieve remarkable milestones, emphasizing operational excellence and fostering a collaborative culture that supports long-term success.",
     image: "/images/team/Hatem.png",
-    linkedin: "https://linkedin.com",
+    email: "hghazaly@willimed.com",
+    linkedin: "https://www.linkedin.com/in/hatem-el-ghazaly-05981219/",
     twitter: "https://twitter.com",
   },
   {
-    name: "Dr. Eman Elnabrawy",
+    name: "Dr. Eman El Nabrawy",
     role: "Business Unit Manager",
     bio: "Leads business direction with a focus on growth, coordination, and effective delivery.",
     image: "/images/team/Eman.png",
+    email: "eman@wmwebsite.com",
     avatarOffsetX: "-4px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
@@ -40,43 +43,48 @@ const management: Person[] = [
     name: "Shahd Awad",
     role: "HR Manager",
     bio: "Supports people operations and helps build a positive, organized team culture.",
-    image: "/images/team/Shahd.png",
+    image: "/images/team/Shahd-Awad.png",
+    email: "shahd@wmwebsite.com",
     avatarOffsetX: "12px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Dr Ibtihal Abdelhameed",
+    name: "Dr. Ibtihal Abd Elhameed",
     role: "Developer",
     bio: "Focuses on building reliable digital experiences with clean, practical implementation.",
     image: "/images/team/Ibtihal.png",
+    email: "ibtihal@wmwebsite.com",
     avatarOffsetX: "-2px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Ahmed Elnawawy",
+    name: "Ahmed El Nawawy",
     role: "Accountant",
     bio: "Handles financial clarity, accuracy, and day-to-day accounting support.",
     image: "/images/team/Nawawi.png",
+    email: "ahmed.nawawy@wmwebsite.com",
     avatarOffsetX: "-4px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
-    name: "Dr Ahmed Elshahat",
+    name: "Dr. Ahmed El Shahat",
     role: "Supply Chain Manager",
     bio: "Coordinates supply chain operations and supports smooth operational flow.",
     image: "/images/team/Elshahat.png",
+    email: "ahmed.shahat@wmwebsite.com",
     avatarOffsetX: "-2px",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
   {
     name: "Vacant",
-    role: "Marketing Manager",
+    role: "Product Manager Needed",
     bio: "This role is currently open.",
     image: "/images/team/vacant-char.png",
+    email: "careers@wmwebsite.com",
     linkedin: "https://linkedin.com",
     twitter: "https://twitter.com",
   },
@@ -134,7 +142,7 @@ export default function AboutPage() {
 
             <div className="relative">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Meet the team
+                Powered by Talent
               </p>
 
               <div className="mt-6 flex items-center gap-3">
@@ -174,8 +182,8 @@ export default function AboutPage() {
                               <span
                                 className={`absolute bottom-3 left-1/2 z-0 h-[136px] w-40 -translate-x-1/2 rounded-full border transition-colors duration-300 [transform:perspective(700px)_rotateX(64deg)] shadow-[inset_0_10px_16px_rgba(255,255,255,0.85),inset_0_-12px_16px_rgba(15,23,42,0.12),0_14px_24px_rgba(15,23,42,0.10)] ${
                                   selected
-                                    ? "border-yellow-300/80 bg-gradient-to-b from-yellow-50 via-yellow-200 to-yellow-400"
-                                    : "border-slate-200 bg-gradient-to-b from-white via-slate-100 to-slate-200 group-hover:border-yellow-300/80 group-hover:from-yellow-50 group-hover:via-yellow-200 group-hover:to-yellow-400"
+                                    ? "border-green-200/60 bg-gradient-to-b from-green-50 via-green-100 to-green-200"
+                                    : "border-slate-200 bg-gradient-to-b from-white via-slate-100 to-slate-200 group-hover:border-green-200/60 group-hover:from-green-50 group-hover:via-green-100 group-hover:to-green-200"
                                 }`}
                               />
                             </div>
@@ -197,7 +205,7 @@ export default function AboutPage() {
                               }}
                               className={`absolute bottom-5 left-1/2 z-10 h-[360px] w-full translate-x-[calc(-50%_+_var(--avatar-offset-x))] origin-bottom object-contain transition-transform duration-300 ease-out will-change-transform ${
                                 selected
-                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_24px_40px_rgba(250,204,21,0.28)]"
+                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_24px_40px_rgba(167,243,208,0.2)]"
                                   : "scale-100 -translate-y-3 opacity-95 group-hover:scale-[1.05]"
                               }`}
                             />
@@ -288,7 +296,16 @@ export default function AboutPage() {
                 </p>
 
                 <p className="mt-6 text-sm leading-7 text-slate-600">
-                  {selectedPerson.bio}
+                  {selectedPerson.bio.split("Zarzadu").map((part, idx, arr) =>
+                    idx === arr.length - 1 ? (
+                      part
+                    ) : (
+                      <>
+                        {part}
+                        <strong>Zarzadu</strong>
+                      </>
+                    ),
+                  )}
                 </p>
 
                 <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -307,7 +324,7 @@ export default function AboutPage() {
                     </svg>
                   </Link>
                   <Link
-                    href="mailto:info@wmwebsite.com"
+                    href={`mailto:${selectedPerson.email}`}
                     className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
                   >
                     <Mail className="h-4 w-4" />
