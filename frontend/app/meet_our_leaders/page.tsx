@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon, Mail, X } from "lucide-react";
 
@@ -128,14 +128,14 @@ export default function AboutPage() {
   }, [isModalOpen]);
 
   return (
-    <section className="relative overflow-hidden bg-[#f6f8fc] py-14">
+    <section className="relative overflow-hidden bg-transparent py-14">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-sky-200/30 blur-3xl" />
         <div className="absolute right-[-10%] top-[15%] h-[420px] w-[420px] rounded-full bg-violet-200/20 blur-3xl" />
       </div>
 
       <div className="relative w-full px-0">
-        <div className="rounded-[36px] border border-transparent bg-white/75 p-8 backdrop-blur-2xl">
+        <div className="rounded-[36px] border border-transparent bg-white/0 p-8 backdrop-blur-2xl">
           <div className="relative overflow-hidden rounded-[36px] bg-slate-50 px-6 py-12 sm:px-8">
             <div className="absolute left-[-12%] top-10 h-52 w-52 rounded-full bg-sky-200/30 blur-3xl" />
             <div className="absolute right-0 top-24 h-40 w-40 rounded-full bg-violet-200/20 blur-3xl" />
@@ -298,12 +298,12 @@ export default function AboutPage() {
                 <p className="mt-6 text-sm leading-7 text-slate-600">
                   {selectedPerson.bio.split("Zarzadu").map((part, idx, arr) =>
                     idx === arr.length - 1 ? (
-                      part
+                      <Fragment key={idx}>{part}</Fragment>
                     ) : (
-                      <>
+                      <Fragment key={idx}>
                         {part}
                         <strong>Zarzadu</strong>
-                      </>
+                      </Fragment>
                     ),
                   )}
                 </p>

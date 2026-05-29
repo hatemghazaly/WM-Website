@@ -2,13 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function EmployeesSectionPage() {
   return (
-    <section className="space-y-6">
-      <div className="rounded-[36px] border border-transparent bg-white/75 p-8 backdrop-blur-2xl">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Employee's Section
+    <section className="bg-transparent py-20">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="text-center mb-14">
+          <h1 className="text-4xl lg:text-5xl font-black text-slate-950">
+            Employee&apos;s Section
           </h1>
-          <p className="text-muted-foreground">For Willimedians only !!.</p>
+
+          <p className="mt-4 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto">
+            For Willimedians only !!
+          </p>
         </div>
 
         <div className="mt-6">

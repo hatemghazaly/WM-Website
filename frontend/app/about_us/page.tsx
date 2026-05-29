@@ -42,7 +42,7 @@ export default function AboutUsPage() {
   const [selected, setSelected] = useState<Section>("Mission");
 
   return (
-    <section className="bg-slate-50 py-20">
+    <section className="bg-transparent py-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-14">
           <h1 className="text-4xl lg:text-5xl font-black text-slate-950">
@@ -154,10 +154,10 @@ export default function AboutUsPage() {
 
         <div className="mt-14 text-center">
           <Link
-            href="/contact"
+            href="meet_our_leaders"
             className="inline-block rounded-full bg-slate-950 px-10 py-4 text-lg font-semibold text-white transition hover:bg-slate-800"
           >
-            Get in touch
+            Meet Our Leaders
           </Link>
         </div>
       </div>
