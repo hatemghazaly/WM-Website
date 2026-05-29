@@ -9,6 +9,7 @@ import { ChevronLeftIcon, ChevronRightIcon, Mail, X } from "lucide-react";
 type Person = {
   name: string;
   role: string;
+  label: string;
   bio: string;
   image: string;
   email: string;
@@ -23,6 +24,7 @@ const management: Person[] = [
   {
     name: "Dr. Hatem El-Ghazaly",
     role: "Chief Executive Officer",
+    label: "Zarzadu",
     bio: "Meet our Zarzadu Founder and CEO, Hatem El-Ghazaly. Hatem, the heart and vision behind Willi Med. With a blend of strategic brilliance and down-to-earth charm, he leads our team with purpose, passion, and an unwavering belief in people. He is the kind of leader who makes everyone feel seen, heard, and empowered. With his strategic guidance, the company is poised to achieve remarkable milestones, emphasizing operational excellence and fostering a collaborative culture that supports long-term success.",
     image: "/images/team/Hatem.png",
     email: "hghazaly@willimed.com",
@@ -32,6 +34,7 @@ const management: Person[] = [
   {
     name: "Dr. Eman El Nabrawy",
     role: "Business Unit Manager",
+    label: "Boss Lady",
     bio: "Leads business direction with a focus on growth, coordination, and effective delivery.",
     image: "/images/team/Eman.png",
     email: "eman@wmwebsite.com",
@@ -42,6 +45,7 @@ const management: Person[] = [
   {
     name: "Shahd Awad",
     role: "HR Manager",
+    label: "Headhunter",
     bio: "Supports people operations and helps build a positive, organized team culture.",
     image: "/images/team/Shahd-Awad.png",
     email: "shahd@wmwebsite.com",
@@ -52,6 +56,7 @@ const management: Person[] = [
   {
     name: "Dr. Ibtihal Abd Elhameed",
     role: "Developer",
+    label: "Code Architect",
     bio: "Focuses on building reliable digital experiences with clean, practical implementation.",
     image: "/images/team/Ibtihal.png",
     email: "ibtihal@wmwebsite.com",
@@ -62,6 +67,7 @@ const management: Person[] = [
   {
     name: "Ahmed El Nawawy",
     role: "Accountant",
+    label: "Budget Boss",
     bio: "Handles financial clarity, accuracy, and day-to-day accounting support.",
     image: "/images/team/Nawawi.png",
     email: "ahmed.nawawy@wmwebsite.com",
@@ -72,6 +78,7 @@ const management: Person[] = [
   {
     name: "Dr. Ahmed El Shahat",
     role: "Supply Chain Manager",
+    label: "Linker",
     bio: "Coordinates supply chain operations and supports smooth operational flow.",
     image: "/images/team/Elshahat.png",
     email: "ahmed.shahat@wmwebsite.com",
@@ -82,6 +89,7 @@ const management: Person[] = [
   {
     name: "Vacant",
     role: "Product Manager Needed",
+    label: "For Sale",
     bio: "This role is currently open.",
     image: "/images/team/vacant-char.png",
     email: "careers@wmwebsite.com",
@@ -186,6 +194,9 @@ export default function AboutPage() {
                                     : "border-slate-200 bg-white/92 group-hover:border-amber-200/60 group-hover:bg-[#F8E8C0]"
                                 }`}
                               />
+                              <span className="absolute left-1/2 top-[78%] z-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff7df]/80 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55)] backdrop-blur-sm">
+                                {person.label}
+                              </span>
                             </div>
 
                             <motion.img
