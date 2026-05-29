@@ -25,7 +25,7 @@ const management: Person[] = [
     name: "Dr. Hatem El-Ghazaly",
     role: "Chief Executive Officer",
     label: "Zarzadu",
-    bio: "Meet our Zarzadu Founder and CEO, Hatem El-Ghazaly. Hatem, the heart and vision behind Willi Med. With a blend of strategic brilliance and down-to-earth charm, he leads our team with purpose, passion, and an unwavering belief in people. He is the kind of leader who makes everyone feel seen, heard, and empowered. With his strategic guidance, the company is poised to achieve remarkable milestones, emphasizing operational excellence and fostering a collaborative culture that supports long-term success.",
+    bio: "Meet our Zarzadu Founder and CEO, Hatem El-Ghazaly.Hatem, the heart and vision behind Willi Med. With a blend of strategic brilliance and down-to-earth charm, he leads our team with purpose, passion, and an unwavering belief in people. He is the kind of leader who makes everyone feel seen, heard, and empowered. With his strategic guidance, the company is poised to achieve remarkable milestones, emphasizing operational excellence and fostering a collaborative culture that supports long-term success.",
     image: "/images/team/Hatem.png",
     email: "hghazaly@willimed.com",
     linkedin: "https://www.linkedin.com/in/hatem-el-ghazaly-05981219/",
@@ -194,7 +194,7 @@ export default function AboutPage() {
                                     : "border-slate-200 bg-white/92 group-hover:border-amber-200/60 group-hover:bg-[#F8E8C0]"
                                 }`}
                               />
-                              <span className="absolute left-1/2 top-[78%] z-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff7df]/80 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55)] backdrop-blur-sm">
+                              <span className="absolute left-1/2 top-[78%] z-20 -translate-x-1/2 -translate-y-1/2 w-[86px] rounded-full bg-[#fff7df]/80 px-2 py-1 text-center text-[9px] font-semibold uppercase tracking-[0.16em] leading-[1.05] text-amber-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55)] backdrop-blur-sm">
                                 {person.label}
                               </span>
                             </div>
