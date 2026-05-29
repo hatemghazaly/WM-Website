@@ -176,14 +176,14 @@ export default function AboutPage() {
                           <div className="relative h-[388px] w-full">
                             <div
                               aria-hidden="true"
-                              className="absolute bottom-0 left-1/2 h-[136px] w-40 -translate-x-1/2 transition-transform duration-300 group-hover:scale-105"
+                              className="absolute bottom-0 left-1/2 h-24 w-64 -translate-x-1/2 transition-transform duration-300 group-hover:scale-105"
                             >
-                              <span className="absolute bottom-0 left-1/2 h-8 w-44 -translate-x-1/2 rounded-full bg-slate-900/14 blur-md" />
+                              <span className="absolute bottom-0 left-1/2 h-6 w-56 -translate-x-1/2 rounded-full bg-slate-900/10 blur-2xl" />
                               <span
-                                className={`absolute bottom-3 left-1/2 z-0 h-[136px] w-40 -translate-x-1/2 rounded-full border transition-colors duration-300 [transform:perspective(700px)_rotateX(64deg)] shadow-[inset_0_10px_16px_rgba(255,255,255,0.85),inset_0_-12px_16px_rgba(15,23,42,0.12),0_14px_24px_rgba(15,23,42,0.10)] ${
+                                className={`absolute bottom-2 left-1/2 z-0 h-7 w-56 -translate-x-1/2 rounded-full border transition-colors duration-300 shadow-[0_8px_14px_rgba(15,23,42,0.05)] ${
                                   selected
-                                    ? "border-green-200/60 bg-gradient-to-b from-green-50 via-green-100 to-green-200"
-                                    : "border-slate-200 bg-gradient-to-b from-white via-slate-100 to-slate-200 group-hover:border-green-200/60 group-hover:from-green-50 group-hover:via-green-100 group-hover:to-green-200"
+                                    ? "border-amber-200/70 bg-[#F8E3A6]"
+                                    : "border-slate-200 bg-white/92 group-hover:border-amber-200/60 group-hover:bg-[#F8E8C0]"
                                 }`}
                               />
                             </div>
@@ -205,10 +205,16 @@ export default function AboutPage() {
                               }}
                               className={`absolute bottom-5 left-1/2 z-10 h-[360px] w-full translate-x-[calc(-50%_+_var(--avatar-offset-x))] origin-bottom object-contain transition-transform duration-300 ease-out will-change-transform ${
                                 selected
-                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_24px_40px_rgba(167,243,208,0.2)]"
+                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_28px_44px_rgba(245,158,11,0.22)]"
                                   : "scale-100 -translate-y-3 opacity-95 group-hover:scale-[1.05]"
                               }`}
                             />
+                            {selected ? (
+                              <span
+                                aria-hidden="true"
+                                className="absolute bottom-1 left-1/2 h-[240px] w-[300px] -translate-x-1/2 rounded-full bg-amber-200/18 blur-3xl"
+                              />
+                            ) : null}
                           </div>
 
                           <div className="mt-3 text-center">
