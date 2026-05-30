@@ -11,12 +11,24 @@ type ContactPayload = {
   last_name?: string;
   email?: string;
   phone?: string;
-  company?: string;
   subject?: string;
   message?: string;
+  cv_attachment_name?: string;
+  cv_attachment_type?: string;
+  cv_attachment_base64?: string;
 };
 
-type NormalizedContactPayload = Required<ContactPayload>;
+type NormalizedContactPayload = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  cv_attachment_name?: string;
+  cv_attachment_type?: string;
+  cv_attachment_base64?: string;
+};
 
 const storagePath = join(process.cwd(), ".data", "contact-submissions.json");
 
@@ -53,33 +65,46 @@ async function saveLocally(payload: NormalizedContactPayload) {
 }
 
 function normalizePayload(payload: ContactPayload): NormalizedContactPayload {
+  const cvAttachmentName = String(payload.cv_attachment_name ?? "").trim();
+  const cvAttachmentType = String(payload.cv_attachment_type ?? "").trim();
+  const cvAttachmentBase64 = String(payload.cv_attachment_base64 ?? "").trim();
+
   return {
     first_name: String(payload.first_name ?? "").trim(),
     last_name: String(payload.last_name ?? "").trim(),
     email: String(payload.email ?? "").trim(),
     phone: String(payload.phone ?? "").trim(),
-    company: String(payload.company ?? "").trim(),
     subject: String(payload.subject ?? "").trim(),
     message: String(payload.message ?? "").trim(),
+    cv_attachment_name: cvAttachmentName || undefined,
+    cv_attachment_type: cvAttachmentType || undefined,
+    cv_attachment_base64: cvAttachmentBase64 || undefined,
   };
 }
 
 function buildMessage(payload: NormalizedContactPayload) {
   const recipient = env("CONTACT_RECIPIENT_EMAIL", "hghazaly@willimed.com");
   const fromEmail = env("SMTP_FROM_EMAIL", "website@willimed.com");
-  const subject = `Contact form submission: ${payload.subject}`;
+  const isApplication = Boolean(payload.cv_attachment_name);
+  const subject = isApplication
+    ? payload.subject
+    : `Contact form submission: ${payload.subject}`;
   const bodyText = [
     "A new contact form submission was received.",
     "",
     `Name: ${payload.first_name} ${payload.last_name}`,
     `Email: ${payload.email}`,
     `Phone: ${payload.phone || "N/A"}`,
-    `Company: ${payload.company || "N/A"}`,
     `Subject: ${payload.subject}`,
     "",
     "Message:",
     payload.message,
   ].join("\r\n");
+
+  const hasAttachment =
+    Boolean(payload.cv_attachment_name) &&
+    Boolean(payload.cv_attachment_type) &&
+    Boolean(payload.cv_attachment_base64);
 
   const headers = [
     `From: ${fromEmail}`,
@@ -87,16 +112,61 @@ function buildMessage(payload: NormalizedContactPayload) {
     `Reply-To: ${payload.email}`,
     `Subject: ${subject}`,
     "MIME-Version: 1.0",
-    'Content-Type: text/plain; charset="UTF-8"',
-    "Content-Transfer-Encoding: 8bit",
-  ].join("\r\n");
+  ];
+
+  if (hasAttachment) {
+    const boundary = `boundary_${Date.now().toString(36)}`;
+    const attachmentBase64 = wrapBase64(payload.cv_attachment_base64 ?? "");
+    const attachmentName = escapeHeaderValue(payload.cv_attachment_name ?? "cv");
+    const attachmentType = payload.cv_attachment_type ?? "application/octet-stream";
+
+    headers.push(`Content-Type: multipart/mixed; boundary="${boundary}"`);
+
+    const raw = [
+      ...headers,
+      "",
+      `--${boundary}`,
+      'Content-Type: text/plain; charset="UTF-8"',
+      "Content-Transfer-Encoding: 8bit",
+      "",
+      bodyText,
+      "",
+      `--${boundary}`,
+      `Content-Type: ${attachmentType}; name="${attachmentName}"`,
+      "Content-Transfer-Encoding: base64",
+      `Content-Disposition: attachment; filename="${attachmentName}"`,
+      "",
+      attachmentBase64,
+      "",
+      `--${boundary}--`,
+      "",
+    ].join("\r\n");
+
+    return {
+      recipient,
+      fromEmail,
+      subject,
+      raw,
+    };
+  }
+
+  headers.push('Content-Type: text/plain; charset="UTF-8"');
+  headers.push("Content-Transfer-Encoding: 8bit");
 
   return {
     recipient,
     fromEmail,
     subject,
-    raw: `${headers}\r\n\r\n${bodyText}`,
+    raw: `${headers.join("\r\n")}\r\n\r\n${bodyText}`,
   };
+}
+
+function wrapBase64(value: string) {
+  return value.match(/.{1,76}/g)?.join("\r\n") ?? value;
+}
+
+function escapeHeaderValue(value: string) {
+  return value.replace(/["\\]/g, "\\$&");
 }
 
 function dotStuff(value: string) {

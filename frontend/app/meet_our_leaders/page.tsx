@@ -136,121 +136,135 @@ export default function AboutPage() {
   }, [isModalOpen]);
 
   return (
-    <section className="relative overflow-hidden bg-transparent py-14">
+    <section className="relative overflow-hidden bg-transparent px-4 py-10 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-sky-200/30 blur-3xl" />
-        <div className="absolute right-[-10%] top-[15%] h-[420px] w-[420px] rounded-full bg-violet-200/20 blur-3xl" />
+        <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-sky-200/28 blur-3xl" />
+        <div className="absolute right-[-10%] top-[15%] h-[420px] w-[420px] rounded-full bg-emerald-200/18 blur-3xl" />
+        <div className="absolute bottom-[-16%] left-[18%] h-[420px] w-[420px] rounded-full bg-slate-200/40 blur-3xl" />
       </div>
 
-      <div className="relative w-full px-0">
-        <div className="rounded-[36px] border border-transparent bg-white/0 p-8 backdrop-blur-2xl">
-          <div className="relative overflow-hidden rounded-[36px] bg-slate-50 px-6 py-12 sm:px-8">
-            <div className="absolute left-[-12%] top-10 h-52 w-52 rounded-full bg-sky-200/30 blur-3xl" />
-            <div className="absolute right-0 top-24 h-40 w-40 rounded-full bg-violet-200/20 blur-3xl" />
+      <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
+        <div className="rounded-[42px] border border-white/70 bg-white/75 shadow-[0_30px_90px_-40px_rgba(15,23,42,0.35)] backdrop-blur-2xl">
+          <div className="relative overflow-hidden rounded-[42px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-12 sm:px-10 lg:px-14 lg:py-16">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
+            <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.18)_0%,rgba(59,130,246,0.10)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
+            <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
 
-            <div className="relative">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Powered by Talent
+            <div className="relative mx-auto max-w-4xl text-center">
+              <p className="mb-6 inline-flex items-center rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur">
+                Leadership
               </p>
 
-              <div className="mt-6 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => scrollCarousel("left")}
-                  className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
-                  aria-label="Scroll team left"
-                >
-                  <ChevronLeftIcon className="h-5 w-5" />
-                </button>
+              <h1 className="text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl">
+                Meet Our Leaders
+              </h1>
 
-                <div
-                  ref={carouselRef}
-                  className="flex w-full gap-2 overflow-x-auto scroll-smooth py-10 px-1 lg:gap-1 lg:py-8"
-                >
-                  {management.map((person, index) => {
-                    const selected = index === activeIndex;
+              <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
 
-                    return (
-                      <button
-                        key={person.name}
-                        onClick={() => {
-                          setActiveIndex(index);
-                          setIsModalOpen(true);
-                        }}
-                        className="group relative flex-shrink-0 overflow-visible rounded-[32px] bg-transparent text-left transition-transform duration-300 ease-out focus:outline-none hover:-translate-y-2"
-                        style={{ width: 250 }}
-                      >
-                        <div className="relative flex h-full min-h-[430px] flex-col items-center justify-end p-2">
-                          <div className="relative h-[388px] w-full">
-                            <div
-                              aria-hidden="true"
-                              className="absolute bottom-0 left-1/2 h-24 w-64 -translate-x-1/2 transition-transform duration-300 group-hover:scale-105"
-                            >
-                              <span className="absolute bottom-0 left-1/2 h-6 w-56 -translate-x-1/2 rounded-full bg-slate-900/10 blur-2xl" />
-                              <span
-                                className={`absolute bottom-2 left-1/2 z-0 h-7 w-56 -translate-x-1/2 rounded-full border transition-colors duration-300 shadow-[0_8px_14px_rgba(15,23,42,0.05)] ${
-                                  selected
-                                    ? "border-amber-200/70 bg-[#F8E3A6]"
-                                    : "border-slate-200 bg-white/92 group-hover:border-amber-200/60 group-hover:bg-[#F8E8C0]"
-                                }`}
-                              />
-                              <span className="absolute left-1/2 top-[78%] z-20 -translate-x-1/2 -translate-y-1/2 w-[86px] rounded-full bg-[#fff7df]/80 px-2 py-1 text-center text-[9px] font-semibold uppercase tracking-[0.16em] leading-[1.05] text-amber-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55)] backdrop-blur-sm">
-                                {person.label}
-                              </span>
-                            </div>
+              <p className="mx-auto mt-10 max-w-3xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl">
+                A team built around clarity, calm, and execution. Every leader
+                here plays a role in shaping the way Willi Med moves forward.
+              </p>
+            </div>
 
-                            <motion.img
-                              src={person.image}
-                              alt={person.name}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.35 }}
-                              style={
-                                {
-                                  "--avatar-offset-x":
-                                    person.avatarOffsetX ?? "0px",
-                                } as CSSProperties
-                              }
-                              onError={(event) => {
-                                event.currentTarget.src = teamFallbackImage;
-                              }}
-                              className={`absolute bottom-5 left-1/2 z-10 h-[360px] w-full translate-x-[calc(-50%_+_var(--avatar-offset-x))] origin-bottom object-contain transition-transform duration-300 ease-out will-change-transform ${
+            <div className="mt-10 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => scrollCarousel("left")}
+                className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
+                aria-label="Scroll team left"
+              >
+                <ChevronLeftIcon className="h-5 w-5" />
+              </button>
+
+              <div
+                ref={carouselRef}
+                className="flex w-full gap-2 overflow-x-auto scroll-smooth py-10 px-1 lg:gap-1 lg:py-8"
+              >
+                {management.map((person, index) => {
+                  const selected = index === activeIndex;
+
+                  return (
+                    <button
+                      key={person.name}
+                      type="button"
+                      onClick={() => {
+                        setActiveIndex(index);
+                        setIsModalOpen(true);
+                      }}
+                      className="group relative flex-shrink-0 overflow-visible rounded-[32px] bg-transparent text-left transition-transform duration-300 ease-out focus:outline-none hover:-translate-y-2"
+                      style={{ width: 250 }}
+                    >
+                      <div className="relative flex h-full min-h-[430px] flex-col items-center justify-end p-2">
+                        <div className="relative h-[388px] w-full">
+                          <div
+                            aria-hidden="true"
+                            className="absolute bottom-0 left-1/2 h-24 w-64 -translate-x-1/2 transition-transform duration-300 group-hover:scale-105"
+                          >
+                            <span className="absolute bottom-0 left-1/2 h-6 w-56 -translate-x-1/2 rounded-full bg-slate-900/10 blur-2xl" />
+                            <span
+                              className={`absolute bottom-2 left-1/2 z-0 h-7 w-56 -translate-x-1/2 rounded-full border transition-colors duration-300 shadow-[0_8px_14px_rgba(15,23,42,0.05)] ${
                                 selected
-                                  ? "scale-[1.12] -translate-y-3 drop-shadow-[0_28px_44px_rgba(245,158,11,0.22)]"
-                                  : "scale-100 -translate-y-3 opacity-95 group-hover:scale-[1.05]"
+                                  ? "border-amber-200/70 bg-[#F8E3A6]"
+                                  : "border-slate-200 bg-white/92 group-hover:border-amber-200/60 group-hover:bg-[#F8E8C0]"
                               }`}
                             />
-                            {selected ? (
-                              <span
-                                aria-hidden="true"
-                                className="absolute bottom-1 left-1/2 h-[240px] w-[300px] -translate-x-1/2 rounded-full bg-amber-200/18 blur-3xl"
-                              />
-                            ) : null}
+                            <span className="absolute left-1/2 top-[78%] z-20 -translate-x-1/2 -translate-y-1/2 w-[86px] rounded-full bg-[#fff7df]/80 px-2 py-1 text-center text-[9px] font-semibold uppercase tracking-[0.16em] leading-[1.05] text-amber-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.55)] backdrop-blur-sm">
+                              {person.label}
+                            </span>
                           </div>
 
-                          <div className="mt-3 text-center">
-                            <span className="block text-sm font-semibold text-slate-900">
-                              {person.name}
-                            </span>
-                            <span className="block text-xs text-slate-500">
-                              {person.role}
-                            </span>
-                          </div>
+                          <motion.img
+                            src={person.image}
+                            alt={person.name}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35 }}
+                            style={
+                              {
+                                "--avatar-offset-x":
+                                  person.avatarOffsetX ?? "0px",
+                              } as CSSProperties
+                            }
+                            onError={(event) => {
+                              event.currentTarget.src = teamFallbackImage;
+                            }}
+                            className={`absolute bottom-5 left-1/2 z-10 h-[360px] w-full translate-x-[calc(-50%_+_var(--avatar-offset-x))] origin-bottom object-contain transition-transform duration-300 ease-out will-change-transform ${
+                              selected
+                                ? "scale-[1.12] -translate-y-3 drop-shadow-[0_28px_44px_rgba(245,158,11,0.22)]"
+                                : "scale-100 -translate-y-3 opacity-95 group-hover:scale-[1.05]"
+                            }`}
+                          />
+                          {selected ? (
+                            <span
+                              aria-hidden="true"
+                              className="absolute bottom-1 left-1/2 h-[240px] w-[300px] -translate-x-1/2 rounded-full bg-amber-200/18 blur-3xl"
+                            />
+                          ) : null}
                         </div>
-                      </button>
-                    );
-                  })}
-                </div>
 
-                <button
-                  type="button"
-                  onClick={() => scrollCarousel("right")}
-                  className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
-                  aria-label="Scroll team right"
-                >
-                  <ChevronRightIcon className="h-5 w-5" />
-                </button>
+                        <div className="mt-3 text-center">
+                          <span className="block text-sm font-semibold text-slate-900">
+                            {person.name}
+                          </span>
+                          <span className="block text-xs text-slate-500">
+                            {person.role}
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
+
+              <button
+                type="button"
+                onClick={() => scrollCarousel("right")}
+                className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white sm:inline-flex"
+                aria-label="Scroll team right"
+              >
+                <ChevronRightIcon className="h-5 w-5" />
+              </button>
             </div>
           </div>
         </div>

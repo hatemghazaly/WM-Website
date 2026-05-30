@@ -14,16 +14,17 @@ type AccessCard = {
 
 const accessCards: AccessCard[] = [
   {
-    title: "Willi Med",
-    description: "Contact Willi Med via email: hello@wmwebsite.com",
+    title: "Willi Med's Business Email",
+    description:
+      "Access your Willi Med email account for seamless communication and collaboration.",
     href: "https://mail.willimed.com",
     badge: "Email Access",
     icon: Mail,
     tone: "from-sky-500/15 via-white to-white",
   },
   {
-    title: "CRM Support",
-    description: "Open your mail client to contact CRM: crm@wmwebsite.com",
+    title: "Monkey Task 360",
+    description: "Manage your tasks and projects with Monkey Task 360.",
     href: "https://willimed.wm360.info",
     badge: "Secure Access",
     icon: ShieldCheck,
@@ -91,8 +92,8 @@ export default function EmployeesSectionPage() {
                 variants={reveal}
                 custom={0.24}
               >
-                For Willimedians only. A clean, secure gateway to the tools
-                your team uses every day.
+                For Willimedians only. A clean, secure gateway to the tools your
+                team uses every day.
               </motion.p>
             </motion.div>
 
@@ -121,7 +122,7 @@ export default function EmployeesSectionPage() {
                   >
                     {item}
                   </motion.span>
-                )
+                ),
               )}
             </motion.div>
 
@@ -155,7 +156,9 @@ export default function EmployeesSectionPage() {
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${card.tone}`} />
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${card.tone}`}
+                    />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.85),transparent_42%)]" />
 
                     <div className="relative flex h-full flex-col justify-between gap-8">
