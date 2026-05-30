@@ -185,6 +185,7 @@ export default function ApplyNowPage() {
             >
               Start Your Application
             </motion.h1>
+            <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
 
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"

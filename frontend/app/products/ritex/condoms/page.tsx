@@ -13,6 +13,7 @@ const condomProducts = [
       "Intense Sensations",
       "Ritex RR.1 condoms guarantee a 100% natural experience. The silky soft surface and the sensitive lubricating film create a pleasant feeling on the skin for a particularly intense sensation.",
       "Aviailable in packs of 3 and 10.",
+      "100% Made in Germany.",
     ],
   },
   {
@@ -20,10 +21,11 @@ const condomProducts = [
     image: "/images/Products/xxl.jpg",
     specs: [
       "Extra Large",
-      "Highly Elastic",
-      "Intense In Sensation",
+      "Highly elastic",
+      "Intense in sensation",
       "Ritex XXL condoms are coated with extra lubricant to make them easier to use during sex.",
       "Aviailable in packs of 3 and 8.",
+      "100% Made in Germany.",
     ],
   },
   {
@@ -31,9 +33,10 @@ const condomProducts = [
     image: "/images/Products/lust.jpg",
     specs: [
       "Dotted & Ribbed.",
-      "Intense Stimulation for Both Partners.",
+      "Intense stimulation for both partners.",
       "Ritex LUST condoms provide intense sensations with their specially dotted and ribbed structure.",
       "Available in packs of 3 and 8.",
+      "100% Made in Germany.",
     ],
   },
   {
@@ -41,58 +44,64 @@ const condomProducts = [
     image: "/images/Products/feeling.jpg",
     specs: [
       "Perfect Fit.",
-      "Based On The Natural Shape Of The Penis.",
+      "Based on the natural shape of the penis.",
       "The contoured shape of the Ritex FEELING condoms provides a particularly intense, skin-tight stimulation.",
       "Available in packs of 3 and 8.",
+      "100% Made in Germany.",
     ],
   },
   {
     name: "Longtime",
     image: "/images/Products/Longtime.jpg",
     specs: [
-      "Make Love For Longer",
-      "With Double Ring For Extra Long Love Play.",
+      "Make love For longer.",
+      "With Double Ring for extra long love play.",
       "free of benzocaine or other anaesthetic additives",
       "Available in packs of 3 and 8.",
+      "100% Made in Germany.",
     ],
   },
   {
     name: "Extra Thin",
     image: "/images/Products/thin.jpg",
     specs: [
-      "For A Natural Feel.",
-      "For A Particularly Natural Feeling. As Natural As Love Itself.",
+      "For a natural Feel.",
+      "For a particularly natural feeling. As natural as Love itself.",
       "Ritex EXTRA THIN are ultra-soft condoms for a natural feeling. The condom is extra thin and particularly intense in sensation.",
       "Available in packs of 3 and 8.",
+      "100% Made in Germany.",
     ],
   },
   {
     name: "Ideal",
     image: "/images/Products/ideal.jpg",
     specs: [
-      "Extra Lubricated",
+      "Extra Lubricated.",
       "Ritex IDEAL condoms improve lubrication and make sex more relaxed and intense.",
       "Available in packs of 3 and 10.",
+      "100% Made in Germany.",
     ],
   },
   {
     name: "Mix",
     image: "/images/Products/mix.jpg",
     specs: [
-      "Exciting And Varied",
+      "Exciting and varied.",
       "Excitingly different every time! Ritex MIX stands for intense love and more variety.",
-      "Available in packs of 8.",
+      "Available in a pack of 8.",
+      "100% Made in Germany.",
     ],
   },
   {
     name: "Kondom Automate",
     image: "/images/Products/ka.jpg",
     specs: [
-      "Retro Condom Machine",
-      "40 Times Variety And Fun",
-      "Added freshness",
+      "Retro Condom Machine.",
+      "40 times variety and Fun.",
+      "Added freshness.",
       "It's not just the packaging that's very unusual, the selection of condoms has also been carefully chosen. With the bestsellers from Ritex, you can discover new things. Try them out and enjoy exciting moments",
-      "Available in packs of 40.",
+      "Available in a pack of 40.",
+      "100% Made in Germany.",
     ],
   },
 ];
@@ -147,6 +156,7 @@ export default function RitexCondomsPage() {
             <h1 className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl">
               Ritex Condoms
             </h1>
+            <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
             <p className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg">
               Engineered in Germany since 1948, Ritex condoms combine safety,
               comfort, and innovation to enhance intimate moments while

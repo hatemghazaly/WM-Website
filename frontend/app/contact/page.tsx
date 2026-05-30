@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<
@@ -144,7 +145,7 @@ export default function ContactPage() {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.24))]" />
           </div>
 
-          <div className="px-6 pt-6 sm:px-7 sm:pt-7 lg:px-8 lg:pt-8">
+          <div className="px-6 pt-6 pb-8 sm:px-7 sm:pt-7 sm:pb-10 lg:px-8 lg:pt-8 lg:pb-12">
             <div className="mb-6 space-y-2">
               <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
                 Message
@@ -232,12 +233,13 @@ export default function ContactPage() {
               <motion.button
                 type="submit"
                 disabled={status === "submitting"}
-                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-slate-950 px-6 text-sm font-medium text-white transition duration-300 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                 variants={panelReveal}
                 whileHover={{ scale: 1.005 }}
                 whileTap={{ scale: 0.99 }}
               >
                 {status === "submitting" ? "Sending..." : "Send Message"}
+                <ArrowRight className="h-4 w-4" />
               </motion.button>
             </motion.form>
 

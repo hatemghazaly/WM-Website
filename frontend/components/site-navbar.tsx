@@ -1,3 +1,7 @@
+ "use client";
+
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 const navItems = [
@@ -6,11 +10,23 @@ const navItems = [
 ];
 
 export function SiteNavbar() {
+  const [isRitexOpen, setIsRitexOpen] = useState(false);
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <nav className="flex w-full items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
-          Willi Med For Pharmaceutical Industries
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/images/wm_logo.png"
+            alt="Willi Med logo"
+            width={180}
+            height={48}
+            className="h-10 w-auto sm:h-11"
+            priority
+          />
+          <span className="text-lg font-semibold tracking-tight">
+            Willi Med For Pharmaceutical Industries
+          </span>
         </Link>
 
         <ul className="flex items-center gap-2 sm:gap-4">
@@ -88,22 +104,39 @@ export function SiteNavbar() {
               >
                 Products Overview
               </Link>
-
-              <div className="group/ritex relative">
+              <div
+                className="relative"
+                onMouseLeave={() => setIsRitexOpen(false)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) {
+                    setIsRitexOpen(false);
+                  }
+                }}
+              >
                 <button
                   type="button"
                   className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+                  onMouseEnter={() => setIsRitexOpen(true)}
+                  onFocus={() => setIsRitexOpen(true)}
                 >
-                  <span>Ritex GMBH</span>
+                  <span>Ritex</span>
                   <span className="text-xs">›</span>
                 </button>
 
-                <div className="invisible absolute right-full top-0 z-50 mr-2 min-w-52 -translate-x-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover/ritex:visible group-hover/ritex:translate-x-0 group-hover/ritex:opacity-100 group-focus-within/ritex:visible group-focus-within/ritex:translate-x-0 group-focus-within/ritex:opacity-100">
+                <div
+                  className={`absolute right-full top-0 z-50 mr-2 min-w-52 rounded-xl border border-border bg-background p-2 shadow-lg transition-all duration-150 ${
+                    isRitexOpen
+                      ? "visible -translate-x-0 opacity-100"
+                      : "invisible -translate-x-1 opacity-0"
+                  }`}
+                  onMouseEnter={() => setIsRitexOpen(true)}
+                  onFocus={() => setIsRitexOpen(true)}
+                >
                   <Link
                     href="/products/ritex/ritex-overview"
                     className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    Ritex GMBH Overview
+                    Ritex Overview
                   </Link>
                   <Link
                     href="/products/ritex/condoms"
@@ -121,10 +154,28 @@ export function SiteNavbar() {
                     href="/products/ritex/probe-covers"
                     className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    Ritex Probe Covers
+                    Ritex Probe Cover
                   </Link>
                 </div>
               </div>
+              <Link
+                href="/coming_soon"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                CNS Line
+              </Link>
+              <Link
+                href="/coming_soon"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Diabetes Line
+              </Link>
+              <Link
+                href="/coming_soon"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                GIT Line
+              </Link>
             </div>
           </li>
 
