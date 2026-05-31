@@ -4,10 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/employees_section", label: "Employee's Section" },
-];
+const navItems = [{ href: "/", label: "Home" }];
 
 export function SiteNavbar() {
   const [isRitexOpen, setIsRitexOpen] = useState(false);
@@ -61,30 +58,6 @@ export function SiteNavbar() {
                 className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Meet Our Leaders
-              </Link>
-            </div>
-          </li>
-
-          <li className="group relative">
-            <button
-              type="button"
-              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
-            >
-              Career
-            </button>
-
-            <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <Link
-                href="/careers/open_vacancies"
-                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                Open Vacancies
-              </Link>
-              <Link
-                href="/careers/apply_now"
-                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                Apply Now
               </Link>
             </div>
           </li>
@@ -184,7 +157,38 @@ export function SiteNavbar() {
               </Link>
             </div>
           </li>
+          <li className="group relative">
+            <button
+              type="button"
+              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            >
+              Career
+            </button>
 
+            <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <Link
+                href="/careers/open_vacancies"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Open Vacancies
+              </Link>
+              <Link
+                href="/careers/apply_now"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Apply Now
+              </Link>
+            </div>
+          </li>
+
+          <li>
+            <Link
+              href="/employees_section"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Employee's Section
+            </Link>
+          </li>
           <li>
             <Link
               href="/contact"

@@ -1,14 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Sparkles, X } from "lucide-react";
 
 const condomProducts = [
   {
     name: "Ritex Probe Covers",
     image: "/images/Products/ritex/probe.jpg",
+    slogan: "Reliable protection for precise diagnostics.",
     specs: [
       "For Vaginal And Rectal Sonography Probes.",
       "Clear Vision For Accurate Diagnostics.",
@@ -22,19 +24,40 @@ const condomProducts = [
 ];
 
 export default function RitexProbeCoversPage() {
+  const [activeProduct, setActiveProduct] = useState<
+    (typeof condomProducts)[number] | null
+  >(null);
   const reveal = {
-    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: (delay = 0) => ({
       opacity: 1,
       y: 0,
-      scale: 1,
+      filter: "blur(0px)",
       transition: {
         delay,
-        duration: 0.95,
-        ease: [0.2, 0.8, 0.2, 1],
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
       },
     }),
   } as const;
+
+  useEffect(() => {
+    if (!activeProduct) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveProduct(null);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeProduct]);
 
   return (
     <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
@@ -133,42 +156,101 @@ export default function RitexProbeCoversPage() {
             {condomProducts.map((product) => (
               <motion.div
                 key={product.name}
-                className="overflow-hidden rounded-[30px] border border-slate-200/70 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.22)]"
+                className="group relative overflow-hidden rounded-[32px] bg-sky-100 h-[540px] cursor-pointer shadow-lg"
                 variants={reveal}
+                whileHover={{
+                  scale: 1.02,
+                  y: -12,
+                  transition: { duration: 0.3, ease: "easeOut" },
+                }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               >
                 <motion.div
-                  className="relative h-72 bg-white px-6 pt-14"
-                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.95, ease: [0.2, 0.8, 0.2, 1] }}
-                  viewport={{ once: true, amount: 0.3 }}
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-contain object-top translate-y-4 scale-[0.88]"
-                    sizes="(max-width: 1280px) 50vw, 25vw"
-                  />
-                </motion.div>
-                <div className="p-5">
-                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                    Ritex condom
-                  </p>
-                  <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-slate-950">
-                    {product.name}
-                  </h3>
-                  <ul className="mt-4 space-y-2">
-                    {product.specs.map((spec) => (
-                      <li
-                        key={spec}
-                        className="flex gap-2 text-sm leading-7 text-slate-600"
+                  className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
+                    pointerEvents: "none",
+                  }}
+                />
+
+                <div className="absolute inset-0 p-8 lg:p-12 flex items-center justify-center">
+                  <div className="relative w-full h-full">
+                    <motion.div
+                      className="relative w-full h-full"
+                      whileHover={{ scale: 1.08 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </motion.div>
+                  </div>
+                </div>
+
+                <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
+
+                <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+                  <motion.div
+                    className="flex flex-col"
+                    initial={{ opacity: 0, y: -10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <p className="text-xs font-medium tracking-[0.12em] text-slate-700 uppercase">
+                      Ritex Probe Cover
+                    </p>
+                    <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-slate-900 leading-tight">
+                      {product.name}
+                    </h3>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex flex-col"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="flex justify-end">
+                      <motion.button
+                        type="button"
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
+                        onClick={() => setActiveProduct(product)}
+                        onPointerDown={(event) => event.stopPropagation()}
+                        aria-label={`View specs for ${product.name}`}
+                        whileHover={{
+                          scale: 1.15,
+                          backgroundColor: "rgba(100, 116, 139, 0.5)",
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-500" />
-                        <span>{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
+                        <motion.svg
+                          className="h-6 w-6 text-slate-900"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          whileHover={{
+                            rotate: 90,
+                            transition: { duration: 0.3 },
+                          }}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 4v16m8-8H4"
+                          />
+                        </motion.svg>
+                      </motion.button>
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
@@ -185,6 +267,78 @@ export default function RitexProbeCoversPage() {
           </motion.div>
         </motion.div>
       </div>
+
+      {activeProduct ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-8 backdrop-blur-sm"
+          onClick={() => setActiveProduct(null)}
+          role="presentation"
+        >
+          <motion.div
+            className="relative w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/70 bg-white shadow-[0_30px_90px_-30px_rgba(15,23,42,0.45)]"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:px-8">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                  Ritex Probe Specs
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
+                  {activeProduct.name}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveProduct(null)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
+                aria-label="Close specs popup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="max-h-[70vh] overflow-y-auto px-6 py-6 sm:px-8">
+              <div className="grid gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
+                <div className="flex flex-col">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
+                    <Image
+                      src={activeProduct.image}
+                      alt={activeProduct.name}
+                      fill
+                      className="object-contain p-4"
+                      sizes="(max-width: 768px) 100vw, 220px"
+                    />
+                  </div>
+                  <p className="mt-4 rounded-2xl bg-sky-100 px-4 py-3 text-sm leading-6 text-slate-700">
+                    {activeProduct.slogan}
+                  </p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    Product Details
+                  </div>
+                  <ul className="mt-4 space-y-3">
+                    {activeProduct.specs.map((spec) => (
+                      <li
+                        key={spec}
+                        className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700"
+                      >
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                        <span>{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      ) : null}
     </section>
   );
 }

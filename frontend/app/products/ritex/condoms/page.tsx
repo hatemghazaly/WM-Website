@@ -1,21 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowLeft,
   CheckCircle2,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  Sparkles,
+  X,
 } from "lucide-react";
 
 const condomProducts = [
   {
     name: "RR1",
     image: "/images/Products/ritex/rr1.jpg",
+    slogan: "Feel every moment with natural intensity.",
     specs: [
       "Intense Sensations",
       "Ritex RR.1 condoms guarantee a 100% natural experience. The silky soft surface and the sensitive lubricating film create a pleasant feeling on the skin for a particularly intense sensation.",
@@ -26,6 +29,7 @@ const condomProducts = [
   {
     name: "XXL",
     image: "/images/Products/ritex/xxl.jpg",
+    slogan: "Extra room. Extra comfort. Extra confidence.",
     specs: [
       "Extra Large",
       "Highly elastic",
@@ -38,6 +42,7 @@ const condomProducts = [
   {
     name: "Lust",
     image: "/images/Products/ritex/lust.jpg",
+    slogan: "Textured for stronger shared sensations.",
     specs: [
       "Dotted & Ribbed.",
       "Intense stimulation for both partners.",
@@ -49,6 +54,7 @@ const condomProducts = [
   {
     name: "Feeling",
     image: "/images/Products/ritex/feeling.jpg",
+    slogan: "A skin-tight fit made to feel natural.",
     specs: [
       "Perfect Fit.",
       "Based on the natural shape of the penis.",
@@ -60,6 +66,7 @@ const condomProducts = [
   {
     name: "Longtime",
     image: "/images/Products/ritex/Longtime.jpg",
+    slogan: "Made to help the moment last longer.",
     specs: [
       "Make love For longer.",
       "With Double Ring for extra long love play.",
@@ -71,6 +78,7 @@ const condomProducts = [
   {
     name: "Extra Thin",
     image: "/images/Products/ritex/thin.jpg",
+    slogan: "Ultra-thin touch, naturally intense.",
     specs: [
       "For a natural Feel.",
       "For a particularly natural feeling. As natural as Love itself.",
@@ -82,6 +90,7 @@ const condomProducts = [
   {
     name: "Ideal",
     image: "/images/Products/ritex/ideal.jpg",
+    slogan: "Smooth comfort with added lubrication.",
     specs: [
       "Extra Lubricated.",
       "Ritex IDEAL condoms improve lubrication and make sex more relaxed and intense.",
@@ -92,6 +101,7 @@ const condomProducts = [
   {
     name: "Mix",
     image: "/images/Products/ritex/mix.jpg",
+    slogan: "Variety that keeps things exciting.",
     specs: [
       "Exciting and varied.",
       "Excitingly different every time! Ritex MIX stands for intense love and more variety.",
@@ -102,6 +112,7 @@ const condomProducts = [
   {
     name: "Kondom Automate",
     image: "/images/Products/ritex/ka.jpg",
+    slogan: "Retro style with a full surprise mix.",
     specs: [
       "Retro Condom Machine.",
       "40 times variety and Fun.",
@@ -115,9 +126,24 @@ const condomProducts = [
 
 export default function RitexCondomsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerView = 3;
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [activeProduct, setActiveProduct] = useState<
+    (typeof condomProducts)[number] | null
+  >(null);
+  const carouselViewportRef = useRef<HTMLDivElement | null>(null);
+  const trustRef = useRef<HTMLDivElement | null>(null);
+  const wheelStateRef = useRef({
+    accumulated: 0,
+    resetTimer: null as ReturnType<typeof setTimeout> | null,
+  });
+  const dragStateRef = useRef({
+    pointerId: -1,
+    startX: 0,
+    lastX: 0,
+  });
+  const itemsPerView = 4;
   const maxIndex = Math.max(0, condomProducts.length - itemsPerView);
-
   const pastelColors = [
     "bg-rose-100",
     "bg-blue-100",
@@ -129,6 +155,21 @@ export default function RitexCondomsPage() {
     "bg-pink-100",
     "bg-indigo-100",
   ];
+  const activeProductIndex = activeProduct
+    ? condomProducts.indexOf(activeProduct)
+    : -1;
+  const activeProductColor =
+    activeProductIndex >= 0 ? pastelColors[activeProductIndex] : "bg-slate-50";
+  const { scrollYProgress: trustScrollYProgress } = useScroll({
+    target: trustRef,
+    offset: ["start end", "end start"],
+  });
+  const trustImageY = useTransform(trustScrollYProgress, [0, 1], [24, -24]);
+  const trustImageScale = useTransform(
+    trustScrollYProgress,
+    [0, 1],
+    [0.98, 1.02],
+  );
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
@@ -138,16 +179,115 @@ export default function RitexCondomsPage() {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
+  useEffect(() => {
+    if (!activeProduct) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveProduct(null);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeProduct]);
+
+  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    const horizontalDelta =
+      Math.abs(event.deltaX) >= Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.shiftKey
+          ? event.deltaY
+          : 0;
+
+    if (!horizontalDelta) return;
+
+    event.preventDefault();
+
+    wheelStateRef.current.accumulated += horizontalDelta;
+
+    if (wheelStateRef.current.resetTimer) {
+      clearTimeout(wheelStateRef.current.resetTimer);
+    }
+
+    const threshold = 120;
+
+    if (wheelStateRef.current.accumulated >= threshold) {
+      handleNext();
+      wheelStateRef.current.accumulated = 0;
+    } else if (wheelStateRef.current.accumulated <= -threshold) {
+      handlePrev();
+      wheelStateRef.current.accumulated = 0;
+    }
+
+    wheelStateRef.current.resetTimer = setTimeout(() => {
+      wheelStateRef.current.accumulated = 0;
+      wheelStateRef.current.resetTimer = null;
+    }, 140);
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.button !== 0) return;
+
+    dragStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      lastX: event.clientX,
+    };
+    setIsDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || dragStateRef.current.pointerId !== event.pointerId) {
+      return;
+    }
+
+    dragStateRef.current.lastX = event.clientX;
+    setDragOffset(event.clientX - dragStateRef.current.startX);
+  };
+
+  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || dragStateRef.current.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const threshold = Math.max(
+      60,
+      (carouselViewportRef.current?.clientWidth ?? 0) * 0.12,
+    );
+    const delta = dragStateRef.current.lastX - dragStateRef.current.startX;
+
+    if (delta > threshold) {
+      handlePrev();
+    } else if (delta < -threshold) {
+      handleNext();
+    }
+
+    setDragOffset(0);
+    setIsDragging(false);
+    dragStateRef.current = {
+      pointerId: -1,
+      startX: 0,
+      lastX: 0,
+    };
+  };
+
   const reveal = {
-    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: (delay = 0) => ({
       opacity: 1,
       y: 0,
-      scale: 1,
+      filter: "blur(0px)",
       transition: {
         delay,
-        duration: 0.95,
-        ease: [0.2, 0.8, 0.2, 1],
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
       },
     }),
   } as const;
@@ -161,42 +301,71 @@ export default function RitexCondomsPage() {
       </div>
 
       <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
-        <motion.div
-          className="rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-10 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-14"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.12 }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.12,
-                delayChildren: 0.06,
-              },
-            },
-          }}
-        >
-          <motion.div
-            className="mx-auto max-w-4xl text-center"
-            variants={reveal}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur">
+        <div className="relative overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-10 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-14">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.96),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
+          <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.16)_0%,rgba(59,130,246,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
+          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
+          <motion.div className="relative mx-auto max-w-4xl text-center">
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
+              variants={reveal}
+              custom={0}
+            >
               <Sparkles className="h-3.5 w-3.5" />
               FOR 100% SENSATION
-            </div>
-            <h1 className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl">
+            </motion.div>
+            <motion.h1
+              className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
+              variants={reveal}
+              custom={0.08}
+            >
               Ritex Condoms
-            </h1>
-            <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
-            <p className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg">
+            </motion.h1>
+            <motion.div
+              className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
+              variants={reveal}
+              custom={0.16}
+            />
+            <motion.p
+              className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
+              variants={reveal}
+              custom={0.24}
+            >
               Engineered in Germany since 1948, Ritex condoms combine safety,
               comfort, and innovation to enhance intimate moments while
               providing reliable protection. From ultra-thin and natural-feel
               options to textured and specialty designs, Ritex offers a variety
               of choices to suit different preferences and lifestyles.
-            </p>
+            </motion.p>
           </motion.div>
+        </div>
 
+        <div className="flex justify-center pt-6">
+          <motion.div
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-xs font-medium uppercase tracking-[0.34em] text-slate-500 shadow-sm backdrop-blur"
+            animate={{ y: [0, 6, 0], opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="h-4 w-4" />
+            Scroll for more
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="relative z-10 mt-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.08,
+              },
+            },
+          }}
+        >
           <motion.div
             className="mt-8 overflow-hidden rounded-[28px] border border-slate-200/70 bg-slate-950 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.45)]"
             variants={reveal}
@@ -218,13 +387,18 @@ export default function RitexCondomsPage() {
             <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
               Good Sex Is Based On <span className="font-black">Trust</span>
             </h2>
-            <div className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[28px] border border-slate-200/70 bg-white shadow-[0_20px_50px_-35px_rgba(15,23,42,0.22)]">
+            <div
+              ref={trustRef}
+              className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[28px] border border-slate-200/70 bg-white shadow-[0_20px_50px_-35px_rgba(15,23,42,0.22)]"
+            >
               <motion.div
                 className="relative aspect-[16/9] w-full"
-                initial={{ opacity: 0, scale: 1.06, y: 8 }}
+                initial={{ opacity: 0, scale: 1.04, y: 8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.15, ease: [0.2, 0.8, 0.2, 1] }}
-                viewport={{ once: true, amount: 0.25 }}
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true, amount: 0.3 }}
+                style={{ y: trustImageY, scale: trustImageScale }}
               >
                 <Image
                   src="/images/Products/ritex/trust.png"
@@ -252,46 +426,47 @@ export default function RitexCondomsPage() {
               secure in their safety.
             </p>
           </motion.div>
-
+          <motion.div className="mt-10 text-center" variants={reveal}>
+            <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
+              Feel The <span className="font-black">Difference</span>
+            </h2>
+          </motion.div>
           {/* Carousel Section */}
-          <motion.div
-            className="mt-8 relative"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                  delayChildren: 0.08,
-                },
-              },
-            }}
-          >
+          <motion.div className="mt-8 relative" variants={reveal}>
             {/* Carousel Container */}
-            <div className="overflow-hidden">
+            <div
+              ref={carouselViewportRef}
+              className={`overflow-hidden px-2 py-2 sm:px-4 sm:py-4 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
+              style={{ touchAction: "pan-y" }}
+            >
               <motion.div
-                className="flex gap-6 transition-transform duration-500 ease-out"
+                className={`flex gap-6 ${
+                  isDragging
+                    ? "transition-none"
+                    : "transition-transform duration-500 ease-out"
+                }`}
                 style={{
-                  transform: `translateX(-${currentIndex * (100 / itemsPerView + 2.4)}%)`,
+                  transform: `translateX(calc(-${currentIndex * (100 / itemsPerView + 2.4)}% + ${dragOffset}px))`,
                 }}
+                onWheel={handleWheel}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={endDrag}
+                onPointerCancel={endDrag}
               >
                 {condomProducts.map((product, index) => (
                   <motion.div
                     key={product.name}
                     className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
-                    style={{ width: `calc(33.333% - 1.5rem)` }}
+                    style={{ width: `calc(25% - 1.5rem)` }}
                     variants={reveal}
+                    custom={0.12 + index * 0.08}
                     whileHover={{
                       scale: 1.05,
                       y: -12,
                       transition: { duration: 0.3, ease: "easeOut" },
                     }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
                   >
                     {/* Card Background Glow on Hover */}
                     <motion.div
@@ -353,8 +528,12 @@ export default function RitexCondomsPage() {
                       >
                         {/* Plus Button */}
                         <div className="flex justify-end">
-                          <motion.div
+                          <motion.button
+                            type="button"
                             className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
+                            onClick={() => setActiveProduct(product)}
+                            onPointerDown={(event) => event.stopPropagation()}
+                            aria-label={`View specs for ${product.name}`}
                             whileHover={{
                               scale: 1.15,
                               backgroundColor: "rgba(100, 116, 139, 0.5)",
@@ -379,7 +558,7 @@ export default function RitexCondomsPage() {
                                 d="M12 4v16m8-8H4"
                               />
                             </motion.svg>
-                          </motion.div>
+                          </motion.button>
                         </div>
                       </motion.div>
                     </div>
@@ -435,6 +614,102 @@ export default function RitexCondomsPage() {
           </motion.div>
         </motion.div>
       </div>
+      <style jsx>{`
+        @keyframes glowSlow {
+          0%,
+          100% {
+            transform: translate3d(0, 0, 0) scale(1);
+            opacity: 0.55;
+          }
+          50% {
+            transform: translate3d(0, 14px, 0) scale(1.08);
+            opacity: 0.85;
+          }
+        }
+
+        .animate-glow-slow {
+          animation: glowSlow 12s ease-in-out infinite;
+        }
+
+        .animate-glow-slow-delayed {
+          animation: glowSlow 14s ease-in-out infinite;
+          animation-delay: -7s;
+        }
+      `}</style>
+
+      {activeProduct ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-8 backdrop-blur-sm"
+          onClick={() => setActiveProduct(null)}
+          role="presentation"
+        >
+          <motion.div
+            className="relative w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/70 bg-white shadow-[0_30px_90px_-30px_rgba(15,23,42,0.45)]"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:px-8">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                  Ritex Condom Specs
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
+                  {activeProduct.name}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveProduct(null)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 hover:text-slate-950"
+                aria-label="Close specs popup"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="max-h-[70vh] overflow-y-auto px-6 py-6 sm:px-8">
+              <div className="grid gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
+                <div className="flex flex-col">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
+                    <Image
+                      src={activeProduct.image}
+                      alt={activeProduct.name}
+                      fill
+                      className="object-contain p-4"
+                      sizes="(max-width: 768px) 100vw, 220px"
+                    />
+                  </div>
+                  <p
+                    className={`mt-4 rounded-2xl px-4 py-3 text-sm leading-6 text-slate-700 ${activeProductColor}`}
+                  >
+                    {activeProduct.slogan}
+                  </p>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    Product Details
+                  </div>
+                  <ul className="mt-4 space-y-3">
+                    {activeProduct.specs.map((spec) => (
+                      <li
+                        key={spec}
+                        className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700"
+                      >
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                        <span>{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      ) : null}
     </section>
   );
 }
