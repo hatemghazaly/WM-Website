@@ -186,7 +186,45 @@ export function SiteNavbar() {
               href="/employees_section"
               className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
-              Employee's Section
+              Employee&apos;s Section
+            </Link>
+          </li>
+
+          <li className="group relative">
+            <button
+              type="button"
+              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            >
+              B2B
+            </button>
+
+            <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <Link
+                href="/b2b/pharmaoverseas"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                PharmaOverseas
+              </Link>
+              <Link
+                href="/b2b/sofico"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Sofico Pharm
+              </Link>
+              <Link
+                href="/b2b/egydrug"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Egy Drug
+              </Link>
+            </div>
+          </li>
+          <li>
+            <Link
+              href="/where_to_buy"
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              Where to Buy?
             </Link>
           </li>
           <li>
