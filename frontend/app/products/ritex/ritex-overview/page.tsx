@@ -134,7 +134,7 @@ export default function RitexPage() {
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
-                src="/images/Products/ritex_factory.jpg"
+                src="/images/Products/ritex/ritex_factory.jpg"
                 alt="Ritex factory"
                 fill
                 className="object-cover"
@@ -210,7 +210,7 @@ export default function RitexPage() {
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
-                src="/images/Products/intimacy.png"
+                src="/images/Products/ritex/intimacy.png"
                 alt="Intimacy illustration"
                 fill
                 className="object-cover"
@@ -258,7 +258,9 @@ export default function RitexPage() {
                 key={category.title}
                 href={category.href}
                 className={`group flex flex-col items-center rounded-[28px] border px-4 py-4 text-center shadow-[0_12px_30px_-24px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(15,23,42,0.28)] ${category.baseBg} ${category.hoverBg}`}
-                style={{ transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}
+                style={{
+                  transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
               >
                 <div
                   className={`flex h-24 w-24 items-center justify-center rounded-full border bg-gradient-to-b shadow-[0_18px_40px_-24px_rgba(15,23,42,0.28)] transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_24px_50px_-24px_rgba(15,23,42,0.35)] ${category.accent}`}

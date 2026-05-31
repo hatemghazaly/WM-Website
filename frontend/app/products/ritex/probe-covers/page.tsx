@@ -8,7 +8,7 @@ import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 const condomProducts = [
   {
     name: "Ritex Probe Covers",
-    image: "/images/Products/probe.jpg",
+    image: "/images/Products/ritex/probe.jpg",
     specs: [
       "For Vaginal And Rectal Sonography Probes.",
       "Clear Vision For Accurate Diagnostics.",
@@ -99,7 +99,7 @@ export default function RitexProbeCoversPage() {
                 viewport={{ once: true, amount: 0.25 }}
               >
                 <Image
-                  src="/images/Products/probe_bg.jpg"
+                  src="/images/Products/ritex/probe_bg.jpg"
                   alt="Trust illustration"
                   fill
                   className="object-cover"

@@ -8,7 +8,7 @@ import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 const condomProducts = [
   {
     name: "RR1",
-    image: "/images/Products/rr1.jpg",
+    image: "/images/Products/ritex/rr1.jpg",
     specs: [
       "Intense Sensations",
       "Ritex RR.1 condoms guarantee a 100% natural experience. The silky soft surface and the sensitive lubricating film create a pleasant feeling on the skin for a particularly intense sensation.",
@@ -18,7 +18,7 @@ const condomProducts = [
   },
   {
     name: "XXL",
-    image: "/images/Products/xxl.jpg",
+    image: "/images/Products/ritex/xxl.jpg",
     specs: [
       "Extra Large",
       "Highly elastic",
@@ -30,7 +30,7 @@ const condomProducts = [
   },
   {
     name: "Lust",
-    image: "/images/Products/lust.jpg",
+    image: "/images/Products/ritex/lust.jpg",
     specs: [
       "Dotted & Ribbed.",
       "Intense stimulation for both partners.",
@@ -41,7 +41,7 @@ const condomProducts = [
   },
   {
     name: "Feeling",
-    image: "/images/Products/feeling.jpg",
+    image: "/images/Products/ritex/feeling.jpg",
     specs: [
       "Perfect Fit.",
       "Based on the natural shape of the penis.",
@@ -52,7 +52,7 @@ const condomProducts = [
   },
   {
     name: "Longtime",
-    image: "/images/Products/Longtime.jpg",
+    image: "/images/Products/ritex/Longtime.jpg",
     specs: [
       "Make love For longer.",
       "With Double Ring for extra long love play.",
@@ -63,7 +63,7 @@ const condomProducts = [
   },
   {
     name: "Extra Thin",
-    image: "/images/Products/thin.jpg",
+    image: "/images/Products/ritex/thin.jpg",
     specs: [
       "For a natural Feel.",
       "For a particularly natural feeling. As natural as Love itself.",
@@ -74,7 +74,7 @@ const condomProducts = [
   },
   {
     name: "Ideal",
-    image: "/images/Products/ideal.jpg",
+    image: "/images/Products/ritex/ideal.jpg",
     specs: [
       "Extra Lubricated.",
       "Ritex IDEAL condoms improve lubrication and make sex more relaxed and intense.",
@@ -84,7 +84,7 @@ const condomProducts = [
   },
   {
     name: "Mix",
-    image: "/images/Products/mix.jpg",
+    image: "/images/Products/ritex/mix.jpg",
     specs: [
       "Exciting and varied.",
       "Excitingly different every time! Ritex MIX stands for intense love and more variety.",
@@ -94,7 +94,7 @@ const condomProducts = [
   },
   {
     name: "Kondom Automate",
-    image: "/images/Products/ka.jpg",
+    image: "/images/Products/ritex/ka.jpg",
     specs: [
       "Retro Condom Machine.",
       "40 times variety and Fun.",
@@ -196,7 +196,7 @@ export default function RitexCondomsPage() {
                 viewport={{ once: true, amount: 0.25 }}
               >
                 <Image
-                  src="/images/Products/trust.png"
+                  src="/images/Products/ritex/trust.png"
                   alt="Trust illustration"
                   fill
                   className="object-cover"

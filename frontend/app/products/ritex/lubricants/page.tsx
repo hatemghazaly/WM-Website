@@ -8,7 +8,7 @@ import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 const LubricantProducts = [
   {
     name: "Bio Vegan",
-    image: "/images/Products/bio.jpg",
+    image: "/images/Products/ritex/bio.jpg",
     specs: [
       "Vegan Lubricant.",
       "Water based.",
@@ -23,7 +23,7 @@ const LubricantProducts = [
   },
   {
     name: "Hydro Gel",
-    image: "/images/Products/hydro.jpg",
+    image: "/images/Products/ritex/hydro.jpg",
     specs: [
       "For Sensitive Skin.",
       "Water based.",
@@ -37,7 +37,7 @@ const LubricantProducts = [
   },
   {
     name: "Gel Plus",
-    image: "/images/Products/gel_plus.jpg",
+    image: "/images/Products/ritex/gel_plus.jpg",
     specs: [
       "With Organic Aloe Vera.",
       "Water based.",
@@ -51,7 +51,7 @@ const LubricantProducts = [
   },
   {
     name: "Longtime Lubricant",
-    image: "/images/Products/longtime_lub.jpg",
+    image: "/images/Products/ritex/longtime_lub.jpg",
     specs: [
       "Provides Extra Lubrication",
       "Silicone based.",
@@ -139,7 +139,7 @@ export default function RitexLubricantsPage() {
                 viewport={{ once: true, amount: 0.25 }}
               >
                 <Image
-                  src="/images/Products/lubricants.jpg"
+                  src="/images/Products/ritex/lubricants.jpg"
                   alt="Trust illustration"
                   fill
                   className="object-cover"
