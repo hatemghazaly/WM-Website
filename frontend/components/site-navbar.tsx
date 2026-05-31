@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -158,6 +158,12 @@ export function SiteNavbar() {
                   </Link>
                 </div>
               </div>
+              <Link
+                href="/products/pedia"
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Pedia Line
+              </Link>
               <Link
                 href="/coming_soon"
                 className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"

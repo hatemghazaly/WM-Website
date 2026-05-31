@@ -1,9 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const condomProducts = [
   {
@@ -107,6 +114,30 @@ const condomProducts = [
 ];
 
 export default function RitexCondomsPage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const itemsPerView = 3;
+  const maxIndex = Math.max(0, condomProducts.length - itemsPerView);
+
+  const pastelColors = [
+    "bg-rose-100",
+    "bg-blue-100",
+    "bg-emerald-100",
+    "bg-purple-100",
+    "bg-orange-100",
+    "bg-yellow-100",
+    "bg-cyan-100",
+    "bg-pink-100",
+    "bg-indigo-100",
+  ];
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
+  };
+
   const reveal = {
     hidden: { opacity: 0, y: 24, scale: 0.96 },
     visible: (delay = 0) => ({
@@ -222,8 +253,9 @@ export default function RitexCondomsPage() {
             </p>
           </motion.div>
 
+          {/* Carousel Section */}
           <motion.div
-            className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4"
+            className="mt-8 relative"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
@@ -237,48 +269,159 @@ export default function RitexCondomsPage() {
               },
             }}
           >
-            {condomProducts.map((product) => (
+            {/* Carousel Container */}
+            <div className="overflow-hidden">
               <motion.div
-                key={product.name}
-                className="overflow-hidden rounded-[30px] border border-slate-200/70 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.22)]"
-                variants={reveal}
+                className="flex gap-6 transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / itemsPerView + 2.4)}%)`,
+                }}
               >
-                <motion.div
-                  className="relative h-72 bg-white px-6 pt-14"
-                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.95, ease: [0.2, 0.8, 0.2, 1] }}
-                  viewport={{ once: true, amount: 0.3 }}
-                >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-contain object-top translate-y-4 scale-[0.88]"
-                    sizes="(max-width: 1280px) 50vw, 25vw"
-                  />
-                </motion.div>
-                <div className="p-5">
-                  <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                    Ritex condom
-                  </p>
-                  <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-slate-950">
-                    {product.name}
-                  </h3>
-                  <ul className="mt-4 space-y-2">
-                    {product.specs.map((spec) => (
-                      <li
-                        key={spec}
-                        className="flex gap-2 text-sm leading-7 text-slate-600"
+                {condomProducts.map((product, index) => (
+                  <motion.div
+                    key={product.name}
+                    className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
+                    style={{ width: `calc(33.333% - 1.5rem)` }}
+                    variants={reveal}
+                    whileHover={{
+                      scale: 1.05,
+                      y: -12,
+                      transition: { duration: 0.3, ease: "easeOut" },
+                    }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                  >
+                    {/* Card Background Glow on Hover */}
+                    <motion.div
+                      className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background:
+                          "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
+                        pointerEvents: "none",
+                      }}
+                    />
+
+                    {/* Background Image */}
+                    <div className="absolute inset-0 p-8 lg:p-12 flex items-center justify-center">
+                      <div className="relative w-full h-full">
+                        <motion.div
+                          className="relative w-full h-full"
+                          whileHover={{ scale: 1.08 }}
+                          transition={{ duration: 0.4, ease: "easeOut" }}
+                        >
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          />
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
+
+                    {/* Content - Positioned at top and bottom */}
+                    <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+                      {/* Top Section */}
+                      <motion.div
+                        className="flex flex-col"
+                        initial={{ opacity: 0, y: -10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1, duration: 0.5 }}
+                        viewport={{ once: true }}
                       >
-                        <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-500" />
-                        <span>{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                        <p className="text-xs font-medium tracking-[0.12em] text-slate-700 uppercase">
+                          Ritex Condom
+                        </p>
+                        <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-slate-900 leading-tight">
+                          {product.name}
+                        </h3>
+                      </motion.div>
+
+                      {/* Bottom Section */}
+                      <motion.div
+                        className="flex flex-col"
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15, duration: 0.5 }}
+                        viewport={{ once: true }}
+                      >
+                        {/* Plus Button */}
+                        <div className="flex justify-end">
+                          <motion.div
+                            className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
+                            whileHover={{
+                              scale: 1.15,
+                              backgroundColor: "rgba(100, 116, 139, 0.5)",
+                              transition: { duration: 0.2 },
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <motion.svg
+                              className="h-6 w-6 text-slate-900"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{
+                                rotate: 90,
+                                transition: { duration: 0.3 },
+                              }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 4v16m8-8H4"
+                              />
+                            </motion.svg>
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex items-center justify-between mt-6">
+              <button
+                onClick={handlePrev}
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="h-6 w-6 text-slate-900" />
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="flex gap-2">
+                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentIndex
+                        ? "w-8 bg-slate-900"
+                        : "w-2 bg-slate-300"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={handleNext}
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
+                aria-label="Next"
+              >
+                <ChevronRight className="h-6 w-6 text-slate-900" />
+              </button>
+            </div>
           </motion.div>
 
           <motion.div className="mt-10 flex justify-center" variants={reveal}>

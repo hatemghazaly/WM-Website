@@ -1,40 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Baby, HeartPulse, Sparkles, ShieldCheck } from "lucide-react";
+import {
+  Award,
+  Sparkles,
+  HeartPulse,
+  Baby,
+  CheckCircle2,
+  ArrowLeft,
+} from "lucide-react";
 
-const highlights = [
+const PediaProducts = [
   {
-    icon: Baby,
-    title: "Gentle Formulations",
-    description:
-      "Pediatric products designed with a soft, careful approach for everyday family needs.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Trusted Standards",
-    description:
-      "Built around quality, safety, and the reassurance families expect from Willi Med.",
-  },
-  {
-    icon: HeartPulse,
-    title: "Care-Focused",
-    description:
-      "A line shaped around comfort, clarity, and age-aware support for younger patients.",
+    name: "Willi D3 Drops",
+    tagline: "Vitamin D3 Supplement",
+    image: "/images/Products/pedia/baby1.png",
+    description: "",
+    specs: [""],
   },
 ];
 
 export default function PediaPage() {
   const reveal = {
-    hidden: { opacity: 0, y: 24, scale: 0.97 },
+    hidden: { opacity: 0, y: 16, scale: 0.985 },
     visible: (delay = 0) => ({
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
         delay,
-        duration: 1,
+        duration: 0.9,
         ease: [0.22, 1, 0.36, 1],
       },
     }),
@@ -50,48 +47,199 @@ export default function PediaPage() {
 
       <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
         <motion.div
-          className="rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20"
+          className="rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-10 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-14"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.12,
-                delayChildren: 0.06,
-              },
-            },
-          }}
+          viewport={{ once: true, amount: 0.25 }}
+          variants={reveal}
+          custom={0}
         >
-          <motion.div
-            className="mx-auto flex max-w-4xl flex-col items-center text-center"
-            variants={reveal}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur">
+          {/* Header Section */}
+          <div className="mx-auto max-w-4xl text-center">
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
+              variants={reveal}
+              custom={0.05}
+            >
               <Sparkles className="h-3.5 w-3.5" />
-              Pediatric Care
-            </div>
-
-            <h1 className="mt-6 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-7xl">
-              Pedia
-            </h1>
-
+              Pediatrics Care
+            </motion.div>
+            <motion.h1
+              className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
+              variants={reveal}
+              custom={0.12}
+            >
+              Pedia Line
+            </motion.h1>
             <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+            <motion.p
+              className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
+              variants={reveal}
+              custom={0.2}
+            >
+              At Willi Med, we are committed to supporting healthy growth and
+              development from the earliest stages of life. Our Pediatric Line
+              is focused on providing safe, effective, and high-quality
+              healthcare solutions tailored to the unique needs of infants and
+              children.
+            </motion.p>
 
-            <p className="mx-auto mt-8 max-w-3xl text-[0.98rem] leading-8 text-slate-600 sm:text-lg lg:text-xl">
-              A gentle line of pediatric products shaped around care, comfort,
-              and thoughtful support for families and healthcare professionals.
-              We are preparing this collection with the same calm, premium
-              visual language used across the rest of the site.
-            </p>
-          </motion.div>
+            <motion.p
+              className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
+              variants={reveal}
+              custom={0.28}
+            >
+              As the first product in this growing portfolio, Willi D3 delivers
+              400 IU of Vitamin D3 per drop, helping support healthy bone
+              development, immune function, and overall child well-being. As
+              part of our commitment to pediatric healthcare, we continue to
+              expand our pipeline with innovative products designed to support
+              children's health at every stage of development.{" "}
+            </motion.p>
+          </div>
 
+          {/* Hero Background Image */}
           <motion.div
-            className="mt-10 grid gap-6 md:grid-cols-3"
+            className="relative mt-8 h-[260px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[340px] lg:h-[420px]"
+            variants={reveal}
+            custom={0.4}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.18 }}
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            <motion.div
+              className="absolute inset-0"
+              initial={{ scale: 1.03 }}
+              whileInView={{ scale: 1 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              <Image
+                src="/images/Products/pedia/pedia_bg.jpg"
+                alt="Pediatric care"
+                fill
+                className="object-cover"
+                sizes="100vw"
+                priority
+              />
+            </motion.div>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.03),rgba(15,23,42,0.14))]" />
+          </motion.div>
+
+          {/* Features Section */}
+          <motion.div
+            className="mt-6 grid gap-4 lg:grid-cols-3"
+            variants={reveal}
+            custom={0.5}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            {[
+              {
+                icon: Award,
+                title: "Innovation",
+                description:
+                  "Beautiful and durable, by design. Crafted to meet the premium standard of Willi Med's excellence.",
+              },
+              {
+                icon: HeartPulse,
+                title: "Care Focused",
+                description:
+                  "A line shaped around comfort, clarity and age-aware support for younger patients.",
+              },
+              {
+                icon: Baby,
+                title: "Gentle Formulation",
+                description:
+                  "Built with a soft, careful approach for everyday baby needs.",
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.title}
+                  className="flex items-start gap-4 rounded-[26px] border border-slate-200/80 bg-white/85 p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.25)] backdrop-blur"
+                >
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200/80 bg-slate-50 text-slate-900">
+                    <Icon className="h-5 w-5" />
+                  </div>
+
+                  <div>
+                    <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                      Willi Med's Excellence
+                    </p>
+                    <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-slate-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+
+          {/* Second Background Image */}
+          <motion.div
+            className="relative mt-6 h-[220px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[280px]"
+            variants={reveal}
+            custom={0.56}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            <motion.div
+              className="absolute inset-0"
+              initial={{ scale: 1.02, opacity: 0.96 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              <Image
+                src="/images/Products/ritex/intimacy.png"
+                alt="Pediatric care illustration"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+            </motion.div>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(15,23,42,0.08))]" />
+          </motion.div>
+
+          {/* Tested Quality Section */}
+          <motion.h2
+            className="mt-8 text-center text-2xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-3xl"
+            variants={reveal}
+            custom={0.6}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            Tested Quality
+          </motion.h2>
+
+          <motion.p
+            className="mx-auto mt-4 max-w-4xl text-center text-[0.98rem] leading-8 text-slate-600 sm:text-lg"
+            variants={reveal}
+            custom={0.62}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            Willi Med products are made with the highest quality standards,
+            ensuring safety and efficacy for your little ones. Below is an
+            overview of our pediatric product.
+          </motion.p>
+
+          {/* Product Showcase - Apple Card Carousel */}
+          <motion.div
+            className="mt-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
             variants={{
               hidden: {},
               visible: {
@@ -102,45 +250,79 @@ export default function PediaPage() {
               },
             }}
           >
-            {highlights.map((item) => {
-              const Icon = item.icon;
-
-              return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
+              {PediaProducts.map((product) => (
                 <motion.div
-                  key={item.title}
-                  className="rounded-[30px] border border-white/70 bg-white/80 p-6 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.25)] backdrop-blur-2xl"
+                  key={product.name}
+                  className="group relative overflow-hidden rounded-[32px] bg-black h-[720px] cursor-pointer"
                   variants={reveal}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-900">
-                    <Icon className="h-5 w-5" />
+                  {/* Background Image */}
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+
+                  {/* Dark Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                  {/* Content - Positioned at top and bottom */}
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+                    {/* Top Section */}
+                    <div className="flex flex-col">
+                      <p className="text-xs font-medium tracking-[0.12em] text-slate-300 uppercase">
+                        {product.tagline}
+                      </p>
+                      <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-white leading-tight">
+                        {product.name}
+                      </h3>
+                    </div>
+
+                    {/* Bottom Section */}
+                    <div className="flex flex-col">
+                      <p className="text-sm leading-relaxed text-slate-100 mb-4">
+                        {product.description}
+                      </p>
+                      <ul className="space-y-2 mb-6"></ul>
+
+                      {/* Plus Button */}
+                      <div className="flex justify-end">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-all group-hover:bg-white/30">
+                          <svg
+                            className="h-6 w-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 4v16m8-8H4"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <h2 className="mt-5 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
-                    {item.title}
-                  </h2>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
-                    {item.description}
-                  </p>
                 </motion.div>
-              );
-            })}
+              ))}
+            </div>
           </motion.div>
 
-          <motion.div
-            className="mt-10 flex flex-wrap items-center justify-center gap-3"
-            variants={reveal}
-          >
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
-            >
-              Back to Home
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          {/* Back Button */}
+          <motion.div className="mt-10 flex justify-center" variants={reveal}>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-0.5"
             >
-              Explore Products
+              <ArrowLeft className="h-4 w-4" />
+              Back to Products
             </Link>
           </motion.div>
         </motion.div>
