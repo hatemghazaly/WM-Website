@@ -20,12 +20,11 @@ const LubricantProducts = [
     specs: [
       "Vegan Lubricant.",
       "Water based.",
-      "Free from fragrances and colorants, PEG, parabens and other preservatives.",
-      "Made from vegan raw materials.",
       "Dermatologically tested.",
-      "Ritex BIO vegan protects the sensitive mucous membranes in a natural way.",
-      "Suitable for use with all Ritex Condoms.",
-      "Aviailable in tube of 50 ml.",
+      "No fragrances, colorants, PEG, parabens & other preservatives.",
+      "Protects your sensitive mucous membranes in a natural way.",
+      "Suitable with all Ritex Condoms.",
+      "Available in tube of 50 ml.",
       "100% Made in Germany.",
     ],
   },
@@ -34,13 +33,13 @@ const LubricantProducts = [
     image: "/images/Products/ritex/hydro.jpg",
     slogan: "Gentle comfort made for sensitive skin.",
     specs: [
-      "For Sensitive Skin.",
       "Water based.",
-      "Free from fragrances and colorants.",
-      "Specially designed to match the pH value of the vaginal mucosa.",
-      "Dermatologically and Gynaecologically tested.",
-      "Suitable for use with all Ritex Condoms.",
-      "Aviailable in tube of 50 ml.",
+      "For Sensitive Skin.",
+      "Free from fragrances & colorants.",
+      "Specially designed to match the vaginal mucosa pH value.",
+      "Dermatologically & Gynaecologically tested.",
+      "Suitable with all Ritex Condoms.",
+      "Available in tube of 50 ml.",
       "100% Made in Germany.",
     ],
   },
@@ -49,13 +48,13 @@ const LubricantProducts = [
     image: "/images/Products/ritex/gel_plus.jpg",
     slogan: "Aloe-powered smoothness for every moment.",
     specs: [
-      "With Organic Aloe Vera.",
       "Water based.",
-      "Free from fragrances and colorants.",
+      "With Organic Aloe Vera.",
+      "No fragrances & colorants.",
       "pH-neutral.",
       "Dermatologically tested.",
-      "Suitable for use with all Ritex Condoms.",
-      "Aviailable in tube of 50 ml.",
+      "Suitable with all Ritex Condoms.",
+      "Available in tube of 50 ml.",
       "100% Made in Germany.",
     ],
   },
@@ -64,12 +63,12 @@ const LubricantProducts = [
     image: "/images/Products/ritex/longtime_lub.jpg",
     slogan: "Extra-long glide when you want more staying power.",
     specs: [
-      "Provides Extra Lubrication",
       "Silicone based.",
-      "Free from preservatives, fragrances and other additives",
+      "Provides Extra Lubrication",
+      "No preservatives, fragrances & other additives",
       "Dermatologically tested.",
-      "Suitable for use with all Ritex Condoms.",
-      "Aviailable in tube of 50 ml.",
+      "Suitable with all Ritex Condoms.",
+      "Available in tube of 50 ml.",
       "100% Made in Germany.",
     ],
   },
@@ -183,20 +182,23 @@ export default function RitexLubricantsPage() {
               variants={reveal}
               custom={0.24}
             >
-              Ritex lubricants are designed to enhance comfort, intimacy, and
+              Ritex lubricants are designed to enhance comfort, intimacy and
               pleasure while supporting a smooth and enjoyable experience.
               Developed with the same commitment to quality and innovation that
               has defined Ritex since 1948, the range offers solutions tailored
               to different preferences and needs.
             </motion.p>
-
           </motion.div>
 
           <div className="flex justify-center pt-6">
             <motion.div
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-xs font-medium uppercase tracking-[0.34em] text-slate-500 shadow-sm backdrop-blur"
               animate={{ y: [0, 6, 0], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
               <ChevronDown className="h-4 w-4" />
             </motion.div>
@@ -244,21 +246,15 @@ export default function RitexLubricantsPage() {
                   />
                 </motion.div>
               </div>
-              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-base">
                 Love is ... for trying out something new whenever the fancy
                 takes you. Let Ritex lubricants take you on a sensuous journey
                 to the furthest shores of your desire.
               </p>
-              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-base">
                 Our lubes spoil you with erotic massages, sweep you away to new
-                pinnacles of lust and smooth the way for variations of play
-                that call for enhanced lubrication.
-              </p>
-              <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
-                Ritex lubricant is available as a vegan BIO GEL, in a
-                particularly sensitive HYDRO variant or as GEL+ formulated with
-                aloe vera, while the silicone-based LONGTIME creates an extra
-                long-lasting and versatile experience.
+                pinnacles of lust and smooth the way for variations of play that
+                call for enhanced lubrication.
               </p>
             </motion.div>
 

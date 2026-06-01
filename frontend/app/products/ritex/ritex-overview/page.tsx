@@ -103,8 +103,8 @@ export default function RitexPage() {
               Ritex GmbH is a leading German manufacturer of premium family
               planning products, including condoms and personal lubricants.
               Since 1948, Ritex has been committed to delivering exceptional
-              quality, safety, and innovation, earning the trust of consumers
-              and healthcare professionals across Europe and beyond.
+              quality, safety and innovation, earning the trust of consumers and
+              healthcare professionals across Europe and beyond.
             </motion.p>
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
@@ -114,7 +114,7 @@ export default function RitexPage() {
               In Egypt, Ritex products are exclusively represented and
               distributed through Willi Med, the company&apos;s sole authorized
               agent, ensuring the highest standards of availability, customer
-              support, and market expertise.
+              support and market expertise.
             </motion.p>
           </div>
 

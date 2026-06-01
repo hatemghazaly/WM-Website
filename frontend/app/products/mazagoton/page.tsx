@@ -14,10 +14,10 @@ import {
   X,
 } from "lucide-react";
 
-const condomProducts = [
+const mazagotonProducts = [
   {
-    name: "RR1",
-    image: "/images/Products/ritex/rr1.jpg",
+    name: "Mazagoton - F",
+    image: "/images/Products/mazagoton/rr1.jpg",
     slogan: "Feel every moment with natural intensity.",
     specs: [
       "Intense Sensations.",
@@ -28,8 +28,8 @@ const condomProducts = [
     ],
   },
   {
-    name: "XXL",
-    image: "/images/Products/ritex/xxl.jpg",
+    name: "Mazagoton - M",
+    image: "/images/Products/mazagoton/xxl.jpg",
     slogan: "Extra room. Extra comfort. Extra confidence.",
     specs: [
       "Extra Large.",
@@ -41,8 +41,8 @@ const condomProducts = [
     ],
   },
   {
-    name: "Lust",
-    image: "/images/Products/ritex/lust.jpg",
+    name: "Mazagoton Energy",
+    image: "/images/Products/mazagoton/energy.jpg",
     slogan: "Textured for stronger shared sensations.",
     specs: [
       "Dotted & Ribbed.",
@@ -51,86 +51,14 @@ const condomProducts = [
       "100% Made in Germany.",
     ],
   },
-  {
-    name: "Feeling",
-    image: "/images/Products/ritex/feeling.jpg",
-    slogan: "A skin-tight fit made to feel natural.",
-    specs: [
-      "Perfect Fit.",
-      "Based on the natural shape of genital organ.",
-      "A particularly intense, skin-tight stimulation.",
-      "Available in packs of 3 and 8.",
-      "100% Made in Germany.",
-    ],
-  },
-  {
-    name: "Longtime",
-    image: "/images/Products/ritex/Longtime.jpg",
-    slogan: "Made to help the moment last longer.",
-    specs: [
-      "Make love For longer.",
-      "With Double Ring for extra long love play.",
-      "No Benzocaine & other anaesthetic additives.",
-      "Available in packs of 3 and 8.",
-      "100% Made in Germany.",
-    ],
-  },
-  {
-    name: "Extra Thin",
-    image: "/images/Products/ritex/thin.jpg",
-    slogan: "Ultra-thin touch, naturally intense.",
-    specs: [
-      "For a particularly natural feeling.",
-      "Extra thin & particularly intense in sensation.",
-      "Available in packs of 3 and 8.",
-      "100% Made in Germany.",
-    ],
-  },
-  {
-    name: "Ideal",
-    image: "/images/Products/ritex/ideal.jpg",
-    slogan: "Smooth comfort with added lubrication.",
-    specs: [
-      "Extra Lubricated.",
-      "Improves lubrication for a more relaxed & intense sex.",
-      "Available in packs of 3 and 10.",
-      "100% Made in Germany.",
-    ],
-  },
-  {
-    name: "Mix",
-    image: "/images/Products/ritex/mix.jpg",
-    slogan: "Variety that keeps things exciting.",
-    specs: [
-      "Excitingly different every time!",
-      "Stands for intense love and more variety.",
-      "Exciting and varied.",
-      "Available in a pack of 8.",
-      "100% Made in Germany.",
-    ],
-  },
-  {
-    name: "Kondom Automate",
-    image: "/images/Products/ritex/ka.jpg",
-    slogan: "Retro style with a full surprise mix.",
-    specs: [
-      "Retro Condom Machine.",
-      "40 times variety and Fun.",
-      "Try them out and enjoy exciting moments!",
-      "It's not just the packaging that's very unusual.",
-      "A careful selection of our bestsellers.",
-      "Available in a pack of 40.",
-      "100% Made in Germany.",
-    ],
-  },
 ];
 
-export default function RitexCondomsPage() {
+export default function MazagotonPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [activeProduct, setActiveProduct] = useState<
-    (typeof condomProducts)[number] | null
+    (typeof mazagotonProducts)[number] | null
   >(null);
   const carouselViewportRef = useRef<HTMLDivElement | null>(null);
   const trustRef = useRef<HTMLDivElement | null>(null);
@@ -144,20 +72,10 @@ export default function RitexCondomsPage() {
     lastX: 0,
   });
   const itemsPerView = 4;
-  const maxIndex = Math.max(0, condomProducts.length - itemsPerView);
-  const pastelColors = [
-    "bg-rose-100",
-    "bg-blue-100",
-    "bg-emerald-100",
-    "bg-purple-100",
-    "bg-orange-100",
-    "bg-yellow-100",
-    "bg-cyan-100",
-    "bg-pink-100",
-    "bg-indigo-100",
-  ];
+  const maxIndex = Math.max(0, mazagotonProducts.length - itemsPerView);
+  const pastelColors = ["bg-blue-100", "bg-emerald-100", "bg-purple-100"];
   const activeProductIndex = activeProduct
-    ? condomProducts.indexOf(activeProduct)
+    ? mazagotonProducts.indexOf(activeProduct)
     : -1;
   const activeProductColor =
     activeProductIndex >= 0 ? pastelColors[activeProductIndex] : "bg-slate-50";
@@ -313,14 +231,14 @@ export default function RitexCondomsPage() {
               custom={0}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              FOR 100% SENSATION
+              FOR MANAGING YOUR DAILY HEALTH
             </motion.div>
             <motion.h1
               className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
               variants={reveal}
               custom={0.08}
             >
-              Ritex Condoms
+              Mazagoton Family
             </motion.h1>
             <motion.div
               className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
@@ -367,23 +285,6 @@ export default function RitexCondomsPage() {
             },
           }}
         >
-          <motion.div
-            className="mt-8 overflow-hidden rounded-[28px] border border-slate-200/70 bg-slate-950 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.45)]"
-            variants={reveal}
-          >
-            <div className="relative aspect-video w-full">
-              <iframe
-                src="https://www.youtube.com/embed/XHfggmObUXM"
-                title="Ritex Condoms Video"
-                className="absolute inset-0 h-full w-full"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            </div>
-          </motion.div>
-
           <motion.div className="mt-10 text-center" variants={reveal}>
             <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
               Good Sex Is Based On <span className="font-black">Trust</span>
@@ -455,7 +356,7 @@ export default function RitexCondomsPage() {
                 onPointerUp={endDrag}
                 onPointerCancel={endDrag}
               >
-                {condomProducts.map((product, index) => (
+                {mazagotonProducts.map((product, index) => (
                   <motion.div
                     key={product.name}
                     className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
