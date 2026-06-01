@@ -15,7 +15,11 @@ export function SiteNavbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <nav className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3" onClick={closeMobileMenu}>
+        <Link
+          href="/"
+          className="flex items-center gap-3"
+          onClick={closeMobileMenu}
+        >
           <Image
             src="/images/wm_logo.png"
             alt="Willi Med logo"
@@ -70,10 +74,10 @@ export function SiteNavbar() {
           ))}
 
           <li className="group relative">
-              <button
-                type="button"
-                className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
-              >
+            <button
+              type="button"
+              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            >
               About Us
             </button>
 
@@ -104,13 +108,6 @@ export function SiteNavbar() {
             </button>
 
             <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-              <Link
-                href="/products"
-                onClick={closeMobileMenu}
-                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              >
-                Products Overview
-              </Link>
               <div
                 className="relative"
                 onMouseLeave={() => setIsRitexOpen(false)}
