@@ -50,12 +50,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 CONTACT_ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get(
-        "CONTACT_ALLOWED_ORIGINS",
-        "http://localhost:3000,http://127.0.0.1:3000",
-    ).split(",")
-    if origin.strip()
+    "https://wm-website-eight.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 CONTACT_RECIPIENT_EMAIL = os.environ.get(
