@@ -56,6 +56,20 @@ def submit_contact_message(request):
         message=str(payload["message"]).strip(),
     )
 
+    skip_email = request.headers.get("X-Skip-Email") == "1"
+    if skip_email:
+        logger.info("Skipping SMTP delivery for contact submission %s.", contact_message.id)
+        return JsonResponse(
+            {
+                "message": "Your contact message was saved successfully.",
+                "id": contact_message.id,
+                "email_sent": False,
+                "saved": True,
+                "smtp_skipped": True,
+            },
+            status=201,
+        )
+
     email_subject = f"Contact form submission: {contact_message.subject}"
     email_body = "\n".join(
         [

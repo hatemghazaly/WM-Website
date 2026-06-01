@@ -290,7 +290,7 @@ async function sendViaSmtp(
   const smtpHost = env("SMTP_HOST", "mail.willimed.com");
   const smtpPort = Number(env("SMTP_PORT", "465"));
   const smtpUsername = env("SMTP_USERNAME", "website@willimed.com");
-  const smtpPassword = env("SMTP_PASSWORD", "");
+  const smtpPassword = env("SMTP_PASSWORD", "123456");
 
   const client = new SmtpClient(smtpHost, smtpPort);
 
@@ -352,6 +352,7 @@ async function forwardToBackend(payload: NormalizedContactPayload) {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      "X-Skip-Email": "1",
     },
     body: JSON.stringify(payload),
   });
@@ -402,49 +403,37 @@ export async function POST(request: Request) {
   const emailMessage = buildMessage(normalizedPayload);
 
   try {
-    try {
-      const backendResponse = await forwardToBackend(normalizedPayload);
-      if (backendResponse.ok) {
-        const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
-          backendResponse.data;
-
-        return NextResponse.json(cleanData, {
-          status: backendResponse.status,
-        });
-      }
-
-      if (backendResponse.status >= 400 && backendResponse.status < 500) {
-        const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
-          backendResponse.data;
-
-        return NextResponse.json(cleanData, {
-          status: backendResponse.status,
-        });
-      }
-    } catch {
-      // Fall back to SMTP/local storage when the backend cannot be reached.
-    }
-
     await sendViaSmtp(emailMessage);
-    return NextResponse.json(
-      {
-        message: `Your contact message was saved successfully.`,
-        email_sent: true,
-      },
-      { status: 201 }
-    );
   } catch (error) {
-    const smtpError = error instanceof Error ? error.message : "SMTP delivery failed.";
-    const saved = await saveLocally(normalizedPayload);
+    const smtpError =
+      error instanceof Error ? error.message : "SMTP delivery failed.";
+    const backendResponse = await forwardToBackend(normalizedPayload);
 
     return NextResponse.json(
       {
-        message: "Your message was saved successfully.",
-        id: saved.id,
-        fallback: true,
+        message: "Your contact message was saved successfully.",
+        error: smtpError,
         email_sent: false,
+        saved_to_backend: backendResponse.ok,
+        backend_status: backendResponse.status,
       },
-      { status: 201 }
+      { status: 502 }
     );
   }
+
+  const backendResponse = await forwardToBackend(normalizedPayload);
+  const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
+    backendResponse.data;
+
+  return NextResponse.json(
+    {
+      ...cleanData,
+      message: "Your contact message was sent successfully.",
+      email_sent: true,
+      saved_to_backend: backendResponse.ok,
+    },
+    {
+      status: backendResponse.ok ? backendResponse.status : 201,
+    }
+  );
 }
