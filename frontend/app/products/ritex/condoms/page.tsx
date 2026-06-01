@@ -171,6 +171,126 @@ export default function RitexCondomsPage() {
     [0.98, 1.02],
   );
 
+  const renderProductCard = (
+    product: (typeof condomProducts)[number],
+    index: number,
+    compact = false,
+    carousel = false,
+  ) => (
+    <motion.div
+      key={product.name}
+      className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} ${compact ? "min-h-[380px]" : "h-[550px]"} ${carousel ? "flex-shrink-0" : ""} cursor-pointer shadow-lg`}
+      style={carousel ? { width: "calc(25% - 1.5rem)" } : undefined}
+      variants={reveal}
+      whileHover={
+        compact
+          ? undefined
+          : {
+              scale: 1.05,
+              y: -12,
+              transition: { duration: 0.3, ease: "easeOut" },
+            }
+      }
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <motion.div
+        className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        className={`absolute inset-0 flex items-center justify-center ${compact ? "p-5 sm:p-6" : "p-8 lg:p-12"}`}
+      >
+        <div className="relative h-full w-full">
+          <motion.div
+            className="relative h-full w-full"
+            whileHover={compact ? undefined : { scale: 1.08 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-contain"
+              sizes={
+                compact
+                  ? "(max-width: 768px) 92vw, 50vw"
+                  : "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              }
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
+
+      <div className={`absolute inset-0 flex flex-col justify-between ${compact ? "p-5" : "p-6 lg:p-8"}`}>
+        <motion.div
+          className="flex flex-col"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <p className={`font-medium tracking-[0.12em] text-slate-700 uppercase ${compact ? "text-[0.65rem]" : "text-xs"}`}>
+            Ritex Condom
+          </p>
+          <h3
+            className={`mt-3 font-semibold tracking-[-0.03em] text-slate-900 leading-tight ${compact ? "text-2xl" : "text-3xl lg:text-4xl"}`}
+          >
+            {product.name}
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex justify-end">
+            <motion.button
+              type="button"
+              className={`${compact ? "h-9 w-9" : "h-10 w-10"} flex items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm`}
+              onClick={() => setActiveProduct(product)}
+              onPointerDown={(event) => event.stopPropagation()}
+              aria-label={`View specs for ${product.name}`}
+              whileHover={{
+                scale: 1.15,
+                backgroundColor: "rgba(100, 116, 139, 0.5)",
+                transition: { duration: 0.2 },
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.svg
+                className={`${compact ? "h-5 w-5" : "h-6 w-6"} text-slate-900`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                whileHover={{
+                  rotate: 90,
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </motion.svg>
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
@@ -425,8 +545,29 @@ export default function RitexCondomsPage() {
               Feel The <span className="font-black">Difference</span>
             </h2>
           </motion.div>
+          {/* Mobile Card Grid */}
+          <motion.div
+            className="mt-8 grid gap-4 md:hidden"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                  delayChildren: 0.05,
+                },
+              },
+            }}
+          >
+            {condomProducts.map((product, index) =>
+              renderProductCard(product, index, true),
+            )}
+          </motion.div>
+
           {/* Carousel Section */}
-          <motion.div className="mt-8 relative" variants={reveal}>
+          <motion.div className="mt-8 relative hidden md:block" variants={reveal}>
             {/* Carousel Container */}
             <div
               ref={carouselViewportRef}
@@ -449,113 +590,7 @@ export default function RitexCondomsPage() {
                 onPointerCancel={endDrag}
               >
                 {condomProducts.map((product, index) => (
-                  <motion.div
-                    key={product.name}
-                    className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
-                    style={{ width: `calc(25% - 1.5rem)` }}
-                    variants={reveal}
-                    whileHover={{
-                      scale: 1.05,
-                      y: -12,
-                      transition: { duration: 0.3, ease: "easeOut" },
-                    }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    {/* Card Background Glow on Hover */}
-                    <motion.div
-                      className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        background:
-                          "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
-                        pointerEvents: "none",
-                      }}
-                    />
-
-                    {/* Background Image */}
-                    <div className="absolute inset-0 p-8 lg:p-12 flex items-center justify-center">
-                      <div className="relative w-full h-full">
-                        <motion.div
-                          className="relative w-full h-full"
-                          whileHover={{ scale: 1.08 }}
-                          transition={{ duration: 0.4, ease: "easeOut" }}
-                        >
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className="object-contain"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          />
-                        </motion.div>
-                      </div>
-                    </div>
-
-                    {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
-
-                    {/* Content - Positioned at top and bottom */}
-                    <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
-                      {/* Top Section */}
-                      <motion.div
-                        className="flex flex-col"
-                        initial={{ opacity: 0, y: -10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1, duration: 0.5 }}
-                        viewport={{ once: true }}
-                      >
-                        <p className="text-xs font-medium tracking-[0.12em] text-slate-700 uppercase">
-                          Ritex Condom
-                        </p>
-                        <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-slate-900 leading-tight">
-                          {product.name}
-                        </h3>
-                      </motion.div>
-
-                      {/* Bottom Section */}
-                      <motion.div
-                        className="flex flex-col"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15, duration: 0.5 }}
-                        viewport={{ once: true }}
-                      >
-                        {/* Plus Button */}
-                        <div className="flex justify-end">
-                          <motion.button
-                            type="button"
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
-                            onClick={() => setActiveProduct(product)}
-                            onPointerDown={(event) => event.stopPropagation()}
-                            aria-label={`View specs for ${product.name}`}
-                            whileHover={{
-                              scale: 1.15,
-                              backgroundColor: "rgba(100, 116, 139, 0.5)",
-                              transition: { duration: 0.2 },
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <motion.svg
-                              className="h-6 w-6 text-slate-900"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              whileHover={{
-                                rotate: 90,
-                                transition: { duration: 0.3 },
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 4v16m8-8H4"
-                              />
-                            </motion.svg>
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
+                  renderProductCard(product, index, false, true)
                 ))}
               </motion.div>
             </div>
