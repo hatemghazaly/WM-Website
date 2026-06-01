@@ -126,7 +126,7 @@ export default function PediaPage() {
               className="absolute inset-0"
               initial={{ scale: 1.03 }}
               whileInView={{ scale: 1 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] as const }}
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
@@ -208,7 +208,7 @@ export default function PediaPage() {
               className="absolute inset-0"
               initial={{ scale: 1.02, opacity: 0.96 }}
               whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }}
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image

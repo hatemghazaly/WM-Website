@@ -303,7 +303,7 @@ export default function WhereToBuyPage() {
                   className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
                   variants={reveal}
                   whileHover={{ y: -4, scale: 1.01 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
                 >
                   <Image
                     src="/images/where_to_buy/shop_bg.png"

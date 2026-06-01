@@ -195,7 +195,7 @@ export default function EgyDrugPage() {
                   <motion.div
                     ref={imageRef}
                     whileHover={{ y: -5, scale: 1.01 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
                     className="group mx-auto max-w-5xl overflow-hidden rounded-[34px] border border-slate-200/70 bg-white/70 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)]"
                   >
                     <motion.div style={{ y: imageY, scale: imageScale }}>
@@ -308,7 +308,7 @@ export default function EgyDrugPage() {
                           transition={{
                             delay: 0.05 * index,
                             duration: 0.45,
-                            ease: [0.22, 1, 0.36, 1],
+                            ease: [0.22, 1, 0.36, 1] as const,
                           }}
                           className="border-b border-white/70 last:border-b-0"
                         >

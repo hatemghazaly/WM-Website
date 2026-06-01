@@ -227,7 +227,7 @@ export default function RitexLubricantsPage() {
                   initial={{ opacity: 0, scale: 1.04, y: 8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   whileHover={{ scale: 1.01 }}
-                  transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] as const }}
                   viewport={{ once: true, amount: 0.3 }}
                   style={{ y: imageY, scale: imageScale }}
                 >

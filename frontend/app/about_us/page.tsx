@@ -140,7 +140,7 @@ export default function AboutUsPage() {
                     className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
                     variants={reveal}
                     whileHover={{ y: -4, scale: 1.01 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
                   >
                     <motion.div style={{ y: imageY, scale: imageScale }}>
                       <Image
@@ -360,7 +360,7 @@ export default function AboutUsPage() {
             <motion.div
               initial={{ opacity: 0, y: 12, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
               className="mb-3 w-56 overflow-hidden rounded-[24px] border border-slate-200 bg-white/90 p-2 shadow-[0_24px_60px_-20px_rgba(15,23,42,0.28)] backdrop-blur-md"
             >
               {(["Mission", "Vision", "Values"] as const).map((item) => (

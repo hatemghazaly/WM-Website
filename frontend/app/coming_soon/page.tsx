@@ -65,7 +65,7 @@ export default function ComingSoonPage() {
               variants={reveal}
               initial={{ opacity: 0, scaleX: 0.6 }}
               whileInView={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] as const }}
               viewport={{ once: true, amount: 0.2 }}
             />
 
