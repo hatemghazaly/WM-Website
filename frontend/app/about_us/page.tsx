@@ -22,7 +22,7 @@ const sections: Record<Section, SectionData> = {
     tagline: "Where Excellence Becomes Care",
     summary: "",
     body: `Our mission at Willi Med,  as an emerging pharmaceutical company, is dedicated to manufacturing high quality generic medications and importing crucial products to our region. 
-We are committed to excellence in every step of our roadmap,  starting with providing our patients with high-quality medications through scientific collaboration with healthcare professionals "HCPs" to ensure their patient's satisfaction and effectively manage their diseases.
+We are committed to excellence in every step of our roadmap,  starting with providing our patients with high-quality medications through scientific collaboration with healthcare professionals "HCPs" to ensure their patient's satisfaction and effectively managing their diseases.
 By utilizing our main asset, our team of highly educated and dedicated individuals at Willi Med,  we  strive for excellence  and aim to improve the quality of life for our patients.
 Join us on our scientific and humanitarian journey of excellence.`,
   },
@@ -38,7 +38,7 @@ Join us on our scientific and humanitarian journey of excellence.`,
     softAccent: "from-amber-400 to-amber-600",
     tagline: "Excellence Guided by Integrity.",
     summary: "",
-    body: "We prioritize excellence, integrity, patient focus, and collaboration in everything we do. These core values guide our decisions, shape our culture, and drive our commitment to delivering high-quality healthcare solutions. By upholding the highest standards, acting with transparency and responsibility, putting patients at the heart of our efforts, and fostering strong partnerships, we create meaningful impact across every step of our work and contribute to healthier communities.",
+    body: "We prioritize excellence, integrity, patient focus and collaboration in everything we do. These core values guide our decisions, shape our culture and drive our commitment to delivering high-quality healthcare solutions. By upholding the highest standards, acting with transparency and responsibility, putting patients at the heart of our efforts, and fostering strong partnerships, we create meaningful impact across every step of our work and contribute to healthier communities.",
   },
 };
 
