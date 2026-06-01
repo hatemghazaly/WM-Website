@@ -29,7 +29,7 @@ const storeCards: StoreCard[] = [
     description:
       "Shop official Willi Med products through Amazon with a familiar checkout experience.",
     href: "https://www.amazon.eg/stores/page/D5F5EC3E-6DA0-46EC-9574-554CC225E037?ingress=0&visitId=b4fa8fff-2914-45b0-b9fc-3e6d48baf427/",
-    logoSrc: "/images/where_to_buy/amazon.png",
+    logoSrc: "/images/where_to_buy/amazon_logo.png",
     logoAlt: "Amazon logo",
     accent: "from-amber-500/15 via-white to-white",
   },
@@ -101,10 +101,17 @@ const offlineTiles: OfflineTile[] = [
   },
 
   {
+    name: "Al Ain Pharmacy",
+    logoSrc: "/images/where_to_buy/al_ain_pharmacy.png",
+    logoAlt: "Al Ain Pharmacy logo",
+    tone: "from-stone-100 via-white to-slate-100",
+  },
+
+  {
     name: "Khalil Pharmacy",
     logoSrc: "/images/where_to_buy/khalil_logo.png",
     logoAlt: "Khalil Pharmacy logo",
-    tone: "from-red-600 via-red-600 to-red-600",
+    tone: "from-slate-800 via-slate-700 to-slate-900",
   },
 ];
 

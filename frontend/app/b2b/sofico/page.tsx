@@ -159,22 +159,27 @@ const soficoItems: Array<{
   {
     itemName: "Willi D3 Coconut Flavour 15ML Drops",
     soficoCode: "3004508",
-    category: "Multivitamins",
+    category: "Vitamin D3 Supplements",
   },
 
   {
-    itemName: "Mazagoton - F 30 TAB.",
+    itemName: "Mazagoton - F 30 TAB",
     soficoCode: "2001394",
     category: "Multivitamins",
   },
   {
-    itemName: "Mazagoton - M 30 TAB.",
+    itemName: "Mazagoton - M 30 TAB",
     soficoCode: "2001396",
     category: "Multivitamins",
   },
   {
-    itemName: "Mazagoton - Energy 30 TAB.",
+    itemName: "Mazagoton - Energy 30 TAB",
     soficoCode: "2001395",
+    category: "Multivitamins",
+  },
+  {
+    itemName: "Mazagoton Mix 12 Pack",
+    soficoCode: "2001397",
     category: "Multivitamins",
   },
 ];

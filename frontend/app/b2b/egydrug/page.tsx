@@ -26,18 +26,30 @@ const egydrugItems: Array<{
   category: string;
 }> = [
   {
-    itemName: "Ritex Condom RR1 3 Pcs",
-    egydrugCode: "1234",
-    category: "Condoms",
+    itemName: "Willi D3 Coconut Flavour 15ML Drops",
+    egydrugCode: "95629",
+    category: "Vitamin D3 Supplements",
+  },
+
+  {
+    itemName: "Mazagoton - F 30 TAB",
+    egydrugCode: "95657",
+    category: "Multivitamins",
   },
   {
-    itemName: "Ritex Condom RR1 10 Pcs",
-    egydrugCode: "1234",
-    category: "Condoms",
+    itemName: "Mazagoton - M 30 TAB",
+    egydrugCode: "95689",
+    category: "Multivitamins",
   },
   {
-    itemName: "Ritex Hydro Gel 50 ml",
-    egydrugCode: "1234",
+    itemName: "Mazagoton - Energy 30 TAB",
+    egydrugCode: "95689",
+    category: "Multivitamins",
+  },
+
+  {
+    itemName: "Ritex Kinderwunsch Conception Lubricant",
+    egydrugCode: "95779",
     category: "Lubricants",
   },
 ];

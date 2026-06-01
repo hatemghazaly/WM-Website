@@ -27,18 +27,143 @@ const pharmaoverseasItems: Array<{
 }> = [
   {
     itemName: "Ritex Condom RR1 3 Pcs",
-    pharmaoverseasCode: "1234",
+    pharmaoverseasCode: "42712",
     category: "Condoms",
   },
   {
     itemName: "Ritex Condom RR1 10 Pcs",
-    pharmaoverseasCode: "1234",
+    pharmaoverseasCode: "42715",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Ideal 3 Pcs",
+    pharmaoverseasCode: "42708",
     category: "Condoms",
   },
   {
+    itemName: "Ritex Condom Ideal 10 Pcs",
+    pharmaoverseasCode: "42716",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom XXL 3 Pcs",
+    pharmaoverseasCode: "42709",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom XXL 8 Pcs",
+    pharmaoverseasCode: "42717",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Lust 3 Pcs",
+    pharmaoverseasCode: "42710",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Lust 8 Pcs",
+    pharmaoverseasCode: "42718",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Feeling 3 Pcs",
+    pharmaoverseasCode: "42711",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Feeling 8 Pcs",
+    pharmaoverseasCode: "42719",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Extra Thin 3 Pcs",
+    pharmaoverseasCode: "42713",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Extra Thin 8 Pcs",
+    pharmaoverseasCode: "42720",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Longtime 3 Pcs",
+    pharmaoverseasCode: "42714",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Longtime 8 Pcs",
+    pharmaoverseasCode: "42721",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Mix 8 Pcs",
+    pharmaoverseasCode: "42722",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Kondomautomate 40 Pcs",
+    pharmaoverseasCode: "42723",
+    category: "Condoms",
+  },
+
+  {
     itemName: "Ritex Hydro Gel 50 ml",
-    pharmaoverseasCode: "1234",
+    pharmaoverseasCode: "42725",
     category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Longtime Lubricant 50 ml",
+    pharmaoverseasCode: "42726",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Bio Vegan Gel 50 ml",
+    pharmaoverseasCode: "42727",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Gel + Aloe Vera 50 ML",
+    pharmaoverseasCode: "42724",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Kinderwunsch Conception Lubricant",
+    pharmaoverseasCode: "42728",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Willi D3 Coconut Flavour 15ML Drops",
+    pharmaoverseasCode: "42706",
+    category: "Vitamin D3 Supplements",
+  },
+
+  {
+    itemName: "Mazagoton - F 30 TAB",
+    pharmaoverseasCode: "46423",
+    category: "Multivitamins",
+  },
+  {
+    itemName: "Mazagoton - M 30 TAB",
+    pharmaoverseasCode: "46424",
+    category: "Multivitamins",
+  },
+  {
+    itemName: "Mazagoton - Energy 30 TAB",
+    pharmaoverseasCode: "46425",
+    category: "Multivitamins",
   },
 ];
 

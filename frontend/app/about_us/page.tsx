@@ -131,9 +131,9 @@ export default function AboutUsPage() {
                   Willi Med Group is a dynamic Polish–Egyptian organization
                   operating through two specialized divisions: Healthcare and
                   Software Development. Through these complementary sectors, we
-                  combine scientific excellence, innovation, and technology to
-                  create meaningful value for patients, healthcare
-                  professionals, and businesses.
+                  combine scientific excellence, innovation and technology to
+                  create meaningful values for patients, healthcare
+                  professionals and businesses.
                 </motion.p>
                 <div className="relative my-12">
                   <div className="absolute -left-16 top-6 h-40 w-40 rounded-full bg-sky-100/70 blur-3xl" />
@@ -167,11 +167,11 @@ export default function AboutUsPage() {
                   Our healthcare division, Willi Med for Pharmaceutical
                   Industries, serves a wide range of therapeutic areas,
                   including Central Nervous System disorders, Diabetes,
-                  Cardiovascular Health, Primary Care, Men&apos;s Health, Women&apos;s
-                  Health, Antiseptics, and Food Supplements. We are committed to
-                  delivering high-quality healthcare solutions and are proud to
-                  act as the sole agent for selected leading European healthcare
-                  companies.
+                  Cardiovascular Health, Primary Care, Men&apos;s Health,
+                  Women&apos;s Health, Antiseptics and Food Supplements. We are
+                  committed to delivering high-quality healthcare solutions and
+                  are proud to act as the sole agent for selected leading
+                  European healthcare companies.
                 </motion.p>
                 <motion.p
                   className="mx-auto max-w-3xl text-center text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
@@ -179,14 +179,14 @@ export default function AboutUsPage() {
                   custom={0.5}
                 >
                   Our technology division focuses on developing innovative
-                  digital solutions that enhance productivity, efficiency, and
-                  business performance. Among our flagship products is Monkey
-                  Task 360, a comprehensive platform designed to streamline
-                  operations, improve collaboration, and support digital
-                  transformation across organizations. By combining healthcare
-                  expertise with technological innovation, Willi Med Group
-                  continues to build trusted partnerships and create sustainable
-                  impact across the industries we serve.
+                  digital solutions that enhance productivity, efficiency and
+                  business performance. Among our flagship products is{" "}
+                  <strong>Monkey Task 360</strong>, a comprehensive platform
+                  designed to streamline operations, improve collaboration and
+                  support digital transformation across organizations. By
+                  combining healthcare expertise with technological innovation,
+                  Willi Med Group continues to build trusted partnerships and
+                  create sustainable impact across the industries we serve.
                 </motion.p>
               </div>
             </div>
