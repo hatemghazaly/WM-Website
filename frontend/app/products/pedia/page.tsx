@@ -117,7 +117,7 @@ export default function PediaPage() {
               development, immune function, and overall child well-being. As
               part of our commitment to pediatric healthcare, we continue to
               expand our pipeline with innovative products designed to support
-              children's health at every stage of development.{" "}
+              children&apos;s health at every stage of development.{" "}
             </motion.p>
           </div>
 
@@ -191,7 +191,7 @@ export default function PediaPage() {
 
                   <div>
                     <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                      Willi Med's Excellence
+                      Willi Med&apos;s Excellence
                     </p>
                     <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-slate-950">
                       {item.title}
