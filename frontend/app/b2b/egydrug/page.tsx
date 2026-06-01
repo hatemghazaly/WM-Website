@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Handshake, ShieldCheck, Truck } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const strengths = [
   {
@@ -45,6 +45,7 @@ const egydrugItems: Array<{
 export default function EgyDrugPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
@@ -79,6 +80,20 @@ export default function EgyDrugPage() {
       },
     }),
   };
+
+  const filteredItems = egydrugItems.filter((item) => {
+    const query = searchTerm.trim().toLowerCase();
+
+    if (!query) {
+      return true;
+    }
+
+    return (
+      item.itemName.toLowerCase().includes(query) ||
+      item.egydrugCode.toLowerCase().includes(query) ||
+      item.category.toLowerCase().includes(query)
+    );
+  });
 
   return (
     <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
@@ -238,6 +253,23 @@ export default function EgyDrugPage() {
                 <h2 className="text-center text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl">
                   Items Codes
                 </h2>
+
+                <div className="mx-auto mt-6 max-w-2xl">
+                  <label
+                    htmlFor="egydrug-search"
+                    className="mb-2 block text-left text-xs font-medium uppercase tracking-[0.28em] text-slate-400"
+                  >
+                    Search items
+                  </label>
+                  <input
+                    id="egydrug-search"
+                    type="search"
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                    placeholder="Search by item name, code, or category..."
+                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                  />
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -265,8 +297,8 @@ export default function EgyDrugPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {egydrugItems.length > 0 ? (
-                      egydrugItems.map((row, index) => (
+                    {filteredItems.length > 0 ? (
+                      filteredItems.map((row, index) => (
                         <motion.tr
                           key={`${row.itemName}-${row.egydrugCode}`}
                           initial={{ opacity: 0, y: 10 }}
@@ -296,7 +328,7 @@ export default function EgyDrugPage() {
                           colSpan={3}
                           className="px-6 py-10 text-center text-sm text-slate-500 sm:px-8"
                         >
-                          Add your item names and Egy Drug codes here.
+                          No items match your search.
                         </td>
                       </tr>
                     )}
