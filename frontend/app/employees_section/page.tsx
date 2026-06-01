@@ -3,6 +3,9 @@
 import { Apple, ArrowUpRight, LockKeyhole, Mail, QrCode } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import type { ElementType } from "react";
+
+type DownloadIcon = ElementType<{ className?: string }>;
 
 type AccessCard = {
   title: string;
@@ -20,7 +23,7 @@ type DownloadCard = {
   description: string;
   href: string;
   badge: string;
-  icon: typeof Apple;
+  icon: DownloadIcon;
   tone: string;
   qrLabel: string;
 };
