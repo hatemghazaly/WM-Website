@@ -145,7 +145,7 @@ const pharmaoverseasItems: Array<{
   },
 
   {
-    itemName: "Willi D3 Coconut Flavour 15ML Drops",
+    itemName: "Willi D3 Coconut Flavour 15 ml Drops",
     pharmaoverseasCode: "42706",
     category: "Vitamin D3 Supplements",
   },
@@ -195,13 +195,13 @@ export default function PharmaoverseasPage() {
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   };
 
   const filteredItems = pharmaoverseasItems.filter((item) => {
