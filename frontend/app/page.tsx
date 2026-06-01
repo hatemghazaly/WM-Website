@@ -90,16 +90,14 @@ const highlights = [
 
 const reveal = {
   hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
-  visible: (delay = 0) => ({
+  visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      delay,
       duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
     },
-  }),
+  },
 } as const;
 
 export default function Home() {
@@ -128,7 +126,7 @@ export default function Home() {
         >
           <div className="grid lg:grid-cols-[1.06fr_0.94fr]">
             <div className="px-6 py-10 sm:px-10 lg:px-14 lg:py-16">
-              <motion.div className="max-w-3xl" variants={reveal} custom={0}>
+              <motion.div className="max-w-3xl" variants={reveal}>
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur">
                   Willi Med Group
                 </div>
@@ -182,7 +180,6 @@ export default function Home() {
                 <motion.div
                   className="relative w-full max-w-xl overflow-hidden rounded-[34px] border border-white/80 bg-white/80 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.35)] backdrop-blur-2xl"
                   variants={reveal}
-                  custom={0.12}
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.10),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.10),transparent_34%)]" />
                   <div className="relative p-6 sm:p-8">
@@ -251,7 +248,7 @@ export default function Home() {
               }}
             >
               {hubCards.map((card) => (
-                <motion.div key={card.title} variants={reveal} custom={0}>
+                <motion.div key={card.title} variants={reveal}>
                   <Link
                     href={card.href}
                     className="group block h-full overflow-hidden rounded-[30px] border border-slate-200/70 bg-white/85 p-6 shadow-[0_18px_45px_-34px_rgba(15,23,42,0.28)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_-36px_rgba(15,23,42,0.36)]"
@@ -284,7 +281,6 @@ export default function Home() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={reveal}
-              custom={0.1}
             >
               <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div>

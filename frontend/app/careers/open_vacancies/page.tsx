@@ -113,16 +113,14 @@ export default function OpenVacanciesPage() {
 
   const reveal = {
     hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        delay,
-        duration: 0.75,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (
@@ -148,7 +146,6 @@ export default function OpenVacanciesPage() {
             <motion.div
               className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
               variants={reveal}
-              custom={0}
             >
               <Sparkles className="h-3.5 w-3.5" />
               Open Vacancies
@@ -157,7 +154,6 @@ export default function OpenVacanciesPage() {
             <motion.h1
               className="mt-6 text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
               variants={reveal}
-              custom={0.1}
             >
               Open Vacancies
             </motion.h1>
@@ -165,13 +161,11 @@ export default function OpenVacanciesPage() {
             <motion.div
               className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
               variants={reveal}
-              custom={0.18}
             />
 
             <motion.p
               className="mx-auto mt-10 max-w-3xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
               variants={reveal}
-              custom={0.26}
             >
               Explore the current openings at Willi Med and discover roles where
               you can contribute, grow, and build meaningful impact with our
@@ -202,7 +196,6 @@ export default function OpenVacanciesPage() {
                   key={item.label}
                   className="rounded-[28px] border border-slate-200/70 bg-white/85 p-5 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.3)]"
                   variants={reveal}
-                  custom={0}
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-900">
@@ -232,7 +225,6 @@ export default function OpenVacanciesPage() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={reveal}
-              custom={index * 0.08}
             >
               <button
                 type="button"

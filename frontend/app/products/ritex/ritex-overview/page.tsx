@@ -49,16 +49,14 @@ const categoryLinks = [
 export default function RitexPage() {
   const reveal = {
     hidden: { opacity: 0, y: 16, scale: 0.985 },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay,
-        duration: 0.9,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (
@@ -76,13 +74,11 @@ export default function RitexPage() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.25 }}
           variants={reveal}
-          custom={0}
         >
           <div className="mx-auto max-w-4xl text-center">
             <motion.div
               className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
               variants={reveal}
-              custom={0.05}
             >
               <Sparkles className="h-3.5 w-3.5" />
               German Quality Since 1948 🇩🇪
@@ -90,7 +86,6 @@ export default function RitexPage() {
             <motion.h1
               className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
               variants={reveal}
-              custom={0.12}
             >
               Ritex GmbH
             </motion.h1>
@@ -98,7 +93,6 @@ export default function RitexPage() {
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
               variants={reveal}
-              custom={0.2}
             >
               Ritex GmbH is a leading German manufacturer of premium family
               planning products, including condoms and personal lubricants.
@@ -109,7 +103,6 @@ export default function RitexPage() {
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
               variants={reveal}
-              custom={0.28}
             >
               In Egypt, Ritex products are exclusively represented and
               distributed through Willi Med, the company&apos;s sole authorized
@@ -121,7 +114,6 @@ export default function RitexPage() {
           <motion.div
             className="relative mt-8 h-[260px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[340px] lg:h-[420px]"
             variants={reveal}
-            custom={0.4}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
@@ -148,7 +140,6 @@ export default function RitexPage() {
           <motion.div
             className="mt-6 grid gap-4 lg:grid-cols-2"
             variants={reveal}
-            custom={0.5}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
@@ -197,7 +188,6 @@ export default function RitexPage() {
           <motion.div
             className="relative mt-6 h-[220px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[280px]"
             variants={reveal}
-            custom={0.56}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
@@ -223,7 +213,6 @@ export default function RitexPage() {
           <motion.h2
             className="mt-8 text-center text-2xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-3xl"
             variants={reveal}
-            custom={0.6}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
@@ -234,7 +223,6 @@ export default function RitexPage() {
           <motion.p
             className="mx-auto mt-4 max-w-4xl text-center text-[0.98rem] leading-8 text-slate-600 sm:text-lg"
             variants={reveal}
-            custom={0.62}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
@@ -248,7 +236,6 @@ export default function RitexPage() {
           <motion.div
             className="mt-6 grid gap-5 sm:grid-cols-3"
             variants={reveal}
-            custom={0.68}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
