@@ -23,6 +23,9 @@ const availableRoles = [
 
 export default function ApplyNowPage() {
   const initialRole = availableRoles[0];
+  const apiBaseUrl =
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ??
+    "https://hatemghazaly.pythonanywhere.com";
 
   const [role, setRole] = useState(initialRole);
   const [firstName, setFirstName] = useState("");
@@ -84,27 +87,24 @@ export default function ApplyNowPage() {
         cv_attachment_base64 = btoa(binary);
       }
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contact/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            first_name: normalizedFirstName,
-            last_name: normalizedLastName,
-            email,
-            phone,
-            subject,
-            message,
-            cv_attachment_name,
-            cv_attachment_type,
-            cv_attachment_base64,
-          }),
+      const response = await fetch(`${apiBaseUrl}/api/contact/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify({
+          first_name: normalizedFirstName,
+          last_name: normalizedLastName,
+          email,
+          phone,
+          subject,
+          message,
+          cv_attachment_name,
+          cv_attachment_type,
+          cv_attachment_base64,
+        }),
+      });
 
       const payload = (await response.json()) as
         | {
