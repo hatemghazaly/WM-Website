@@ -36,6 +36,11 @@ function env(name: string, fallback: string) {
   return process.env[name] ?? fallback;
 }
 
+function backendUrl() {
+  return env("CONTACT_BACKEND_URL", "https://hatemghazaly.pythonanywhere.com")
+    .replace(/\/$/, "");
+}
+
 async function saveLocally(payload: NormalizedContactPayload) {
   await mkdir(join(process.cwd(), ".data"), { recursive: true });
 
@@ -341,6 +346,34 @@ async function sendViaSmtp(
   }
 }
 
+async function forwardToBackend(payload: NormalizedContactPayload) {
+  const response = await fetch(`${backendUrl()}/api/contact/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const text = await response.text();
+  let data: Record<string, unknown> = {};
+
+  if (text) {
+    try {
+      data = JSON.parse(text) as Record<string, unknown>;
+    } catch {
+      data = { message: text };
+    }
+  }
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    data,
+  };
+}
+
 export async function POST(request: Request) {
   let payload: ContactPayload;
 
@@ -369,6 +402,23 @@ export async function POST(request: Request) {
   const emailMessage = buildMessage(normalizedPayload);
 
   try {
+    try {
+      const backendResponse = await forwardToBackend(normalizedPayload);
+      if (backendResponse.ok) {
+        return NextResponse.json(backendResponse.data, {
+          status: backendResponse.status,
+        });
+      }
+
+      if (backendResponse.status >= 400 && backendResponse.status < 500) {
+        return NextResponse.json(backendResponse.data, {
+          status: backendResponse.status,
+        });
+      }
+    } catch {
+      // Fall back to SMTP/local storage when the backend cannot be reached.
+    }
+
     await sendViaSmtp(emailMessage);
     return NextResponse.json(
       {

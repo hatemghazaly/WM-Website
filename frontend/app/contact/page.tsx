@@ -10,9 +10,6 @@ export default function ContactPage() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [feedback, setFeedback] = useState("");
-  const apiBaseUrl =
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ??
-    "https://hatemghazaly.pythonanywhere.com";
 
   const panelReveal = {
     hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
@@ -34,7 +31,7 @@ export default function ContactPage() {
     setFeedback("");
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/contact/`, {
+      const response = await fetch("/api/contact/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
