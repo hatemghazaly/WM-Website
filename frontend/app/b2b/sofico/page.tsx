@@ -27,18 +27,155 @@ const soficoItems: Array<{
 }> = [
   {
     itemName: "Ritex Condom RR1 3 Pcs",
-    soficoCode: "1234",
+    soficoCode: "3004484",
     category: "Condoms",
   },
   {
     itemName: "Ritex Condom RR1 10 Pcs",
-    soficoCode: "1234",
+    soficoCode: "3004491",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Ideal 3 Pcs",
+    soficoCode: "3004485",
     category: "Condoms",
   },
   {
+    itemName: "Ritex Condom Ideal 10 Pcs",
+    soficoCode: "3004492",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom XXL 3 Pcs",
+    soficoCode: "3004486",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom XXL 8 Pcs",
+    soficoCode: "3004493",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Lust 3 Pcs",
+    soficoCode: "3004487",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Lust 8 Pcs",
+    soficoCode: "3004494",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Feeling 3 Pcs",
+    soficoCode: "3004488",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Feeling 8 Pcs",
+    soficoCode: "3004495",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Extra Thin 3 Pcs",
+    soficoCode: "3004489",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Extra Thin 8 Pcs",
+    soficoCode: "3004496",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Longtime 3 Pcs",
+    soficoCode: "3004511",
+    category: "Condoms",
+  },
+  {
+    itemName: "Ritex Condom Longtime 8 Pcs",
+    soficoCode: "3004509",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Sortiment 10 Pcs",
+    soficoCode: "3004498",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Condom Mix - Gold",
+    soficoCode: "3004499",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Kondomautomate 40 Pcs",
+    soficoCode: "3004500",
+    category: "Condoms",
+  },
+
+  {
+    itemName: "Ritex Pleasure Mix Condom",
+    soficoCode: "3004510",
+    category: "Condoms",
+  },
+
+  {
     itemName: "Ritex Hydro Gel 50 ml",
-    soficoCode: "1234",
+    soficoCode: "3004502",
     category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Longtime Lubricant 50 ml",
+    soficoCode: "3004503",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Bio Vegan Gel 50 ml",
+    soficoCode: "3004504",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Gel + Aloe Vera 50 ML",
+    soficoCode: "3004501",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Ritex Kinderwunsch Conception Lubricant",
+    soficoCode: "3004505",
+    category: "Lubricants",
+  },
+
+  {
+    itemName: "Willi D3 Coconut Flavour 15ML Drops",
+    soficoCode: "3004508",
+    category: "Multivitamins",
+  },
+
+  {
+    itemName: "Mazagoton - F 30 TAB.",
+    soficoCode: "2001394",
+    category: "Multivitamins",
+  },
+  {
+    itemName: "Mazagoton - M 30 TAB.",
+    soficoCode: "2001396",
+    category: "Multivitamins",
+  },
+  {
+    itemName: "Mazagoton - Energy 30 TAB.",
+    soficoCode: "2001395",
+    category: "Multivitamins",
   },
 ];
 
