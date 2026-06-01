@@ -35,16 +35,14 @@ const accessCards: AccessCard[] = [
 export default function EmployeesSectionPage() {
   const reveal = {
     hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        delay,
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (
@@ -67,7 +65,6 @@ export default function EmployeesSectionPage() {
               <motion.div
                 className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
                 variants={reveal}
-                custom={0}
               >
                 <LockKeyhole className="h-3.5 w-3.5" />
                 Private Access
@@ -76,7 +73,6 @@ export default function EmployeesSectionPage() {
               <motion.h1
                 className="mt-6 text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
                 variants={reveal}
-                custom={0.08}
               >
                 Employee&apos;s Section
               </motion.h1>
@@ -84,13 +80,11 @@ export default function EmployeesSectionPage() {
               <motion.div
                 className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
                 variants={reveal}
-                custom={0.16}
               />
 
               <motion.p
                 className="mx-auto mt-10 max-w-3xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                 variants={reveal}
-                custom={0.24}
               >
                 For Willimedians only. A clean, secure gateway to the tools your
                 team uses every day.
@@ -118,7 +112,6 @@ export default function EmployeesSectionPage() {
                     key={item}
                     className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm text-slate-600 shadow-sm"
                     variants={reveal}
-                    custom={0}
                   >
                     {item}
                   </motion.span>
@@ -152,7 +145,6 @@ export default function EmployeesSectionPage() {
                     rel="noreferrer noopener"
                     className="group relative overflow-hidden rounded-[34px] border border-slate-200/70 bg-white/88 p-6 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.35)] transition will-change-transform hover:-translate-y-1 hover:shadow-[0_28px_60px_-35px_rgba(15,23,42,0.4)] sm:p-7"
                     variants={reveal}
-                    custom={0}
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.99 }}
                   >

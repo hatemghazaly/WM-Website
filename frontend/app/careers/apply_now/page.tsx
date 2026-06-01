@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -15,17 +14,15 @@ import {
   Paperclip,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const availableRoles = [
   "Full Time Medical Representative",
   "Part Time Medical Representative",
 ];
 
 export default function ApplyNowPage() {
-  const searchParams = useSearchParams();
-  const roleFromQuery = searchParams.get("role") ?? "";
-  const initialRole = availableRoles.includes(roleFromQuery)
-    ? roleFromQuery
-    : availableRoles[0];
+  const initialRole = availableRoles[0];
 
   const [role, setRole] = useState(initialRole);
   const [firstName, setFirstName] = useState("");
@@ -41,21 +38,17 @@ export default function ApplyNowPage() {
   >("idle");
   const [feedback, setFeedback] = useState("");
 
-  const reveal = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: 10 },
-      visible: (delay = 0) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay,
-          duration: 1.15,
-          ease: [0.16, 1, 0.3, 1],
-        },
-      }),
-    }),
-    [],
-  );
+  const reveal = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
+    },
+  } as const;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -114,8 +107,6 @@ export default function ApplyNowPage() {
         | {
             message?: string;
             error?: string;
-            warning?: string;
-            smtp_error?: string;
           }
         | undefined;
 
@@ -127,9 +118,7 @@ export default function ApplyNowPage() {
 
       setStatus("success");
       setFeedback(
-        payload?.warning
-          ? `${payload.message ?? "Your application was saved."} ${payload.warning}${payload.smtp_error ? ` SMTP error: ${payload.smtp_error}` : ""}`
-          : (payload?.message ?? "Your application was sent successfully."),
+        payload?.message ?? "Your application was sent successfully.",
       );
 
       setFirstName("");
@@ -172,7 +161,6 @@ export default function ApplyNowPage() {
             <motion.div
               className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
               variants={reveal}
-              custom={0}
             >
               <FileUser className="h-3.5 w-3.5" />
               Apply Now
@@ -181,7 +169,6 @@ export default function ApplyNowPage() {
             <motion.h1
               className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
               variants={reveal}
-              custom={0.1}
             >
               Start Your Application
             </motion.h1>
@@ -190,7 +177,6 @@ export default function ApplyNowPage() {
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
               variants={reveal}
-              custom={0.2}
             >
               Share your details below and our team will review your application
               for the role that fits you best.
@@ -204,7 +190,6 @@ export default function ApplyNowPage() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={reveal}
-          custom={0.1}
         >
           <motion.div
             className="relative h-[260px] w-full overflow-hidden border-y border-white/70 bg-slate-100 sm:h-[320px] lg:h-[360px]"

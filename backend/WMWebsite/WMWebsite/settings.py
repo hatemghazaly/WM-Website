@@ -44,15 +44,15 @@ SECRET_KEY = 'django-insecure-u$!+g15oqv3hblchxek9gbra^g^k%##$kji!6vbcs8mkuo8fjc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
-
+ALLOWED_HOSTS = [
+    "hatemghazaly.pythonanywhere.com",
+    "localhost",
+    "127.0.0.1",
+]
 CONTACT_ALLOWED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get(
-        "CONTACT_ALLOWED_ORIGINS",
-        "http://localhost:3000,http://127.0.0.1:3000",
-    ).split(",")
-    if origin.strip()
+    "https://wm-website-eight.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 CONTACT_RECIPIENT_EMAIL = os.environ.get(
@@ -84,18 +84,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'contact',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'contact.middleware.SimpleCorsMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'WMWebsite.urls'
 
@@ -163,3 +167,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+CORS_ALLOWED_ORIGINS = [
+    "https://wm-website-eight.vercel.app",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://wm-website-eight.vercel.app",
+]

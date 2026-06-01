@@ -109,16 +109,14 @@ const condomProducts = [
 export default function RitexCondomsPage() {
   const reveal = {
     hidden: { opacity: 0, y: 24, scale: 0.96 },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay,
-        duration: 0.95,
-        ease: [0.2, 0.8, 0.2, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (

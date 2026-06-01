@@ -7,16 +7,14 @@ import { ArrowRight, Sparkles } from "lucide-react";
 export default function ComingSoonPage() {
   const reveal = {
     hidden: { opacity: 0, y: 24, scale: 0.97 },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay,
-        duration: 1.1,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (
@@ -50,7 +48,6 @@ export default function ComingSoonPage() {
             <motion.div
               className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
               variants={reveal}
-              custom={0}
             >
               <Sparkles className="h-3.5 w-3.5" />
               Coming Soon
@@ -59,7 +56,6 @@ export default function ComingSoonPage() {
             <motion.h1
               className="mt-6 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-7xl"
               variants={reveal}
-              custom={0.08}
             >
               Excellence in Development
             </motion.h1>
@@ -67,7 +63,6 @@ export default function ComingSoonPage() {
             <motion.div
               className="mx-auto mt-8 h-px w-24 origin-center bg-gradient-to-r from-transparent via-slate-300 to-transparent"
               variants={reveal}
-              custom={0.16}
               initial={{ opacity: 0, scaleX: 0.6 }}
               whileInView={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -77,7 +72,6 @@ export default function ComingSoonPage() {
             <motion.p
               className="mx-auto mt-8 max-w-3xl text-[0.98rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
               variants={reveal}
-              custom={0.24}
             >
               At Willi Med, innovation is part of our excellence code. Our
               pipeline includes promising healthcare solutions currently under
@@ -88,7 +82,6 @@ export default function ComingSoonPage() {
             <motion.div
               className="mt-10 flex flex-wrap items-center justify-center gap-3"
               variants={reveal}
-              custom={0.32}
             >
               <Link
                 href="/"

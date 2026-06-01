@@ -29,16 +29,14 @@ export default function RitexProbeCoversPage() {
   >(null);
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        delay,
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   useEffect(() => {

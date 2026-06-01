@@ -118,16 +118,14 @@ const offlineTiles: OfflineTile[] = [
 export default function WhereToBuyPage() {
   const reveal = {
     hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-    visible: (delay = 0) => ({
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        delay,
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    }),
+    visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+    },
+  },
   } as const;
 
   return (
@@ -150,7 +148,6 @@ export default function WhereToBuyPage() {
               <motion.div
                 className="mx-auto inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
                 variants={reveal}
-                custom={0}
               >
                 <ShoppingBag className="h-3.5 w-3.5" />
                 Where to Buy?!
@@ -159,7 +156,6 @@ export default function WhereToBuyPage() {
               <motion.h1
                 className="mt-6 text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
                 variants={reveal}
-                custom={0.08}
               >
                 Shop Willi Med Products
               </motion.h1>
@@ -167,13 +163,11 @@ export default function WhereToBuyPage() {
               <motion.div
                 className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
                 variants={reveal}
-                custom={0.16}
               />
 
               <motion.p
                 className="mx-auto mt-10 max-w-3xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                 variants={reveal}
-                custom={0.24}
               >
                 Buy from our official online stores and marketplace partners.
                 Choose the channel that works best for you and shop with
@@ -201,7 +195,6 @@ export default function WhereToBuyPage() {
                   key={item}
                   className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm text-slate-600 shadow-sm"
                   variants={reveal}
-                  custom={0}
                 >
                   {item}
                 </motion.span>
@@ -234,7 +227,6 @@ export default function WhereToBuyPage() {
                       aria-label={card.name}
                       className="group relative flex min-h-[420px] items-center justify-center overflow-hidden rounded-[34px] border border-slate-200/70 bg-white/88 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.35)] transition will-change-transform hover:-translate-y-1 hover:shadow-[0_28px_60px_-35px_rgba(15,23,42,0.4)] sm:min-h-[470px]"
                       variants={reveal}
-                      custom={0}
                       whileHover={{ y: -4 }}
                       whileTap={{ scale: 0.99 }}
                     >
@@ -292,7 +284,6 @@ export default function WhereToBuyPage() {
               <motion.div
                 className="mx-auto max-w-4xl text-center"
                 variants={reveal}
-                custom={0}
               >
                 <p className="text-[0.72rem] font-medium uppercase tracking-[0.38em] text-slate-400">
                   Offline Store Wall
@@ -311,7 +302,6 @@ export default function WhereToBuyPage() {
                 <motion.div
                   className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
                   variants={reveal}
-                  custom={0.34}
                   whileHover={{ y: -4, scale: 1.01 }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 >
@@ -332,7 +322,6 @@ export default function WhereToBuyPage() {
                     key={`${tile.name}-${index}`}
                     className="group relative aspect-square overflow-hidden rounded-[28px] border border-white/80 bg-white/90 shadow-[0_14px_30px_-24px_rgba(148,163,184,0.45)] transition hover:-translate-y-1 hover:shadow-[0_20px_40px_-26px_rgba(148,163,184,0.55)]"
                     variants={reveal}
-                    custom={0}
                   >
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${tile.tone}`}
@@ -366,7 +355,6 @@ export default function WhereToBuyPage() {
             <motion.div
               className="mx-auto mt-10 flex max-w-4xl items-start gap-3 rounded-3xl border border-slate-200/70 bg-white/80 p-5 text-left shadow-sm"
               variants={reveal}
-              custom={0.36}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}

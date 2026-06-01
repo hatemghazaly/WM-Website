@@ -57,17 +57,19 @@ export default function AboutUsPage() {
   const imageScale = useTransform(scrollYProgress, [0, 1], [0.98, 1.02]);
 
   const reveal = {
-    hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
-    visible: (delay = 0) => ({
+    hidden: {
+      opacity: 0,
+      y: 22,
+      filter: "blur(8px)",
+    },
+    visible: {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       transition: {
-        delay,
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
       },
-    }),
+    },
   };
 
   const scrollToSection = (section: Section) => {
@@ -105,28 +107,24 @@ export default function AboutUsPage() {
               <motion.div
                 className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
                 variants={reveal}
-                custom={0}
               >
                 Polish - Egyptian Presence
               </motion.div>
               <motion.h1
                 className="text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
                 variants={reveal}
-                custom={0.08}
               >
                 Who We Are?!
               </motion.h1>
               <motion.div
                 className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
                 variants={reveal}
-                custom={0.16}
               />
 
               <div className="mx-auto mt-10 space-y-8">
                 <motion.p
                   className="mx-auto max-w-3xl text-center text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                   variants={reveal}
-                  custom={0.24}
                 >
                   Willi Med Group is a dynamic Polish–Egyptian organization
                   operating through two specialized divisions: Healthcare and
@@ -141,7 +139,6 @@ export default function AboutUsPage() {
                   <motion.div
                     className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
                     variants={reveal}
-                    custom={0.34}
                     whileHover={{ y: -4, scale: 1.01 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
@@ -162,7 +159,6 @@ export default function AboutUsPage() {
                 <motion.p
                   className="mx-auto max-w-3xl text-center text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                   variants={reveal}
-                  custom={0.42}
                 >
                   Our healthcare division, Willi Med for Pharmaceutical
                   Industries, serves a wide range of therapeutic areas,
@@ -176,7 +172,6 @@ export default function AboutUsPage() {
                 <motion.p
                   className="mx-auto max-w-3xl text-center text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                   variants={reveal}
-                  custom={0.5}
                 >
                   Our technology division focuses on developing innovative
                   digital solutions that enhance productivity, efficiency and
