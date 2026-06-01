@@ -405,13 +405,19 @@ export async function POST(request: Request) {
     try {
       const backendResponse = await forwardToBackend(normalizedPayload);
       if (backendResponse.ok) {
-        return NextResponse.json(backendResponse.data, {
+        const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
+          backendResponse.data;
+
+        return NextResponse.json(cleanData, {
           status: backendResponse.status,
         });
       }
 
       if (backendResponse.status >= 400 && backendResponse.status < 500) {
-        return NextResponse.json(backendResponse.data, {
+        const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
+          backendResponse.data;
+
+        return NextResponse.json(cleanData, {
           status: backendResponse.status,
         });
       }
@@ -422,7 +428,7 @@ export async function POST(request: Request) {
     await sendViaSmtp(emailMessage);
     return NextResponse.json(
       {
-        message: `Your contact message was sent to ${emailMessage.recipient}.`,
+        message: `Your contact message was saved successfully.`,
         email_sent: true,
       },
       { status: 201 }
@@ -433,11 +439,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        message: "Your message was saved locally.",
+        message: "Your message was saved successfully.",
         id: saved.id,
         fallback: true,
         email_sent: false,
-        smtp_error: smtpError,
       },
       { status: 201 }
     );

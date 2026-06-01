@@ -107,8 +107,6 @@ export default function ApplyNowPage() {
         | {
             message?: string;
             error?: string;
-            warning?: string;
-            smtp_error?: string;
           }
         | undefined;
 
@@ -120,9 +118,7 @@ export default function ApplyNowPage() {
 
       setStatus("success");
       setFeedback(
-        payload?.warning
-          ? `${payload.message ?? "Your application was saved."} ${payload.warning}${payload.smtp_error ? ` SMTP error: ${payload.smtp_error}` : ""}`
-          : (payload?.message ?? "Your application was sent successfully."),
+        payload?.message ?? "Your application was sent successfully.",
       );
 
       setFirstName("");

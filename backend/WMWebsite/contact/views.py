@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection
@@ -7,6 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from .models import ContactMessage
+
+
+logger = logging.getLogger(__name__)
 
 
 def _error_response(message: str, *, status: int = 400, **extra):
@@ -69,7 +73,6 @@ def submit_contact_message(request):
     )
 
     email_sent = False
-    email_warning = None
 
     smtp_attempts = [
         {
@@ -114,24 +117,17 @@ def submit_contact_message(request):
             last_error = exc
 
     if not email_sent:
-        email_warning = (
-            "Your message was saved, but email delivery could not be completed."
-        )
         if last_error is not None:
-            email_warning = f"{email_warning} Please check the SMTP settings."
+            logger.warning("Contact email delivery failed: %s", last_error)
 
     response_payload = {
         "message": (
             f"Your contact message was sent to {settings.CONTACT_RECIPIENT_EMAIL}."
             if email_sent
-            else "Your contact message was saved."
+            else "Your contact message was saved successfully."
         ),
         "id": contact_message.id,
         "email_sent": email_sent,
     }
-    if email_warning:
-        response_payload["warning"] = email_warning
-    if last_error is not None:
-        response_payload["smtp_error"] = str(last_error)
 
     return JsonResponse(response_payload, status=201)

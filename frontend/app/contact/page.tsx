@@ -44,8 +44,6 @@ export default function ContactPage() {
         | {
             message?: string;
             error?: string;
-            warning?: string;
-            smtp_error?: string;
           }
         | undefined;
 
@@ -57,11 +55,7 @@ export default function ContactPage() {
 
       form.reset();
       setStatus("success");
-      setFeedback(
-        payload?.warning
-          ? `${payload.message ?? "Your message was saved."} ${payload.warning}${payload.smtp_error ? ` SMTP error: ${payload.smtp_error}` : ""}`
-          : (payload?.message ?? "Your message was sent successfully."),
-      );
+      setFeedback(payload?.message ?? "Your message was sent successfully.");
     } catch (error) {
       setStatus("error");
       setFeedback(

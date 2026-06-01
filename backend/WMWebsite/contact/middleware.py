@@ -1,5 +1,4 @@
 from django.conf import settings
-print("CORS ALLOWED:", settings.CONTACT_ALLOWED_ORIGINS)
 
 class SimpleCorsMiddleware:
     def __init__(self, get_response):
