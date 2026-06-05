@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -19,16 +20,70 @@ export const dynamic = "force-dynamic";
 const availableRoles = [
   "Full Time Medical Representative",
   "Part Time Medical Representative",
+  "District Manager",
+  "National Sales Manager",
+  "Product Manager",
+  "Associate Product Manager",
+  "Business Unit Manager",
+  "Accountant",
+  "HR Specialist",
+  "IT",
+  "HR Manager",
+  "Sales Representative",
+  "Supply Chain Specialist",
+  "Supply Chain Manager",
+  "Office Administrator",
+  "Franchise Manager",
+  "Regulatory Affairs Specialist",
+  "Regulatory Affairs Manager",
+  "Office Boy",
+  "Other",
 ];
 
+const residenceOptions = [
+  { value: "", label: "Select your residence" },
+  { value: "cai", label: "Cairo" },
+  { value: "alx", label: "Alexandria" },
+  { value: "giz", label: "Giza" },
+  { value: "sharq", label: "Sharqia" },
+  { value: "dak", label: "Dakahlia" },
+  { value: "beh", label: "Beheira" },
+  { value: "qaly", label: "Qalyubia" },
+  { value: "mnf", label: "Monufia" },
+  { value: "ghar", label: "Gharbia" },
+  { value: "kfr", label: "Kafr El Sheikh" },
+  { value: "dam", label: "Damietta" },
+  { value: "por", label: "Port Said" },
+  { value: "ism", label: "Ismailia" },
+  { value: "suez", label: "Suez" },
+  { value: "lux", label: "Luxor" },
+  { value: "asw", label: "Aswan" },
+  { value: "soh", label: "Sohag" },
+  { value: "qena", label: "Qena" },
+  { value: "asy", label: "Asyut" },
+  { value: "min", label: "Minya" },
+  { value: "beni", label: "Beni Suef" },
+  { value: "fay", label: "Fayoum" },
+  { value: "wad", label: "New Valley" },
+  { value: "mat", label: "Matrouh" },
+  { value: "red", label: "Red Sea" },
+  { value: "ns", label: "North Sinai" },
+  { value: "ss", label: "South Sinai" },
+] as const;
+
 export default function ApplyNowPage() {
-  const initialRole = availableRoles[0];
+  const searchParams = useSearchParams();
+  const roleParam = searchParams.get("role");
+  const initialRole = availableRoles.includes(roleParam ?? "")
+    ? (roleParam ?? availableRoles[0])
+    : availableRoles[0];
 
   const [role, setRole] = useState(initialRole);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [residence, setResidence] = useState("");
+  const [hasACar, setHasACar] = useState(false);
   const [subject, setSubject] = useState(`Application for ${initialRole}`);
   const [message, setMessage] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
@@ -37,6 +92,14 @@ export default function ApplyNowPage() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [feedback, setFeedback] = useState("");
+
+  useEffect(() => {
+    if (availableRoles.includes(roleParam ?? "")) {
+      const nextRole = roleParam as string;
+      setRole(nextRole);
+      setSubject(`Application for ${nextRole}`);
+    }
+  }, [roleParam]);
 
   const reveal = {
     hidden: { opacity: 0, y: 10 },
@@ -59,10 +122,6 @@ export default function ApplyNowPage() {
     setCvError("");
 
     try {
-      const [first, ...rest] = firstName.trim().split(/\s+/);
-      const normalizedFirstName = first ?? "";
-      const normalizedLastName = lastName.trim() || rest.join(" ").trim() || "";
-
       let cv_attachment_name: string | undefined;
       let cv_attachment_type: string | undefined;
       let cv_attachment_base64: string | undefined;
@@ -84,19 +143,21 @@ export default function ApplyNowPage() {
         cv_attachment_base64 = btoa(binary);
       }
 
-      const response = await fetch("/api/contact/", {
+      const response = await fetch("/api/apply/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          first_name: normalizedFirstName,
-          last_name: normalizedLastName,
+          full_name: fullName,
           email,
           phone,
+          residence,
+          role,
           subject,
           message,
+          has_a_car: hasACar,
           cv_attachment_name,
           cv_attachment_type,
           cv_attachment_base64,
@@ -121,10 +182,11 @@ export default function ApplyNowPage() {
         payload?.message ?? "Your application was sent successfully.",
       );
 
-      setFirstName("");
-      setLastName("");
+      setFullName("");
       setEmail("");
       setPhone("");
+      setResidence("");
+      setHasACar(false);
       setMessage("");
       setCvFile(null);
       form.reset();
@@ -237,18 +299,10 @@ export default function ApplyNowPage() {
             <form onSubmit={handleSubmit}>
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
-                  label="First Name"
-                  name="first_name"
-                  value={firstName}
-                  onChange={setFirstName}
-                  icon={User}
-                  required
-                />
-                <Field
-                  label="Last Name"
-                  name="last_name"
-                  value={lastName}
-                  onChange={setLastName}
+                  label="Full Name"
+                  name="full_name"
+                  value={fullName}
+                  onChange={setFullName}
                   icon={User}
                   required
                 />
@@ -269,6 +323,23 @@ export default function ApplyNowPage() {
                   type="tel"
                   icon={Phone}
                 />
+              </div>
+
+              <div className="mt-4 space-y-2">
+                <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                  Residence
+                </label>
+                <select
+                  value={residence}
+                  onChange={(event) => setResidence(event.target.value)}
+                  className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                >
+                  {residenceOptions.map((item) => (
+                    <option key={item.value || "empty"} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -292,6 +363,20 @@ export default function ApplyNowPage() {
                     ))}
                   </select>
                 </div>
+              </div>
+
+              <div className="mt-4 space-y-2">
+                <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-4 text-sm text-slate-700 shadow-sm transition hover:border-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={hasACar}
+                    onChange={(event) => setHasACar(event.target.checked)}
+                    className="h-4 w-4 rounded border-slate-300 text-slate-950 focus:ring-slate-300"
+                  />
+                  <span className="font-medium text-slate-900">
+                    Have a Car
+                  </span>
+                </label>
               </div>
 
               <div className="mt-4 space-y-2">

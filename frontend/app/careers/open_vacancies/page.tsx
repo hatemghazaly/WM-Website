@@ -28,6 +28,7 @@ type Vacancy = {
 };
 
 const vacancies: Vacancy[] = [
+  // Full Time Medical Representative
   {
     title: "Full Time Medical Representative",
     department: "Sales & Field Operations",
@@ -53,11 +54,90 @@ const vacancies: Vacancy[] = [
     ],
     emailSubject: "Application for Full Time Medical Representative",
   },
+  // Part Time Medical Representative
   {
     title: "Part Time Medical Representative",
     department: "Sales & Field Operations",
     location: "All Governrate, Egypt",
     type: "Part-time",
+    experience: "0-3 years",
+    summary:
+      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
+    responsibilities: [
+      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
+      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
+      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
+      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
+      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
+      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
+      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
+    ],
+    qualifications: [
+      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
+      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
+      "Strong communication, presentation, and relationship-building skills.",
+      "Self-motivated, organized, and able to work toward sales targets.",
+    ],
+    emailSubject: "Application for Part Time Medical Representative",
+  },
+  // District Manager
+  {
+    title: "District Manager",
+    department: "Sales & Field Operations",
+    location: "All Governrate, Egypt",
+    type: "Part-time",
+    experience: "0-3 years",
+    summary:
+      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
+    responsibilities: [
+      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
+      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
+      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
+      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
+      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
+      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
+      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
+    ],
+    qualifications: [
+      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
+      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
+      "Strong communication, presentation, and relationship-building skills.",
+      "Self-motivated, organized, and able to work toward sales targets.",
+    ],
+    emailSubject: "Application for Part Time Medical Representative",
+  },
+  // Associate Product Manager
+  {
+    title: "Associate Product Manager",
+    department: "Sales & Field Operations",
+    location: "All Governrate, Egypt",
+    type: "Part-time",
+    experience: "0-3 years",
+    summary:
+      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
+    responsibilities: [
+      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
+      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
+      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
+      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
+      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
+      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
+      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
+    ],
+    qualifications: [
+      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
+      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
+      "Strong communication, presentation, and relationship-building skills.",
+      "Self-motivated, organized, and able to work toward sales targets.",
+    ],
+    emailSubject: "Application for Part Time Medical Representative",
+  },
+  // National Sales Manager
+  {
+    title: "National Sales Manager",
+    department: "Sales & Field Operations",
+    location: "All Governrate, Egypt",
+    type: "Full-time",
     experience: "0-3 years",
     summary:
       "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
