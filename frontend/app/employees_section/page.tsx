@@ -1,8 +1,14 @@
 "use client";
 
-import { Apple, ArrowUpRight, LockKeyhole, Mail, QrCode } from "lucide-react";
-import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { Apple, ArrowUpRight, Mail, QrCode, X } from "lucide-react";
 import type { ElementType } from "react";
 
 type DownloadIcon = ElementType<{ className?: string }>;
@@ -16,6 +22,7 @@ type AccessCard = {
   tone: string;
   logoSrc?: string;
   logoAlt?: string;
+  showDownloadPopupButton?: boolean;
 };
 
 type DownloadCard = {
@@ -31,8 +38,7 @@ type DownloadCard = {
 const accessCards: AccessCard[] = [
   {
     title: "Willi Med's Business Email",
-    description:
-      "Access your Willi Med email account for seamless communication and collaboration.",
+    description: "Access your Willi Med email account securely from anywhere.",
     href: "https://mail.willimed.com",
     badge: "Email Access",
     icon: Mail,
@@ -49,14 +55,14 @@ const accessCards: AccessCard[] = [
     tone: "from-emerald-500/15 via-white to-white",
     logoSrc: "/images/employees_section/monkey_task_logo.png",
     logoAlt: "Monkey Task logo",
+    showDownloadPopupButton: true,
   },
 ];
 
 const downloadCards: DownloadCard[] = [
   {
     title: "Download on the App Store",
-    description:
-      "Get Monkey Task on your iPhone or iPad and sign in with your employee access.",
+    description: "Install Monkey Task on iPhone or iPad in a few taps..",
     href: "https://apps.apple.com/eg/app/monkey-task/id6761862370",
     badge: "iOS App",
     icon: Apple,
@@ -89,8 +95,21 @@ function AndroidLogo({ className }: { className?: string }) {
 }
 
 export default function EmployeesSectionPage() {
+  const [isDownloadPopupOpen, setIsDownloadPopupOpen] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start end", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], [28, -28]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [0.98, 1.02]);
+
   const reveal = {
-    hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+    hidden: {
+      opacity: 0,
+      y: 22,
+      filter: "blur(8px)",
+    },
     visible: {
       opacity: 1,
       y: 0,
@@ -101,254 +120,382 @@ export default function EmployeesSectionPage() {
     },
   } as const;
 
-  return (
-    <section className="relative isolate overflow-hidden px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-[-10%] top-[-8%] h-80 w-80 rounded-full bg-sky-100/70 blur-3xl" />
-        <div className="absolute right-[-8%] top-[20%] h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl" />
-        <div className="absolute bottom-[-16%] left-[18%] h-80 w-80 rounded-full bg-slate-100/90 blur-3xl" />
-      </div>
+  useEffect(() => {
+    if (!isDownloadPopupOpen) {
+      return;
+    }
 
-      <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
-        <motion.div
-          className="mx-auto mb-14 max-w-5xl overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
-          <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.18)_0%,rgba(59,130,246,0.10)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
-          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsDownloadPopupOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isDownloadPopupOpen]);
+
+  const openExternalLink = (href: string) => {
+    window.open(href, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
+        <div className="relative mb-14 overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20">
+          <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
 
           <motion.div
-            className="relative mx-auto max-w-4xl text-center"
-            variants={reveal}
+            ref={heroRef}
+            className="relative mx-auto max-w-4xl"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.div
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
-              variants={reveal}
-            >
-              <LockKeyhole className="h-3.5 w-3.5" />
-              Private Access
-            </motion.div>
+            <div className="text-center">
+              <motion.div
+                className="mb-6 inline-flex flex-wrap items-center justify-center gap-2"
+                variants={reveal}
+              >
+                {["Fast access", "Internal tools", "Secure portals"].map(
+                  (tag) => (
+                    <div
+                      key={tag}
+                      className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
+                    >
+                      {tag}
+                    </div>
+                  ),
+                )}
+              </motion.div>
 
-            <motion.h1
-              className="mt-6 text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
-              variants={reveal}
-            >
-              Employee&apos;s Section
-            </motion.h1>
+              <motion.h1
+                className="text-5xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl"
+                variants={reveal}
+              >
+                Employee&apos;s Section
+              </motion.h1>
 
-            <motion.div
-              className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
-              variants={reveal}
-            />
+              <motion.div
+                className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent"
+                variants={reveal}
+              />
 
-            <motion.p
-              className="mx-auto mt-8 max-w-3xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
-              variants={reveal}
-            >
-              A secure, polished gateway for Willimedians to reach the internal
-              tools they use every day.
-            </motion.p>
-
-            <motion.div
-              className="mt-10 flex flex-wrap justify-center gap-3"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.08,
-                    delayChildren: 0.1,
-                  },
-                },
-              }}
-            >
-              {["Fast access", "Internal tools", "Secure portals"].map(
-                (item) => (
-                  <motion.span
-                    key={item}
-                    className="rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-sm text-slate-600 shadow-sm"
-                    variants={reveal}
-                  >
-                    {item}
-                  </motion.span>
-                ),
-              )}
-            </motion.div>
-
-            <motion.div
-              className="mt-12 grid gap-5 lg:mt-14 lg:grid-cols-2"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.1,
-                    delayChildren: 0.12,
-                  },
-                },
-              }}
-            >
-              {accessCards.map((card) => (
-                <motion.a
-                  key={card.title}
-                  href={card.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={card.title}
-                  className="group relative flex aspect-square min-h-[300px] items-center justify-center overflow-hidden rounded-[34px] border border-slate-200/70 bg-white/92 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.28)] transition will-change-transform hover:-translate-y-1 hover:shadow-[0_28px_60px_-35px_rgba(15,23,42,0.35)] sm:min-h-[330px]"
+              <div className="mx-auto mt-10 space-y-8">
+                <motion.p
+                  className="mx-auto max-w-3xl text-center text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl"
                   variants={reveal}
-                  whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.99 }}
                 >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${card.tone}`}
-                  />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.9),transparent_42%)]" />
+                  A secure gateway for Willimedians to reach the internal tools
+                  they use every day.
+                </motion.p>
 
-                  <div className="relative flex h-full w-full flex-col">
-                    <div className="relative flex flex-1 items-center justify-center p-7 sm:p-9">
-                      <div className="absolute inset-0 p-7 sm:p-9">
-                        <Image
-                          src={card.logoSrc ?? "/images/wm_logo.png"}
-                          alt={card.logoAlt ?? card.title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-contain object-center transition duration-300 group-hover:scale-[1.02]"
-                          priority
-                        />
-                      </div>
-
-                      <div className="absolute right-4 top-4 rounded-full border border-white/70 bg-white/85 px-3 py-2 backdrop-blur-md">
-                        <div className="flex items-center gap-2">
-                          <ArrowUpRight className="h-4 w-4 text-slate-500 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                            Open
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/70 bg-white/92 px-4 py-4 sm:px-5 sm:py-5">
-                      <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                        {card.badge}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">
-                        {card.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
-            </motion.div>
+                <div className="relative my-12">
+                  <div className="absolute -left-16 top-6 h-40 w-40 rounded-full bg-sky-100/70 blur-3xl" />
+                  <div className="absolute -right-12 bottom-6 h-40 w-40 rounded-full bg-emerald-100/70 blur-3xl" />
+                  <motion.div
+                    className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
+                    variants={reveal}
+                    whileHover={{ y: -4, scale: 1.01 }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1] as const,
+                    }}
+                  >
+                    <motion.div style={{ y: imageY, scale: imageScale }}>
+                      <Image
+                        src="/images/secure_gateway.png"
+                        alt="Willi Med team member portrait"
+                        width={2481}
+                        height={3508}
+                        className="object-cover scale-[1.1]"
+                        sizes="(max-width: 1024px) 100vw, 60vw"
+                        priority
+                      />
+                    </motion.div>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
           </motion.div>
-        </motion.div>
 
-        <motion.div
-          className="mt-10 overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(248,250,252,0.95))] p-6 shadow-[0_18px_50px_-35px_rgba(15,23,42,0.22)] sm:p-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-        >
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-              Monkey Task App
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-4xl">
-              Download the mobile app
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-              Use the links below for the official iOS and Android apps, or scan
-              the QR codes to open the store page instantly on your phone.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
-            {downloadCards.map((card) => {
-              const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=${encodeURIComponent(card.href)}`;
+          <motion.div
+            className="t-10 mx-auto max-w-5xl grid gap-8 sm:grid-cols-2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {accessCards.map((card, index) => {
+              const cardColors = ["bg-sky-100", "bg-emerald-100"];
+              const cardColor = cardColors[index % cardColors.length];
 
               return (
-                <a
+                <motion.div
                   key={card.title}
-                  href={card.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={card.title}
-                  className="relative overflow-hidden rounded-[30px] border border-slate-200/70 bg-white p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.3)]"
+                  className={`group relative overflow-hidden rounded-[32px] ${cardColor} h-[380px] shadow-lg`}
+                  variants={reveal}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -12,
+                    transition: { duration: 0.3, ease: "easeOut" },
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${card.tone}`}
+                  <motion.div
+                    className="absolute inset-0 rounded-[32px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{
+                      background:
+                        "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
+                      pointerEvents: "none",
+                    }}
                   />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.9),transparent_40%)]" />
 
-                  <div className="relative flex h-full flex-col gap-5">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-4 text-left">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/80 bg-white/90 text-slate-900 shadow-sm">
-                          {card.icon === Apple ? (
-                            <Apple className="h-6 w-6" />
-                          ) : (
-                            <AndroidLogo className="h-6 w-6" />
-                          )}
+                  {card.logoSrc && (
+                    <div className="absolute inset-0 flex items-center justify-center p-6">
+                      <div className="relative flex h-full w-full flex-col items-center justify-center gap-4">
+                        <div className="relative h-56 w-full">
+                          <motion.div
+                            className="relative h-full w-full"
+                            whileHover={{ scale: 1.08 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                          >
+                            <Image
+                              src={card.logoSrc}
+                              alt={card.logoAlt || card.title}
+                              fill
+                              className="object-contain"
+                              sizes="(max-width: 768px) 92vw, 50vw"
+                            />
+                          </motion.div>
                         </div>
-                        <div>
-                          <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                            {card.badge}
-                          </p>
-                          <h3 className="mt-2 text-2xl font-semibold tracking-[-0.05em] text-slate-950">
-                            {card.title}
-                          </h3>
-                        </div>
-                      </div>
-
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/70 bg-white/90 text-slate-500">
-                        <QrCode className="h-4 w-4" />
                       </div>
                     </div>
+                  )}
 
-                    <p className="max-w-lg text-left text-sm leading-7 text-slate-600">
-                      {card.description}
-                    </p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
 
-                    <div className="grid gap-4 md:grid-cols-[auto_1fr] md:items-center">
-                      <div className="flex justify-center">
-                        <div className="rounded-[22px] border border-slate-200 bg-white p-3 shadow-sm">
-                          <Image
-                            src={qrSrc}
-                            alt={card.qrLabel}
-                            width={176}
-                            height={176}
-                            className="h-44 w-44 rounded-[18px]"
-                            unoptimized
-                          />
-                        </div>
-                      </div>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+                    <motion.div
+                      className="flex flex-col"
+                      initial={{ opacity: 0, y: -10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1, duration: 0.5 }}
+                      viewport={{ once: true }}
+                    >
+                      <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-700">
+                        {card.badge}
+                      </p>
+                      <h3 className="mt-2 max-w-md text-2xl font-semibold leading-tight tracking-[-0.03em] text-slate-900 lg:text-3xl">
+                        {card.title}
+                      </h3>
+                    </motion.div>
 
-                      <div className="flex flex-col gap-3">
-                        <span className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-16px_rgba(15,23,42,0.6)]">
-                          Open store link
+                    <motion.div
+                      className="flex flex-col gap-0.2 text-center items-center"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.15, duration: 0.5 }}
+                      viewport={{ once: true }}
+                    >
+                      <p className="mx-auto max-w-md text-sm leading-6 text-center text-slate-700/90">
+                        {card.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => openExternalLink(card.href)}
+                          className="
+                            inline-flex items-center justify-center gap-2
+                            rounded-full border border-slate-200
+                            bg-white px-4 py-2.5
+                            text-sm font-semibold text-slate-700
+                            shadow-sm backdrop-blur
+                            transition-all duration-300 ease-out
+
+                            hover:-translate-y-1
+                            hover:border-blue-700
+                            hover:bg-blue-900
+                            hover:text-white
+                            hover:shadow-[0_12px_30px_rgba(30,58,138,0.45)]
+                            "
+                        >
+                          Open link
                           <ArrowUpRight className="h-4 w-4" />
-                        </span>
-                        <p className="text-xs leading-6 text-slate-500">
-                          Scan the QR code above if you are already on your
-                          phone.
-                        </p>
+                        </button>
+
+                        {card.showDownloadPopupButton ? (
+                          <button
+                            type="button"
+                            onClick={() => setIsDownloadPopupOpen(true)}
+                            className="
+                            inline-flex items-center justify-center gap-2
+                            rounded-full border border-slate-200
+                            bg-white px-4 py-2.5
+                            text-sm font-semibold text-slate-700
+                            shadow-sm backdrop-blur
+                            transition-all duration-300 ease-out
+
+                            hover:-translate-y-1
+                            hover:border-green-700
+                            hover:bg-green-900
+                            hover:text-white
+                            hover:shadow-[0_12px_30px_rgba(16,185,129,0.35)]
+                            "
+                          >
+                            Download
+                            <QrCode className="h-4 w-4" />
+                          </button>
+                        ) : null}
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
-                </a>
+                </motion.div>
               );
             })}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {isDownloadPopupOpen ? (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 px-4 py-8 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsDownloadPopupOpen(false)}
+          >
+            <motion.div
+              className="relative w-[min(94vw,1100px)] overflow-hidden rounded-[32px] bg-white shadow-[0_40px_120px_rgba(15,23,42,0.35)]"
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="absolute right-5 top-5 z-10">
+                <button
+                  type="button"
+                  onClick={() => setIsDownloadPopupOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200"
+                  aria-label="Close download popup"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="border-b border-slate-200/70 px-6 py-6 sm:px-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
+                  Monkey Task App
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 sm:text-4xl">
+                  Download Monkey Task 360 mobile app
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                  Open the official store links below, or scan the QR code on
+                  the card to jump straight to the app page from your phone.
+                </p>
+              </div>
+
+              <div className="grid gap-5 p-6 sm:p-8 lg:grid-cols-2">
+                {downloadCards.map((card) => {
+                  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=10&data=${encodeURIComponent(
+                    card.href,
+                  )}`;
+
+                  return (
+                    <div
+                      key={card.title}
+                      className="relative overflow-hidden rounded-[28px] border border-slate-200/70 bg-white p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.3)]"
+                    >
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${card.tone}`}
+                      />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.9),transparent_42%)]" />
+
+                      <div className="relative flex h-full flex-col gap-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-center gap-4 text-left">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/80 bg-white/90 text-slate-900 shadow-sm">
+                              {card.icon === Apple ? (
+                                <Apple className="h-6 w-6" />
+                              ) : (
+                                <AndroidLogo className="h-6 w-6" />
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                                {card.badge}
+                              </p>
+                              <h3 className="mt-2 text-2xl font-semibold tracking-[-0.05em] text-slate-950">
+                                {card.title}
+                              </h3>
+                            </div>
+                          </div>
+
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/70 bg-white/90 text-slate-500">
+                            <QrCode className="h-4 w-4" />
+                          </div>
+                        </div>
+
+                        <p className="max-w-lg text-left text-sm leading-7 text-slate-600">
+                          {card.description}
+                        </p>
+
+                        <div className="grid gap-4 md:grid-cols-[auto_1fr] md:items-center">
+                          <div className="flex justify-center">
+                            <div className="rounded-[22px] border border-slate-200 bg-white p-3 shadow-sm">
+                              <Image
+                                src={qrSrc}
+                                alt={card.qrLabel}
+                                width={176}
+                                height={176}
+                                className="h-44 w-44 rounded-[18px]"
+                                unoptimized
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col gap-3">
+                            <button
+                              type="button"
+                              onClick={() => openExternalLink(card.href)}
+                              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-16px_rgba(15,23,42,0.6)] transition hover:-translate-y-0.5 hover:bg-slate-800"
+                            >
+                              Open store link
+                              <ArrowUpRight className="h-4 w-4" />
+                            </button>
+                            <p className="text-xs leading-6 text-slate-500">
+                              Scan the QR code above if you are already on your
+                              phone.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }

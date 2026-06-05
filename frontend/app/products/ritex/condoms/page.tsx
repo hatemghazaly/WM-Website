@@ -229,7 +229,9 @@ export default function RitexCondomsPage() {
 
       <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
 
-      <div className={`absolute inset-0 flex flex-col justify-between ${compact ? "p-5" : "p-6 lg:p-8"}`}>
+      <div
+        className={`absolute inset-0 flex flex-col justify-between ${compact ? "p-5" : "p-6 lg:p-8"}`}
+      >
         <motion.div
           className="flex flex-col"
           initial={{ opacity: 0, y: -10 }}
@@ -237,7 +239,9 @@ export default function RitexCondomsPage() {
           transition={{ delay: 0.1, duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <p className={`font-medium tracking-[0.12em] text-slate-700 uppercase ${compact ? "text-[0.65rem]" : "text-xs"}`}>
+          <p
+            className={`font-medium tracking-[0.12em] text-slate-700 uppercase ${compact ? "text-[0.65rem]" : "text-xs"}`}
+          >
             Ritex Condom
           </p>
           <h3
@@ -402,28 +406,21 @@ export default function RitexCondomsPage() {
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   return (
     <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-[-10%] top-[-12%] h-80 w-80 rounded-full bg-sky-100/70 blur-3xl" />
-        <div className="absolute right-[-8%] top-[18%] h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl" />
-        <div className="absolute bottom-[-12%] left-[22%] h-80 w-80 rounded-full bg-slate-100/90 blur-3xl" />
-      </div>
-
-      <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
-        <div className="relative overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-10 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-14">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.96),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
-          <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.16)_0%,rgba(59,130,246,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
-          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 ">
+        <div className="relative mb-14 overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)] inset-0 -z-10" />
+          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed inset-0 -z-10" />
           <motion.div className="relative mx-auto max-w-4xl text-center">
             <motion.div
               className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur"
@@ -453,218 +450,201 @@ export default function RitexCondomsPage() {
               to suit different preferences and lifestyles.
             </motion.p>
           </motion.div>
-        </div>
-
-        <div className="flex justify-center pt-6">
-          <motion.div
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-xs font-medium uppercase tracking-[0.34em] text-slate-500 shadow-sm backdrop-blur"
-            animate={{ y: [0, 6, 0], opacity: [0.7, 1, 0.7] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown className="h-4 w-4" />
-            Scroll for more
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="relative z-10 mt-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.08,
-              },
-            },
-          }}
-        >
-          <motion.div
-            className="mt-8 overflow-hidden rounded-[28px] border border-slate-200/70 bg-slate-950 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.45)]"
-            variants={reveal}
-          >
-            <div className="relative aspect-video w-full">
-              <iframe
-                src="https://www.youtube.com/embed/XHfggmObUXM"
-                title="Ritex Condoms Video"
-                className="absolute inset-0 h-full w-full"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            </div>
-          </motion.div>
-
-          <motion.div className="mt-10 text-center" variants={reveal}>
-            <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
-              Good Sex Is Based On <span className="font-black">Trust</span>
-            </h2>
-            <div
-              ref={trustRef}
-              className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[28px] border border-slate-200/70 bg-white shadow-[0_20px_50px_-35px_rgba(15,23,42,0.22)]"
+          <div className="flex justify-center pt-6">
+            <motion.div
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-xs font-medium uppercase tracking-[0.34em] text-slate-500 shadow-sm backdrop-blur"
+              animate={{ y: [0, 6, 0], opacity: [0.7, 1, 0.7] }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
-              <motion.div
-                className="relative aspect-[16/9] w-full"
-                initial={{ opacity: 0, scale: 1.04, y: 8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true, amount: 0.3 }}
-                style={{ y: trustImageY, scale: trustImageScale }}
-              >
-                <Image
-                  src="/images/Products/ritex/trust.png"
-                  alt="Trust illustration"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 900px"
-                />
-              </motion.div>
-            </div>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              Tingling erotic excitement, sensual experiences, tender
-              togetherness - sex has many facets.
-            </p>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              But for the most pleasurable thing in the world to feel free and
-              liberating, there must be trust as well – trust in each other and
-              trust in the contraceptive.
-            </p>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              At <strong>Ritex</strong>, we're the experts when it comes to
-              passionate intimacy. It&apos;s more than 75 years now since we
-              first started manufacturing condoms and lubricants in premium
-              “made in Germany” quality – so that lovers can surrender to life’s
-              sensual moments, secure in their safety.
-            </p>
-          </motion.div>
-          <motion.div className="mt-10 text-center" variants={reveal}>
-            <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
-              Feel The <span className="font-black">Difference</span>
-            </h2>
-          </motion.div>
-          {/* Mobile Card Grid */}
+              <ChevronDown className="h-4 w-4" />
+              Scroll for more
+            </motion.div>
+          </div>
           <motion.div
-            className="mt-8 grid gap-4 md:hidden"
+            className="relative z-10 mt-8"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={{ once: true, amount: 0.2 }}
             variants={{
               hidden: {},
               visible: {
                 transition: {
-                  staggerChildren: 0.08,
-                  delayChildren: 0.05,
+                  staggerChildren: 0.1,
+                  delayChildren: 0.08,
                 },
               },
             }}
           >
-            {condomProducts.map((product, index) =>
-              renderProductCard(product, index, true),
-            )}
-          </motion.div>
-
-          {/* Carousel Section */}
-          <motion.div className="mt-8 relative hidden md:block" variants={reveal}>
-            {/* Carousel Container */}
-            <div
-              ref={carouselViewportRef}
-              className={`overflow-hidden px-2 py-2 sm:px-4 sm:py-4 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
-              style={{ touchAction: "pan-y" }}
+            <motion.div
+              className="mt-8 overflow-hidden rounded-[28px] border border-slate-200/70 bg-slate-950 shadow-[0_20px_50px_-35px_rgba(15,23,42,0.45)]"
+              variants={reveal}
             >
-              <motion.div
-                className={`flex gap-6 ${
-                  isDragging
-                    ? "transition-none"
-                    : "transition-transform duration-500 ease-out"
-                }`}
-                style={{
-                  transform: `translateX(calc(-${currentIndex * (100 / itemsPerView + 2.4)}% + ${dragOffset}px))`,
-                }}
-                onWheel={handleWheel}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={endDrag}
-                onPointerCancel={endDrag}
+              <div className="relative aspect-video w-full">
+                <iframe
+                  src="https://www.youtube.com/embed/XHfggmObUXM"
+                  title="Ritex Condoms Video"
+                  className="absolute inset-0 h-full w-full"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              </div>
+            </motion.div>
+            <motion.div className="mt-10 text-center" variants={reveal}>
+              <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
+                Good Sex Is Based On <span className="font-black">Trust</span>
+              </h2>
+              <div
+                ref={trustRef}
+                className="mx-auto mt-6 max-w-4xl overflow-hidden rounded-[28px] border border-slate-200/70 bg-white shadow-[0_20px_50px_-35px_rgba(15,23,42,0.22)]"
               >
-                {condomProducts.map((product, index) => (
-                  renderProductCard(product, index, false, true)
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-6">
-              <button
-                onClick={handlePrev}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="h-6 w-6 text-slate-900" />
-              </button>
-
-              {/* Dots Indicator */}
-              <div className="flex gap-2">
-                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`h-2 rounded-full transition-all ${
-                      index === currentIndex
-                        ? "w-8 bg-slate-900"
-                        : "w-2 bg-slate-300"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                <motion.div
+                  className="relative aspect-[16/9] w-full"
+                  initial={{ opacity: 0, scale: 1.04, y: 8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  style={{ y: trustImageY, scale: trustImageScale }}
+                >
+                  <Image
+                    src="/images/Products/ritex/trust.png"
+                    alt="Trust illustration"
+                    fill
+                    className="object-cover scale-[1.1]"
+                    sizes="(max-width: 768px) 100vw, 900px"
                   />
-                ))}
+                </motion.div>
+              </div>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
+                Tingling erotic excitement, sensual experiences, tender
+                togetherness - sex has many facets.
+              </p>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
+                But for the most pleasurable thing in the world to feel free and
+                liberating, there must be trust as well – trust in each other
+                and trust in the contraceptive.
+              </p>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
+                At <strong>Ritex</strong>, we're the experts when it comes to
+                passionate intimacy. It&apos;s more than 75 years now since we
+                first started manufacturing condoms and lubricants in premium
+                “made in Germany” quality – so that lovers can surrender to
+                life’s sensual moments, secure in their safety.
+              </p>
+            </motion.div>
+
+            <motion.div className="mt-10 text-center" variants={reveal}>
+              <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
+                Feel The <span className="font-black">Difference</span>
+              </h2>
+            </motion.div>
+            {/* Mobile Card Grid */}
+            <motion.div
+              className="mt-8 grid gap-4 md:hidden"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.08,
+                    delayChildren: 0.05,
+                  },
+                },
+              }}
+            >
+              {condomProducts.map((product, index) =>
+                renderProductCard(product, index, true),
+              )}
+            </motion.div>
+
+            {/* Carousel Section */}
+            <motion.div
+              className="mt-8 relative hidden md:block"
+              variants={reveal}
+            >
+              {/* Carousel Container */}
+              <div
+                ref={carouselViewportRef}
+                className={`overflow-hidden px-2 py-2 sm:px-4 sm:py-4 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
+                style={{ touchAction: "pan-y" }}
+              >
+                <motion.div
+                  className={`flex gap-6 ${
+                    isDragging
+                      ? "transition-none"
+                      : "transition-transform duration-500 ease-out"
+                  }`}
+                  style={{
+                    transform: `translateX(calc(-${currentIndex * (100 / itemsPerView + 2.4)}% + ${dragOffset}px))`,
+                  }}
+                  onWheel={handleWheel}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={endDrag}
+                  onPointerCancel={endDrag}
+                >
+                  {condomProducts.map((product, index) =>
+                    renderProductCard(product, index, false, true),
+                  )}
+                </motion.div>
               </div>
 
-              <button
-                onClick={handleNext}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
-                aria-label="Next"
+              {/* Navigation Buttons */}
+              <div className="flex items-center justify-between mt-6">
+                <button
+                  onClick={handlePrev}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
+                  aria-label="Previous"
+                >
+                  <ChevronLeft className="h-6 w-6 text-slate-900" />
+                </button>
+
+                {/* Dots Indicator */}
+                <div className="flex gap-2">
+                  {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentIndex
+                          ? "w-8 bg-slate-900"
+                          : "w-2 bg-slate-300"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
+                  aria-label="Next"
+                >
+                  <ChevronRight className="h-6 w-6 text-slate-900" />
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div className="mt-10 flex justify-center" variants={reveal}>
+              <Link
+                href="/products/ritex/ritex-overview"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
               >
-                <ChevronRight className="h-6 w-6 text-slate-900" />
-              </button>
-            </div>
+                <ArrowLeft className="h-4 w-4" />
+                Back to Ritex GMBH
+              </Link>
+            </motion.div>
           </motion.div>
-
-          <motion.div className="mt-10 flex justify-center" variants={reveal}>
-            <Link
-              href="/products/ritex/ritex-overview"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Ritex GMBH
-            </Link>
-          </motion.div>
-        </motion.div>
+        </div>
       </div>
-      <style jsx>{`
-        @keyframes glowSlow {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-            opacity: 0.55;
-          }
-          50% {
-            transform: translate3d(0, 14px, 0) scale(1.08);
-            opacity: 0.85;
-          }
-        }
-
-        .animate-glow-slow {
-          animation: glowSlow 12s ease-in-out infinite;
-        }
-
-        .animate-glow-slow-delayed {
-          animation: glowSlow 14s ease-in-out infinite;
-          animation-delay: -7s;
-        }
-      `}</style>
 
       {activeProduct ? (
         <div
@@ -682,7 +662,7 @@ export default function RitexCondomsPage() {
             <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:px-8">
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
-                  Ritex Condom Specs
+                  Ritex Condom
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
                   {activeProduct.name}
@@ -719,7 +699,6 @@ export default function RitexCondomsPage() {
 
                 <div>
                   <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     Product Details
                   </div>
                   <ul className="mt-4 space-y-3">

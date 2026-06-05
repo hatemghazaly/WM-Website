@@ -30,13 +30,13 @@ export default function RitexProbeCoversPage() {
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function RitexProbeCoversPage() {
                   src="/images/Products/ritex/probe_bg.jpg"
                   alt="Trust illustration"
                   fill
-                  className="object-cover"
+                  className="object-cover scale-[1.1]"
                   sizes="(max-width: 768px) 100vw, 900px"
                 />
               </motion.div>
@@ -282,7 +282,7 @@ export default function RitexProbeCoversPage() {
             <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:px-8">
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
-                  Ritex Probe Specs
+                  Ritex Probe Cover
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
                   {activeProduct.name}
@@ -317,7 +317,6 @@ export default function RitexProbeCoversPage() {
 
                 <div>
                   <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     Product Details
                   </div>
                   <ul className="mt-4 space-y-3">

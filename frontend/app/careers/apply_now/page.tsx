@@ -338,8 +338,8 @@ export default function ApplyNowPage() {
                 >
                   Subject
                 </label>
-                <div className="relative">
-                  <MessageSquareText className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <div className="flex h-12 items-center overflow-hidden rounded-2xl border border-slate-200 bg-white/95 text-sm text-slate-900 transition focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-200/70">
+                  <MessageSquareText className="ml-7 h-4 w-4 shrink-0 text-slate-400" />
                   <input
                     id="subject"
                     name="subject"
@@ -347,7 +347,7 @@ export default function ApplyNowPage() {
                     onChange={(event) => setSubject(event.target.value)}
                     type="text"
                     required
-                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 pl-11 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                    className="h-full w-full bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400"
                   />
                 </div>
               </div>
@@ -430,8 +430,8 @@ function Field({
       >
         {label}
       </label>
-      <div className="relative">
-        <Icon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+      <div className="flex h-14 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5">
+        <Icon className="h-5 w-5 text-slate-400 flex-none" />
         <input
           id={name}
           name={name}
@@ -440,7 +440,7 @@ function Field({
           onChange={(event) => onChange(event.target.value)}
           required={required}
           placeholder={label}
-          className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 pl-11 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+          className="h-full w-full bg-transparent px-5 text-base text-slate-900 outline-none placeholder:text-slate-400"
         />
       </div>
     </div>

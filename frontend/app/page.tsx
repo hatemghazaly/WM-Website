@@ -102,7 +102,7 @@ const reveal = {
 
 export default function Home() {
   return (
-    <section className="relative isolate overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
+    <section className="relative isolate overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-[-12%] top-[-12%] h-80 w-80 rounded-full bg-sky-100/70 blur-3xl" />
         <div className="absolute right-[-10%] top-[20%] h-72 w-72 rounded-full bg-emerald-100/75 blur-3xl" />

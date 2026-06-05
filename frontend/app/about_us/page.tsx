@@ -21,8 +21,7 @@ const sections: Record<Section, SectionData> = {
     softAccent: "from-emerald-400 to-emerald-600",
     tagline: "Where Excellence Becomes Care",
     summary: "",
-    body: `Our mission at Willi Med,  as an emerging pharmaceutical company, is dedicated to manufacturing high quality generic medications and importing crucial products to our region. 
-We are committed to excellence in every step of our roadmap,  starting with providing our patients with high-quality medications through scientific collaboration with healthcare professionals "HCPs" to ensure their patient's satisfaction and effectively managing their diseases.
+    body: `Our mission at Willi Med,  as an emerging pharmaceutical company, is dedicated to manufacturing high quality generic medications and importing crucial products to our region. We are committed to excellence in every step of our roadmap,  starting with providing our patients with high-quality medications through scientific collaboration with healthcare professionals "HCPs" to ensure their patient's satisfaction and effectively managing their diseases.
 By utilizing our main asset, our team of highly educated and dedicated individuals at Willi Med,  we  strive for excellence  and aim to improve the quality of life for our patients.
 Join us on our scientific and humanitarian journey of excellence.`,
   },
@@ -90,12 +89,12 @@ export default function AboutUsPage() {
   };
 
   return (
-    <section className="bg-transparent py-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 ">
+        {/* Hero*/}
         <div className="relative mb-14 overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)]" />
-          <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.18)_0%,rgba(59,130,246,0.10)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
-          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_transparent_45%),radial-gradient(circle_at_20%_0%,rgba(59,130,246,0.08),transparent_32%),radial-gradient(circle_at_100%_0%,rgba(16,185,129,0.08),transparent_28%)] inset-0 -z-10" />
+          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed inset-0 -z-10" />
           <motion.div
             ref={heroRef}
             className="relative mx-auto max-w-4xl"
@@ -140,7 +139,10 @@ export default function AboutUsPage() {
                     className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
                     variants={reveal}
                     whileHover={{ y: -4, scale: 1.01 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1] as const,
+                    }}
                   >
                     <motion.div style={{ y: imageY, scale: imageScale }}>
                       <Image
@@ -148,7 +150,7 @@ export default function AboutUsPage() {
                         alt="Willi Med team member portrait"
                         width={2481}
                         height={3508}
-                        className="h-auto w-full object-contain"
+                        className="object-cover scale-[1.1]"
                         sizes="(max-width: 1024px) 100vw, 60vw"
                         priority
                       />
@@ -187,29 +189,7 @@ export default function AboutUsPage() {
             </div>
           </motion.div>
         </div>
-        <style jsx>{`
-          @keyframes glowSlow {
-            0%,
-            100% {
-              transform: translate3d(0, 0, 0) scale(1);
-              opacity: 0.55;
-            }
-            50% {
-              transform: translate3d(0, 14px, 0) scale(1.08);
-              opacity: 0.85;
-            }
-          }
-
-          .animate-glow-slow {
-            animation: glowSlow 12s ease-in-out infinite;
-          }
-
-          .animate-glow-slow-delayed {
-            animation: glowSlow 14s ease-in-out infinite;
-            animation-delay: -7s;
-          }
-        `}</style>
-
+        {/* Mission, Vision, Values */}
         <div className="grid md:grid-cols-3 bg-white rounded-[40px] shadow-xl divide-y md:divide-y-0 md:divide-x divide-slate-200 overflow-hidden">
           <button
             ref={missionRef}
@@ -304,7 +284,7 @@ export default function AboutUsPage() {
             </div>
           </button>
         </div>
-
+        {/* Action: Mission, Vision, Values */}
         <div className="mt-10 rounded-[32px] border border-slate-200 bg-white p-10 shadow-sm">
           <div className="mb-4 text-sm uppercase tracking-[0.35em] text-slate-500">
             {selected}
@@ -315,8 +295,8 @@ export default function AboutUsPage() {
           <p className="text-base leading-relaxed text-slate-600">
             {sections[selected].body}
           </p>
-        </div>
-
+        </div>{" "}
+        {/* Meet Our Leaders  */}
         <div className="mt-14 flex justify-center">
           <Link
             href="/meet_our_leaders"
@@ -348,13 +328,10 @@ export default function AboutUsPage() {
               <div className="text-sm font-semibold text-slate-900">
                 Meet Our Leaders
               </div>
-              <div className="text-xs uppercase tracking-[0.32em] text-slate-500">
-                Team profiles
-              </div>
             </div>
           </Link>
         </div>
-
+        {/* Details of Miison, Vison, Values */}
         <div className="fixed bottom-6 right-6 z-50 sm:bottom-8 sm:right-8">
           {jumpOpen && (
             <motion.div

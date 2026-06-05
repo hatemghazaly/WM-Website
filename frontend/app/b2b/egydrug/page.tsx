@@ -82,13 +82,13 @@ export default function EgyDrugPage() {
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   };
 
   const filteredItems = egydrugItems.filter((item) => {
@@ -195,7 +195,10 @@ export default function EgyDrugPage() {
                   <motion.div
                     ref={imageRef}
                     whileHover={{ y: -5, scale: 1.01 }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] as const }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1] as const,
+                    }}
                     className="group mx-auto max-w-5xl overflow-hidden rounded-[34px] border border-slate-200/70 bg-white/70 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.28)]"
                   >
                     <motion.div style={{ y: imageY, scale: imageScale }}>
@@ -340,29 +343,6 @@ export default function EgyDrugPage() {
           </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes glowSlow {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-            opacity: 0.55;
-          }
-          50% {
-            transform: translate3d(0, 14px, 0) scale(1.08);
-            opacity: 0.85;
-          }
-        }
-
-        .animate-glow-slow {
-          animation: glowSlow 12s ease-in-out infinite;
-        }
-
-        .animate-glow-slow-delayed {
-          animation: glowSlow 14s ease-in-out infinite;
-          animation-delay: -7s;
-        }
-      `}</style>
     </section>
   );
 }

@@ -516,28 +516,6 @@ export default function MazagotonPage() {
           </motion.div>
         </motion.div>
       </div>
-      <style jsx>{`
-        @keyframes glowSlow {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-            opacity: 0.55;
-          }
-          50% {
-            transform: translate3d(0, 14px, 0) scale(1.08);
-            opacity: 0.85;
-          }
-        }
-
-        .animate-glow-slow {
-          animation: glowSlow 12s ease-in-out infinite;
-        }
-
-        .animate-glow-slow-delayed {
-          animation: glowSlow 14s ease-in-out infinite;
-          animation-delay: -7s;
-        }
-      `}</style>
 
       {activeProduct ? (
         <div

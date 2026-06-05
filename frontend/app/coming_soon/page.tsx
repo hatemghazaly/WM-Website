@@ -1,20 +1,30 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useRef } from "react";
 
 export default function ComingSoonPage() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start end", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], [24, -24]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [0.98, 1.02]);
+
   const reveal = {
     hidden: { opacity: 0, y: 24, scale: 0.97 },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   return (
@@ -27,6 +37,7 @@ export default function ComingSoonPage() {
 
       <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
         <motion.div
+          ref={heroRef}
           className="rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20"
           initial="hidden"
           whileInView="visible"
@@ -78,7 +89,31 @@ export default function ComingSoonPage() {
               development, reflecting our commitment to quality, science, and
               patient care. More details will be available soon
             </motion.p>
-
+            <div className="relative my-12">
+              <div className="absolute -left-16 top-6 h-40 w-40 rounded-full bg-sky-100/70 blur-3xl" />
+              <div className="absolute -right-12 bottom-6 h-40 w-40 rounded-full bg-emerald-100/70 blur-3xl" />
+              <motion.div
+                className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
+                variants={reveal}
+                whileHover={{ y: -4, scale: 1.01 }}
+                transition={{
+                  duration: 0.45,
+                  ease: [0.22, 1, 0.36, 1] as const,
+                }}
+              >
+                <motion.div style={{ y: imageY, scale: imageScale }}>
+                  <Image
+                    src="/images/coming_soon.png"
+                    alt="Willi Med team member portrait"
+                    width={2481}
+                    height={3508}
+                    className="object-cover scale-[1.1]"
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    priority
+                  />
+                </motion.div>
+              </motion.div>
+            </div>
             <motion.div
               className="mt-10 flex flex-wrap items-center justify-center gap-3"
               variants={reveal}

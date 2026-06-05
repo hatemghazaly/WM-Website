@@ -59,7 +59,7 @@ const LubricantProducts = [
     ],
   },
   {
-    name: "Longtime Lubricant",
+    name: "Longtime",
     image: "/images/Products/ritex/longtime_lub.jpg",
     slogan: "Extra-long glide when you want more staying power.",
     specs: [
@@ -118,13 +118,13 @@ export default function RitexLubricantsPage() {
   const reveal = {
     hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   return (
@@ -227,7 +227,10 @@ export default function RitexLubricantsPage() {
                   initial={{ opacity: 0, scale: 1.04, y: 8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   whileHover={{ scale: 1.01 }}
-                  transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] as const }}
+                  transition={{
+                    duration: 1.05,
+                    ease: [0.22, 1, 0.36, 1] as const,
+                  }}
                   viewport={{ once: true, amount: 0.3 }}
                   style={{ y: imageY, scale: imageScale }}
                 >
@@ -235,7 +238,7 @@ export default function RitexLubricantsPage() {
                     src="/images/Products/ritex/lubricants.jpg"
                     alt="Ritex Lubricants illustration"
                     fill
-                    className="object-cover"
+                    className="object-cover scale-[1.1]"
                     sizes="(max-width: 768px) 100vw, 900px"
                   />
                 </motion.div>
@@ -404,7 +407,7 @@ export default function RitexLubricantsPage() {
             <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 sm:px-8">
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
-                  Ritex Lubricant Specs
+                  Ritex Lubricant
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
                   {activeProduct.name}
@@ -441,7 +444,6 @@ export default function RitexLubricantsPage() {
 
                 <div>
                   <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     Product Details
                   </div>
                   <ul className="mt-4 space-y-3">

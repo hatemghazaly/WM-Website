@@ -17,7 +17,16 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <SiteNavbar />
-        <main className="w-full flex-1 pt-[64px] pb-8 sm:pt-[73px]">{children}</main>
+
+        <main
+          className="w-full flex-1 pb-8"
+          style={{
+            paddingTop: "calc(var(--navbar-height) + var(--page-top-spacing))",
+          }}
+        >
+          {children}
+        </main>
+
         <SiteFooter />
       </body>
     </html>

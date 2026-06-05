@@ -85,6 +85,15 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --navbar-height: 73px;
+  --page-top-spacing: 0px;
+
+  --section-py-mobile: 2rem;
+  --section-py-tablet: 3rem;
+  --section-py-desktop: 2rem;
+
+  --container-width: 1280px;
 }
 
 .dark {
@@ -155,5 +164,115 @@
     margin: 0;
     color: var(--foreground);
     background-color: transparent;
+  }
+}
+
+@layer utilities {
+  .relative {
+    position: relative;
+  }
+
+  .isolate {
+    isolation: isolate;
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .px-4 {
+    padding-left: 1rem; /* 16px */
+    padding-right: 1rem; /* 16px */
+  }
+
+  .py-10 {
+    padding-top: 2.5rem; /* 40px */
+    padding-bottom: 2.5rem; /* 40px */
+  }
+
+  @media (min-width: 640px) {
+    .px-6 {
+      padding-left: 1.5rem; /* 24px */
+      padding-right: 1.5rem; /* 24px */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .px-8 {
+      padding-left: 2rem; /* 32px */
+      padding-right: 2rem; /* 32px */
+    }
+  }
+
+  /* ...existing code... */
+  .page-section {
+    padding-top: var(--section-py-mobile);
+    padding-bottom: var(--section-py-mobile);
+  }
+
+  @media (min-width: 640px) {
+    .page-section {
+      padding-top: var(--section-py-tablet);
+      padding-bottom: var(--section-py-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .page-section {
+      padding-top: var(--section-py-desktop);
+      padding-bottom: var(--section-py-desktop);
+    }
+  }
+  .bg-pastel-gradient {
+    background: linear-gradient(135deg, #edf6f6 0%, #eff7ff 46%, #e8f3ff 100%);
+  }
+
+  .surface-hero {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(248, 250, 252, 0.92)
+    );
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    box-shadow: 0 18px 50px -30px rgba(15, 23, 42, 0.22);
+    border-radius: 2.5rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    background-color: rgba(9, 21, 45, 0.8);
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.38em;
+    color: #64748b;
+    box-shadow: 0 2px 14px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(12px);
+  }
+
+  .animate-glow-slow {
+    animation: glowSlow 12s ease-in-out infinite;
+  }
+
+  .animate-glow-slow-delayed {
+    animation: glowSlow 14s ease-in-out infinite;
+    animation-delay: -7s;
+  }
+}
+
+@keyframes glowSlow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(0, 14px, 0) scale(1.08);
+    opacity: 0.85;
   }
 }

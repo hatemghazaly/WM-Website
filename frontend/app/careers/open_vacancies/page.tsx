@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowUpRight,
   BadgeDollarSign,
@@ -110,17 +111,24 @@ const highlights: Benefit[] = [
 
 export default function OpenVacanciesPage() {
   const [openVacancy, setOpenVacancy] = useState<string | null>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start end", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], [24, -24]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [0.98, 1.02]);
 
   const reveal = {
     hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   return (
@@ -133,6 +141,7 @@ export default function OpenVacanciesPage() {
 
       <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
         <motion.div
+          ref={heroRef}
           className="relative overflow-hidden rounded-[40px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] px-6 py-14 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)] sm:px-10 lg:px-14 lg:py-20"
           initial="hidden"
           whileInView="visible"
@@ -148,7 +157,7 @@ export default function OpenVacanciesPage() {
               variants={reveal}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Open Vacancies
+              Join Our Team
             </motion.div>
 
             <motion.h1
@@ -172,7 +181,31 @@ export default function OpenVacanciesPage() {
               team.
             </motion.p>
           </div>
-
+          <div className="relative my-12">
+            <div className="absolute -left-16 top-6 h-40 w-40 rounded-full bg-sky-100/70 blur-3xl" />
+            <div className="absolute -right-12 bottom-6 h-40 w-40 rounded-full bg-emerald-100/70 blur-3xl" />
+            <motion.div
+              className="group mx-auto max-w-2xl overflow-hidden rounded-[34px]"
+              variants={reveal}
+              whileHover={{ y: -4, scale: 1.01 }}
+              transition={{
+                duration: 0.45,
+                ease: [0.22, 1, 0.36, 1] as const,
+              }}
+            >
+              <motion.div style={{ y: imageY, scale: imageScale }}>
+                <Image
+                  src="/images/open_vacancies.png"
+                  alt="Willi Med team member portrait"
+                  width={2481}
+                  height={3508}
+                  className="object-cover scale-[1.1]"
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+          </div>
           <motion.div
             className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
             initial="hidden"
@@ -217,7 +250,7 @@ export default function OpenVacanciesPage() {
         </motion.div>
 
         <div className="mt-10 grid items-start gap-5">
-          {vacancies.map((vacancy, index) => (
+          {vacancies.map((vacancy) => (
             <motion.article
               key={vacancy.title}
               className="self-start overflow-hidden rounded-[34px] border border-white/70 bg-white/80 shadow-[0_24px_60px_-36px_rgba(15,23,42,0.35)] backdrop-blur-2xl transition hover:-translate-y-1 hover:shadow-[0_30px_70px_-36px_rgba(15,23,42,0.4)]"
@@ -325,29 +358,6 @@ export default function OpenVacanciesPage() {
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes glowSlow {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-            opacity: 0.55;
-          }
-          50% {
-            transform: translate3d(0, 14px, 0) scale(1.08);
-            opacity: 0.85;
-          }
-        }
-
-        .animate-glow-slow {
-          animation: glowSlow 12s ease-in-out infinite;
-        }
-
-        .animate-glow-slow-delayed {
-          animation: glowSlow 14s ease-in-out infinite;
-          animation-delay: -7s;
-        }
-      `}</style>
     </section>
   );
 }
