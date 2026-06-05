@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { Suspense, useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -72,6 +72,14 @@ const residenceOptions = [
 ] as const;
 
 export default function ApplyNowPage() {
+  return (
+    <Suspense fallback={<ApplyNowSkeleton />}>
+      <ApplyNowForm />
+    </Suspense>
+  );
+}
+
+function ApplyNowForm() {
   const searchParams = useSearchParams();
   const roleParam = searchParams.get("role");
   const initialRole = availableRoles.includes(roleParam ?? "")
@@ -485,6 +493,23 @@ export default function ApplyNowPage() {
             </form>
           </div>
         </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function ApplyNowSkeleton() {
+  return (
+    <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
+        <div className="animate-pulse rounded-[40px] border border-slate-200/70 bg-white/80 px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+          <div className="mx-auto max-w-4xl space-y-6 text-center">
+            <div className="mx-auto h-8 w-32 rounded-full bg-slate-200" />
+            <div className="mx-auto h-12 w-3/4 rounded-2xl bg-slate-200" />
+            <div className="mx-auto h-4 w-1/2 rounded-full bg-slate-200" />
+          </div>
+          <div className="mt-8 h-[640px] rounded-[34px] bg-slate-100" />
+        </div>
       </div>
     </section>
   );
