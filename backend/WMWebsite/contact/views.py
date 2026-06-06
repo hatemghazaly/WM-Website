@@ -69,7 +69,9 @@ RESIDENCE_CHOICES = {
     "ss": "South Sinai",
 }
 
-RESIDENCE_LABEL_TO_CODE = {label.lower(): code for code, label in RESIDENCE_CHOICES.items()}
+RESIDENCE_LABEL_TO_CODE = {
+    label.lower(): code for code, label in RESIDENCE_CHOICES.items()
+}
 
 
 def _error_response(message: str, *, status: int = 400, **extra):
@@ -121,7 +123,9 @@ def _remote_jsonrpc(url: str, payload: bytes) -> tuple[bool, dict]:
 
 
 def _today_in_cairo() -> str:
-    return timezone.localtime(timezone.now(), ZoneInfo("Africa/Cairo")).date().isoformat()
+    return (
+        timezone.localtime(timezone.now(), ZoneInfo("Africa/Cairo")).date().isoformat()
+    )
 
 
 def _recruitment_jsonrpc_url() -> str:
@@ -139,6 +143,7 @@ def _split_full_name(payload: dict) -> tuple[str, str]:
         parts = full_name.split()
         if len(parts) == 1:
             return parts[0], ""
+
         return parts[0], " ".join(parts[1:])
 
     first_name = str(payload.get("first_name", "")).strip()
@@ -375,7 +380,9 @@ def submit_career_application(request):
 
     recruitment_payload = {
         "name": " ".join(
-            part for part in [career_application.first_name, career_application.last_name] if part
+            part
+            for part in [career_application.first_name, career_application.last_name]
+            if part
         ),
         "stage_id": 1,
         "email": career_application.email,
