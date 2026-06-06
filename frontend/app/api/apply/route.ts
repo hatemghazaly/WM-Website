@@ -86,6 +86,13 @@ function recruitmentPassword() {
   return env("RECRUITMENT_PASSWORD", "");
 }
 
+function backendUrl() {
+  return env(
+    "RECRUITMENT_BACKEND_URL",
+    "https://hatemghazaly.pythonanywhere.com",
+  ).replace(/\/$/, "");
+}
+
 async function saveLocally(payload: NormalizedApplyPayload) {
   await mkdir(join(process.cwd(), ".data"), { recursive: true });
 
@@ -193,6 +200,30 @@ async function createApplicant(values: Record<string, unknown>) {
   return remoteJsonRpc(recruitmentUrl(), body);
 }
 
+async function forwardToBackend(payload: NormalizedApplyPayload) {
+  const response = await fetch(`${backendUrl()}/api/apply/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const text = await response.text();
+  let data: Record<string, unknown> = {};
+
+  if (text) {
+    try {
+      data = JSON.parse(text) as Record<string, unknown>;
+    } catch {
+      data = { message: text };
+    }
+  }
+
+  return { ok: response.ok, status: response.status, data };
+}
+
 export async function POST(request: Request) {
   let payload: ApplyPayload;
 
@@ -225,10 +256,10 @@ export async function POST(request: Request) {
   }
 
   if (!recruitmentDb() || !recruitmentUser() || !recruitmentPassword()) {
-    return NextResponse.json(
-      { error: "Recruitment credentials are not configured." },
-      { status: 500 },
-    );
+    const backendResponse = await forwardToBackend(normalizedPayload);
+    return NextResponse.json(backendResponse.data, {
+      status: backendResponse.status,
+    });
   }
 
   const authResponse = await authenticate();

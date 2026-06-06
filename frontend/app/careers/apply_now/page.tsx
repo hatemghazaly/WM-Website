@@ -81,13 +81,6 @@ export default function ApplyNowPage() {
 
 function ApplyNowForm() {
   const searchParams = useSearchParams();
-  const backendBaseUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ??
-    "https://hatemghazaly.pythonanywhere.com";
-  const applyEndpoint =
-    process.env.NODE_ENV === "development"
-      ? "/api/apply/"
-      : `${backendBaseUrl.replace(/\/$/, "")}/api/apply/`;
   const roleParam = searchParams.get("role");
   const initialRole = availableRoles.includes(roleParam ?? "")
     ? (roleParam ?? availableRoles[0])
@@ -150,7 +143,7 @@ function ApplyNowForm() {
         cv_attachment_base64 = btoa(binary);
       }
 
-      const response = await fetch(applyEndpoint, {
+      const response = await fetch("/api/apply/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
