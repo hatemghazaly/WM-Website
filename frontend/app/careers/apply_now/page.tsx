@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -81,6 +81,13 @@ export default function ApplyNowPage() {
 
 function ApplyNowForm() {
   const searchParams = useSearchParams();
+  const backendBaseUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ??
+    "https://hatemghazaly.pythonanywhere.com";
+  const applyEndpoint =
+    process.env.NODE_ENV === "development"
+      ? "/api/apply/"
+      : `${backendBaseUrl.replace(/\/$/, "")}/api/apply/`;
   const roleParam = searchParams.get("role");
   const initialRole = availableRoles.includes(roleParam ?? "")
     ? (roleParam ?? availableRoles[0])
@@ -100,14 +107,6 @@ function ApplyNowForm() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
   const [feedback, setFeedback] = useState("");
-
-  useEffect(() => {
-    if (availableRoles.includes(roleParam ?? "")) {
-      const nextRole = roleParam as string;
-      setRole(nextRole);
-      setSubject(`Application for ${nextRole}`);
-    }
-  }, [roleParam]);
 
   const reveal = {
     hidden: { opacity: 0, y: 10 },
@@ -151,7 +150,7 @@ function ApplyNowForm() {
         cv_attachment_base64 = btoa(binary);
       }
 
-      const response = await fetch("/api/apply/", {
+      const response = await fetch(applyEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

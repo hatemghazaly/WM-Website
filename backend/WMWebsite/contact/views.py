@@ -89,6 +89,19 @@ def _today_in_cairo() -> str:
     return timezone.localtime(timezone.now(), ZoneInfo("Africa/Cairo")).date().isoformat()
 
 
+def _split_full_name(payload: dict) -> tuple[str, str]:
+    full_name = str(payload.get("full_name", "")).strip()
+    if full_name:
+        parts = full_name.split()
+        if len(parts) == 1:
+            return parts[0], ""
+        return parts[0], " ".join(parts[1:])
+
+    first_name = str(payload.get("first_name", "")).strip()
+    last_name = str(payload.get("last_name", "")).strip()
+    return first_name, last_name
+
+
 def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     if not all(
         [
@@ -170,9 +183,8 @@ def submit_career_application(request):
     except json.JSONDecodeError:
         return _error_response("Invalid JSON payload.")
 
+    first_name, last_name = _split_full_name(payload)
     required_fields = [
-        "first_name",
-        "last_name",
         "email",
         "role",
         "subject",
@@ -181,6 +193,10 @@ def submit_career_application(request):
     missing_fields = [
         field for field in required_fields if not str(payload.get(field, "")).strip()
     ]
+    if not first_name:
+        missing_fields.append("full_name")
+    if not last_name and not str(payload.get("full_name", "")).strip():
+        missing_fields.append("full_name")
     if missing_fields:
         return _error_response(
             "Missing required fields.",
@@ -188,8 +204,8 @@ def submit_career_application(request):
         )
 
     career_application = CareerApplication.objects.create(
-        first_name=str(payload["first_name"]).strip(),
-        last_name=str(payload["last_name"]).strip(),
+        first_name=first_name,
+        last_name=last_name,
         email=str(payload["email"]).strip(),
         phone=str(payload.get("phone", "")).strip(),
         role=str(payload["role"]).strip(),
@@ -297,7 +313,9 @@ def submit_career_application(request):
         logger.warning("Career application email delivery failed: %s", last_error)
 
     recruitment_payload = {
-        "name": f"{career_application.first_name} {career_application.last_name}",
+        "name": " ".join(
+            part for part in [career_application.first_name, career_application.last_name] if part
+        ),
         "stage_id": 1,
         "email": career_application.email,
         "phone": career_application.phone,
