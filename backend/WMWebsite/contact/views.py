@@ -202,9 +202,9 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     if residence:
         applicant_values["residence"] = residence
     if payload.get("cv_attachment_name"):
-        applicant_values["cv_attachment_name"] = payload.get("cv_attachment_name")
-    if payload.get("cv_attachment_type"):
-        applicant_values["cv_attachment_type"] = payload.get("cv_attachment_type")
+        logger.info(
+            "Skipping CV attachment on recruitment create because the model does not expose attachment fields."
+        )
 
     create_payload = _build_jsonrpc_request(
         "object",
