@@ -169,17 +169,19 @@ function ApplyNowForm() {
         | {
             message?: string;
             error?: string;
+            recruitment_error?: string;
           }
         | undefined;
 
       if (rawResponse) {
         try {
-          payload = JSON.parse(rawResponse) as
-            | {
-                message?: string;
-                error?: string;
-              }
-            | undefined;
+              payload = JSON.parse(rawResponse) as
+                | {
+                    message?: string;
+                    error?: string;
+                    recruitment_error?: string;
+                  }
+                | undefined;
         } catch {
           payload = { message: rawResponse };
         }
@@ -187,7 +189,10 @@ function ApplyNowForm() {
 
       if (!response.ok) {
         throw new Error(
-          payload?.error ?? payload?.message ?? "We could not send your application right now.",
+          payload?.recruitment_error ??
+            payload?.error ??
+            payload?.message ??
+            "We could not send your application right now.",
         );
       }
 

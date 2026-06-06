@@ -397,20 +397,24 @@ def submit_career_application(request):
         )
 
     response_payload = {
-        "message": (
-            f"Your career application was sent to {settings.CONTACT_RECIPIENT_EMAIL}."
-            if email_sent
-            else "Your career application was saved successfully."
-        ),
         "id": career_application.id,
         "email_sent": email_sent,
         "recruitment_sent": recruitment_sent,
     }
 
-    if not recruitment_sent:
-        response_payload["recruitment_error"] = recruitment_response
+    if recruitment_sent:
+        response_payload["message"] = (
+            f"Your career application was sent to {settings.CONTACT_RECIPIENT_EMAIL} and forwarded to recruitment."
+            if email_sent
+            else "Your career application was forwarded to recruitment."
+        )
+        return JsonResponse(response_payload, status=201)
 
-    return JsonResponse(response_payload, status=201)
+    response_payload["message"] = (
+        "Your career application was saved, but recruitment forwarding failed."
+    )
+    response_payload["recruitment_error"] = recruitment_response
+    return JsonResponse(response_payload, status=502)
 
 
 @csrf_exempt
