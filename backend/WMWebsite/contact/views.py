@@ -39,6 +39,38 @@ ROLE_TO_APPLIED_JOB = {
     "Other": "other",
 }
 
+RESIDENCE_CHOICES = {
+    "cai": "Cairo",
+    "alx": "Alexandria",
+    "giz": "Giza",
+    "sharq": "Sharqia",
+    "dak": "Dakahlia",
+    "beh": "Beheira",
+    "qaly": "Qalyubia",
+    "mnf": "Monufia",
+    "ghar": "Gharbia",
+    "kfr": "Kafr El Sheikh",
+    "dam": "Damietta",
+    "por": "Port Said",
+    "ism": "Ismailia",
+    "suez": "Suez",
+    "lux": "Luxor",
+    "asw": "Aswan",
+    "soh": "Sohag",
+    "qena": "Qena",
+    "asy": "Asyut",
+    "min": "Minya",
+    "beni": "Beni Suef",
+    "fay": "Fayoum",
+    "wad": "New Valley",
+    "mat": "Matrouh",
+    "red": "Red Sea",
+    "ns": "North Sinai",
+    "ss": "South Sinai",
+}
+
+RESIDENCE_LABEL_TO_CODE = {label.lower(): code for code, label in RESIDENCE_CHOICES.items()}
+
 
 def _error_response(message: str, *, status: int = 400, **extra):
     payload = {"error": message}
@@ -109,6 +141,17 @@ def _split_full_name(payload: dict) -> tuple[str, str]:
     first_name = str(payload.get("first_name", "")).strip()
     last_name = str(payload.get("last_name", "")).strip()
     return first_name, last_name
+
+
+def _normalize_residence(value: object) -> str:
+    residence = str(value or "").strip()
+    if not residence:
+        return ""
+
+    if residence in RESIDENCE_CHOICES:
+        return residence
+
+    return RESIDENCE_LABEL_TO_CODE.get(residence.lower(), "")
 
 
 def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
@@ -206,6 +249,13 @@ def submit_career_application(request):
         missing_fields.append("full_name")
     if not last_name and not str(payload.get("full_name", "")).strip():
         missing_fields.append("full_name")
+
+    normalized_residence = _normalize_residence(payload.get("residence"))
+    if payload.get("residence") and not normalized_residence:
+        return _error_response(
+            "Invalid residence selection.",
+            valid_residences=list(RESIDENCE_CHOICES.keys()),
+        )
     if missing_fields:
         return _error_response(
             "Missing required fields.",
@@ -329,7 +379,7 @@ def submit_career_application(request):
         "email": career_application.email,
         "phone": career_application.phone,
         "date": _today_in_cairo(),
-        "residence": payload.get("residence"),
+        "residence": normalized_residence,
         "role": career_application.role,
         "subject": career_application.subject,
         "message": career_application.message,
