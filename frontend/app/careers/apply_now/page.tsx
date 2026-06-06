@@ -81,6 +81,13 @@ export default function ApplyNowPage() {
 
 function ApplyNowForm() {
   const searchParams = useSearchParams();
+  const backendBaseUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ??
+    "https://hatemghazaly.pythonanywhere.com";
+  const applyEndpoint =
+    process.env.NODE_ENV === "development"
+      ? "/api/apply/"
+      : `${backendBaseUrl.replace(/\/$/, "")}/api/apply/`;
   const roleParam = searchParams.get("role");
   const initialRole = availableRoles.includes(roleParam ?? "")
     ? (roleParam ?? availableRoles[0])
@@ -143,7 +150,7 @@ function ApplyNowForm() {
         cv_attachment_base64 = btoa(binary);
       }
 
-      const response = await fetch("/api/apply/", {
+      const response = await fetch(applyEndpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -164,16 +171,30 @@ function ApplyNowForm() {
         }),
       });
 
-      const payload = (await response.json()) as
+      const rawResponse = await response.text();
+      let payload:
         | {
             message?: string;
             error?: string;
           }
         | undefined;
 
+      if (rawResponse) {
+        try {
+          payload = JSON.parse(rawResponse) as
+            | {
+                message?: string;
+                error?: string;
+              }
+            | undefined;
+        } catch {
+          payload = { message: rawResponse };
+        }
+      }
+
       if (!response.ok) {
         throw new Error(
-          payload?.error ?? "We could not send your application right now.",
+          payload?.error ?? payload?.message ?? "We could not send your application right now.",
         );
       }
 
