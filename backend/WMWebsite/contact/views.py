@@ -204,14 +204,27 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
         ),
         "source": "wb",
     }
+    # if payload.get("has_a_car") is not None:
+    #     applicant_values["has_a_car"] = bool(payload.get("has_a_car"))
+
+    logger.error(
+        "HAS_A_CAR raw=%r type=%s",
+        payload.get("has_a_car"),
+        type(payload.get("has_a_car")).__name__,
+    )
+
     if payload.get("has_a_car") is not None:
-        applicant_values["has_a_car"] = bool(payload.get("has_a_car"))
+        applicant_values["has_a_car"] = payload.get("has_a_car")
+
     residence = str(payload.get("residence") or "").strip()
     if residence:
         applicant_values["residence"] = residence
     cv_attachment_base64 = str(payload.get("cv_attachment_base64") or "").strip()
     if cv_attachment_base64:
         applicant_values["cv_attachment"] = cv_attachment_base64
+
+    logger.error("APPLICANT_VALUES=%r", applicant_values)
+    logger.error("HAS_A_CAR_IN_VALUES=%r", applicant_values.get("has_a_car"))
 
     create_payload = _build_jsonrpc_request(
         "object",
@@ -394,6 +407,8 @@ def submit_career_application(request):
         "message": career_application.message,
         "cv_attachment_base64": str(payload.get("cv_attachment_base64", "")).strip(),
     }
+    if payload.get("has_a_car") is not None:
+        recruitment_payload["has_a_car"] = bool(payload.get("has_a_car"))
     recruitment_sent, recruitment_response = send_to_recruitment_service(
         recruitment_payload
     )
