@@ -223,9 +223,6 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     if cv_attachment_base64:
         applicant_values["cv_attachment"] = cv_attachment_base64
 
-    logger.error("APPLICANT_VALUES=%r", applicant_values)
-    logger.error("HAS_A_CAR_IN_VALUES=%r", applicant_values.get("has_a_car"))
-
     create_payload = _build_jsonrpc_request(
         "object",
         "execute_kw",
