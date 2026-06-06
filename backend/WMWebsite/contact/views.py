@@ -162,6 +162,16 @@ def _normalize_residence(value: object) -> str:
     return RESIDENCE_LABEL_TO_CODE.get(residence.lower(), "")
 
 
+def _parse_bool(value: object) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+
+    normalized = str(value or "").strip().lower()
+    return normalized in {"1", "true", "yes", "on"}
+
+
 def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     if not all(
         [
@@ -204,17 +214,8 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
         ),
         "source": "wb",
     }
-    # if payload.get("has_a_car") is not None:
-    #     applicant_values["has_a_car"] = bool(payload.get("has_a_car"))
-
-    logger.error(
-        "HAS_A_CAR raw=%r type=%s",
-        payload.get("has_a_car"),
-        type(payload.get("has_a_car")).__name__,
-    )
-
     if payload.get("has_a_car") is not None:
-        applicant_values["has_a_car"] = payload.get("has_a_car")
+        applicant_values["has_a_car"] = _parse_bool(payload.get("has_a_car"))
 
     residence = str(payload.get("residence") or "").strip()
     if residence:
