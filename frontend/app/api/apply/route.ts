@@ -68,10 +68,9 @@ function env(name: string, fallback: string) {
 }
 
 function recruitmentUrl() {
-  return env(
-    "RECRUITMENT_SERVICE_URL",
-    "https://willimed.wm360.info/jsonrpc",
-  ).replace(/\/$/, "");
+  const baseUrl = env("RECRUITMENT_SERVICE_URL", "https://willimed.wm360.info")
+    .replace(/\/$/, "");
+  return baseUrl.endsWith("/jsonrpc") ? baseUrl : `${baseUrl}/jsonrpc`;
 }
 
 function recruitmentDb() {

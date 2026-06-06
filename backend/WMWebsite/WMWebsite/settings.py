@@ -45,7 +45,7 @@ SECRET_KEY = "django-insecure-u$!+g15oqv3hblchxek9gbra^g^k%##$kji!6vbcs8mkuo8fjc
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "https://demo.wm360.info",
+    "demo.wm360.info",
     "localhost",
     "127.0.0.1",
 ]
@@ -73,7 +73,7 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "website@willimed.com"
 
 RECRUITMENT_SERVICE_URL = os.environ.get(
     "RECRUITMENT_SERVICE_URL",
-    "https://willimed.wm360.info/jsonrpc",
+    "https://willimed.wm360.info",
 )
 RECRUITMENT_DB = os.environ.get("RECRUITMENT_DB", "")
 RECRUITMENT_USER = os.environ.get("RECRUITMENT_USER", "")

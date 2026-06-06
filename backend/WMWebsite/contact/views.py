@@ -89,6 +89,15 @@ def _today_in_cairo() -> str:
     return timezone.localtime(timezone.now(), ZoneInfo("Africa/Cairo")).date().isoformat()
 
 
+def _recruitment_jsonrpc_url() -> str:
+    base_url = str(settings.RECRUITMENT_SERVICE_URL or "").strip().rstrip("/")
+    if not base_url:
+        return ""
+    if base_url.endswith("/jsonrpc"):
+        return base_url
+    return f"{base_url}/jsonrpc"
+
+
 def _split_full_name(payload: dict) -> tuple[str, str]:
     full_name = str(payload.get("full_name", "")).strip()
     if full_name:
@@ -105,7 +114,7 @@ def _split_full_name(payload: dict) -> tuple[str, str]:
 def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     if not all(
         [
-            settings.RECRUITMENT_SERVICE_URL,
+            _recruitment_jsonrpc_url(),
             settings.RECRUITMENT_DB,
             settings.RECRUITMENT_USER,
             settings.RECRUITMENT_PASSWORD,
@@ -113,7 +122,7 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     ):
         return False, "Recruitment service credentials are not configured."
 
-    url = settings.RECRUITMENT_SERVICE_URL
+    url = _recruitment_jsonrpc_url()
     auth_payload = _build_jsonrpc_request(
         "common",
         "authenticate",
