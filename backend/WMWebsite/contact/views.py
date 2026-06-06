@@ -221,7 +221,51 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     ok, create_response = _remote_jsonrpc(url, create_payload)
     if not ok:
         return False, str(create_response.get("error", create_response))
-    return True, json.dumps(create_response)
+
+    created_id = create_response.get("result")
+    attachment_base64 = str(payload.get("attachment_base64") or "").strip()
+    attachment_name = str(payload.get("attachment_name") or "cv").strip() or "cv"
+    attachment_type = str(payload.get("attachment_type") or "").strip()
+    attachment_sent = True
+    attachment_error = ""
+
+    if created_id and attachment_base64:
+        attachment_payload = {
+            "name": attachment_name,
+            "type": "binary",
+            "datas": attachment_base64,
+            "res_model": "recruitment",
+            "res_id": created_id,
+        }
+        if attachment_type:
+            attachment_payload["mimetype"] = attachment_type
+
+        attachment_body = _build_jsonrpc_request(
+            "object",
+            "execute_kw",
+            [
+                settings.RECRUITMENT_DB,
+                uid,
+                settings.RECRUITMENT_PASSWORD,
+                "ir.attachment",
+                "create",
+                [attachment_payload],
+            ],
+        )
+        attachment_ok, attachment_response = _remote_jsonrpc(url, attachment_body)
+        attachment_sent = bool(attachment_ok and attachment_response.get("result"))
+        if not attachment_sent:
+            attachment_error = str(
+                attachment_response.get("error", attachment_response)
+            )
+
+    return True, json.dumps(
+        {
+            "result": created_id,
+            "attachment_sent": attachment_sent,
+            "attachment_error": attachment_error or None,
+        }
+    )
 
 
 @csrf_exempt
@@ -383,6 +427,9 @@ def submit_career_application(request):
         "role": career_application.role,
         "subject": career_application.subject,
         "message": career_application.message,
+        "attachment_name": career_application.cv_attachment_name,
+        "attachment_type": career_application.cv_attachment_type,
+        "attachment_base64": str(payload.get("cv_attachment_base64", "")).strip(),
     }
     recruitment_sent, recruitment_response = send_to_recruitment_service(
         recruitment_payload
@@ -400,6 +447,19 @@ def submit_career_application(request):
     }
 
     if recruitment_sent:
+        recruitment_details = {}
+        if recruitment_response:
+            try:
+                recruitment_details = json.loads(recruitment_response)
+            except Exception:
+                recruitment_details = {}
+        response_payload["recruitment_attachment_sent"] = bool(
+            recruitment_details.get("attachment_sent", True)
+        )
+        if not response_payload["recruitment_attachment_sent"]:
+            response_payload["recruitment_attachment_error"] = recruitment_details.get(
+                "attachment_error"
+            )
         response_payload["message"] = (
             f"Your career application was sent to {settings.CONTACT_RECIPIENT_EMAIL} and forwarded to recruitment."
             if email_sent
