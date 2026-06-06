@@ -78,7 +78,9 @@ def _error_response(message: str, *, status: int = 400, **extra):
     return JsonResponse(payload, status=status)
 
 
-def _build_jsonrpc_request(service: str, method: str, args: list) -> bytes:
+def _build_jsonrpc_request(
+    service: str, method: str, args: list, kwargs: dict | None = None
+) -> bytes:
     return json.dumps(
         {
             "jsonrpc": "2.0",
@@ -87,6 +89,7 @@ def _build_jsonrpc_request(service: str, method: str, args: list) -> bytes:
                 "service": service,
                 "method": method,
                 "args": args,
+                **({"kwargs": kwargs} if kwargs else {}),
             },
         }
     ).encode("utf-8")
@@ -258,6 +261,29 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
             attachment_error = str(
                 attachment_response.get("error", attachment_response)
             )
+        else:
+            message_body = _build_jsonrpc_request(
+                "object",
+                "execute_kw",
+                [
+                    settings.RECRUITMENT_DB,
+                    uid,
+                    settings.RECRUITMENT_PASSWORD,
+                    "recruitment",
+                    "message_post",
+                    [[created_id]],
+                ],
+                {
+                    "body": "CV attachment",
+                    "attachment_ids": [[4, attachment_response.get("result")]],
+                },
+            )
+            message_ok, message_response = _remote_jsonrpc(url, message_body)
+            if not message_ok:
+                attachment_sent = False
+                attachment_error = str(
+                    message_response.get("error", message_response)
+                )
 
     return True, json.dumps(
         {
