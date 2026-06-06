@@ -87,10 +87,10 @@ function recruitmentPassword() {
 }
 
 function backendUrl() {
-  return env(
-    "RECRUITMENT_BACKEND_URL",
-    "https://hatemghazaly.pythonanywhere.com",
-  ).replace(/\/$/, "");
+  return env("RECRUITMENT_BACKEND_URL", "https://demo.wm360.info").replace(
+    /\/$/,
+    "",
+  );
 }
 
 async function saveLocally(payload: NormalizedApplyPayload) {

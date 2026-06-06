@@ -45,7 +45,7 @@ SECRET_KEY = "django-insecure-u$!+g15oqv3hblchxek9gbra^g^k%##$kji!6vbcs8mkuo8fjc
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "hatemghazaly.pythonanywhere.com",
+    "https://demo.wm360.info",
     "localhost",
     "127.0.0.1",
 ]

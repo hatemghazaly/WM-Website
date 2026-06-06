@@ -37,7 +37,7 @@ function env(name: string, fallback: string) {
 }
 
 function backendUrl() {
-  return env("CONTACT_BACKEND_URL", "https://hatemghazaly.pythonanywhere.com")
+  return env("CONTACT_BACKEND_URL", "https://demo.wm360.info").
     .replace(/\/$/, "");
 }
 
