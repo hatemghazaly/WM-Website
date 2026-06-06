@@ -73,7 +73,7 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "website@willimed.com"
 
 RECRUITMENT_SERVICE_URL = os.environ.get(
     "RECRUITMENT_SERVICE_URL",
-    "https://willimed.wm360.info",
+    "https://willimed.wm360.info/odoo",
 )
 RECRUITMENT_DB = os.environ.get("RECRUITMENT_DB", "")
 RECRUITMENT_USER = os.environ.get("RECRUITMENT_USER", "")
