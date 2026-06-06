@@ -1,5 +1,3 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
-import { join } from "path";
 import tls from "node:tls";
 
 import { NextResponse } from "next/server";
@@ -30,43 +28,15 @@ type NormalizedContactPayload = {
   cv_attachment_base64?: string;
 };
 
-const storagePath = join(process.cwd(), ".data", "contact-submissions.json");
-
 function env(name: string, fallback: string) {
   return process.env[name] ?? fallback;
 }
 
 function backendUrl() {
-  return env("CONTACT_BACKEND_URL", "https://demo.wm360.info").
-    .replace(/\/$/, "");
-}
-
-async function saveLocally(payload: NormalizedContactPayload) {
-  await mkdir(join(process.cwd(), ".data"), { recursive: true });
-
-  let existing: Array<NormalizedContactPayload & { id: number; createdAt: string }> = [];
-
-  try {
-    const raw = await readFile(storagePath, "utf8");
-    existing = JSON.parse(raw) as Array<
-      NormalizedContactPayload & { id: number; createdAt: string }
-    >;
-  } catch {
-    existing = [];
-  }
-
-  const record = {
-    id: existing.length + 1,
-    createdAt: new Date().toISOString(),
-    ...payload,
-  };
-
-  await writeFile(
-    storagePath,
-    JSON.stringify([...existing, record], null, 2),
-    "utf8"
+  return env("CONTACT_BACKEND_URL", "https://demo.wm360.info").replace(
+    /\/$/,
+    "",
   );
-  return record;
 }
 
 function normalizePayload(payload: ContactPayload): NormalizedContactPayload {
@@ -422,12 +392,9 @@ export async function POST(request: Request) {
   }
 
   const backendResponse = await forwardToBackend(normalizedPayload);
-  const { warning: _warning, smtp_error: _smtpError, ...cleanData } =
-    backendResponse.data;
-
   return NextResponse.json(
     {
-      ...cleanData,
+      ...backendResponse.data,
       message: "Your contact message was sent successfully.",
       email_sent: true,
       saved_to_backend: backendResponse.ok,
