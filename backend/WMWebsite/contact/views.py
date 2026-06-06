@@ -383,9 +383,6 @@ def submit_career_application(request):
         "role": career_application.role,
         "subject": career_application.subject,
         "message": career_application.message,
-        "cv_attachment_name": career_application.cv_attachment_name,
-        "cv_attachment_type": career_application.cv_attachment_type,
-        "cv_attachment_base64": payload.get("cv_attachment_base64"),
     }
     recruitment_sent, recruitment_response = send_to_recruitment_service(
         recruitment_payload
