@@ -19,7 +19,7 @@ const PediaProducts = [
     name: "Willi D3 Drops",
     tagline: "Vitamin D3 Supplement",
     cardImage: "/images/Products/pedia/baby1.png",
-    popupImage: "/images/Products/pedia/pediatric_bg.png",
+    popupImage: "/images/Products/pedia/willi_d3.jpg",
     description: "",
     specs: [""],
   },
@@ -32,13 +32,13 @@ export default function PediaPage() {
   const reveal = {
     hidden: { opacity: 0, y: 16, scale: 0.985 },
     visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.8,
+      },
     },
-  },
   } as const;
 
   useEffect(() => {
