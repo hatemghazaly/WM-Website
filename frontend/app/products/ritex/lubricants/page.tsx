@@ -16,6 +16,7 @@ const LubricantProducts = [
   {
     name: "Bio Vegan",
     image: "/images/Products/ritex/bio.jpg",
+    popupImage: "/images/Products/ritex/bio.jpg",
     slogan: "A natural glide with a vegan touch.",
     specs: [
       "Vegan Lubricant.",
@@ -31,6 +32,7 @@ const LubricantProducts = [
   {
     name: "Hydro Gel",
     image: "/images/Products/ritex/hydro.jpg",
+    popupImage: "/images/Products/ritex/hydro.jpg",
     slogan: "Gentle comfort made for sensitive skin.",
     specs: [
       "Water based.",
@@ -46,6 +48,7 @@ const LubricantProducts = [
   {
     name: "Gel Plus",
     image: "/images/Products/ritex/gel_plus.jpg",
+    popupImage: "/images/Products/ritex/gel_plus.jpg",
     slogan: "Aloe-powered smoothness for every moment.",
     specs: [
       "Water based.",
@@ -61,6 +64,7 @@ const LubricantProducts = [
   {
     name: "Longtime",
     image: "/images/Products/ritex/longtime_lub.jpg",
+    popupImage: "/images/Products/ritex/longtime_lub.jpg",
     slogan: "Extra-long glide when you want more staying power.",
     specs: [
       "Silicone based.",
@@ -428,8 +432,8 @@ export default function RitexLubricantsPage() {
                 <div className="flex flex-col">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
                     <Image
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
+                      src={activeProduct.popupImage}
+                      alt={`${activeProduct.name} showcase`}
                       fill
                       className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 220px"

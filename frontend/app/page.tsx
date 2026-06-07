@@ -88,6 +88,9 @@ const highlights = [
   },
 ];
 
+const heroVideoId = "m3STYUGhUZY";
+const heroVideoSrc = `https://www.youtube-nocookie.com/embed/${heroVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${heroVideoId}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1`;
+
 const reveal = {
   hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
   visible: {
@@ -111,7 +114,7 @@ export default function Home() {
 
       <div className="mx-auto max-w-7xl [font-family:-apple-system,BlinkMacSystemFont,'SF_Pro_Display','SF_Pro_Text',system-ui,sans-serif]">
         <motion.div
-          className="overflow-hidden rounded-[42px] border border-slate-200/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)]"
+          className="relative overflow-hidden rounded-[42px] border border-slate-200/70 bg-slate-950 shadow-[0_18px_50px_-30px_rgba(15,23,42,0.22)]"
           initial="hidden"
           animate="visible"
           variants={{
@@ -124,18 +127,39 @@ export default function Home() {
             },
           }}
         >
-          <div className="grid lg:grid-cols-[1.06fr_0.94fr]">
+          <div className="absolute inset-0">
+            <Image
+              src="/images/egypt-poland.jpg"
+              alt=""
+              fill
+              className="object-cover opacity-20 blur-[2px] scale-105"
+              sizes="100vw"
+              aria-hidden="true"
+            />
+          </div>
+          <iframe
+            src={heroVideoSrc}
+            title="Willi Med background video"
+            className="pointer-events-none absolute inset-0 h-full w-full scale-[1.2] border-0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(2,6,23,0.82),rgba(15,23,42,0.52)_45%,rgba(2,6,23,0.78))]" />
+
+          <div className="relative grid lg:grid-cols-[1.06fr_0.94fr]">
             <div className="px-6 py-10 sm:px-10 lg:px-14 lg:py-16">
               <motion.div className="max-w-3xl" variants={reveal}>
-                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/80 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-slate-500 shadow-sm backdrop-blur">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.38em] text-white/70 shadow-sm backdrop-blur">
                   Willi Med Group
                 </div>
 
-                <h1 className="mt-6 text-5xl font-semibold tracking-[-0.07em] text-slate-950 sm:text-6xl lg:text-7xl">
+                <h1 className="mt-6 text-5xl font-semibold tracking-[-0.07em] text-white sm:text-6xl lg:text-7xl">
                   A clear starting point for everything Willi Med.
                 </h1>
 
-                <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-slate-600 sm:text-lg lg:text-xl">
+                <p className="mt-6 max-w-2xl text-[1.02rem] leading-8 text-white/78 sm:text-lg lg:text-xl">
                   This is the place to move quickly between our company story,
                   product pages, store locator, business partnerships, careers,
                   and support channels.
@@ -144,13 +168,13 @@ export default function Home() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
                     href="/products"
-                    className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-16px_rgba(15,23,42,0.6)] transition hover:-translate-y-0.5 hover:bg-slate-800"
+                    className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_30px_-16px_rgba(15,23,42,0.6)] transition hover:-translate-y-0.5 hover:bg-slate-100"
                   >
                     Explore Products
                   </Link>
                   <Link
                     href="/where_to_buy"
-                    className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-50"
+                    className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15"
                   >
                     Where to Buy
                   </Link>
@@ -160,12 +184,12 @@ export default function Home() {
                   {highlights.map((item) => (
                     <div
                       key={item.title}
-                      className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm"
+                      className="rounded-2xl border border-white/15 bg-white/10 p-4 shadow-sm backdrop-blur"
                     >
-                      <p className="text-sm font-semibold text-slate-950">
+                      <p className="text-sm font-semibold text-white">
                         {item.title}
                       </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                      <p className="mt-2 text-sm leading-6 text-white/72">
                         {item.description}
                       </p>
                     </div>
@@ -175,13 +199,12 @@ export default function Home() {
             </div>
 
             <div className="relative min-h-[360px] lg:min-h-full">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.94),transparent_42%),linear-gradient(180deg,rgba(148,163,184,0.08),rgba(15,23,42,0.02))]" />
-              <div className="relative flex h-full items-center justify-center p-6 sm:p-10 lg:p-12">
+              <div className="relative flex h-full items-end justify-center p-6 sm:p-10 lg:p-12">
                 <motion.div
-                  className="relative w-full max-w-xl overflow-hidden rounded-[34px] border border-white/80 bg-white/80 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.35)] backdrop-blur-2xl"
+                  className="relative w-full max-w-xl overflow-hidden rounded-[34px] border border-white/15 bg-white/10 shadow-[0_24px_60px_-38px_rgba(15,23,42,0.55)] backdrop-blur-2xl"
                   variants={reveal}
                 >
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.10),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.10),transparent_34%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.12),transparent_34%)]" />
                   <div className="relative p-6 sm:p-8">
                     <div className="flex items-center gap-3">
                       <Image
@@ -189,38 +212,43 @@ export default function Home() {
                         alt="Willi Med logo"
                         width={160}
                         height={64}
-                        className="h-10 w-auto object-contain"
+                        className="h-10 w-auto object-contain drop-shadow-[0_2px_8px_rgba(255,255,255,0.22)]"
                         priority
                       />
-                      <div className="h-px flex-1 bg-gradient-to-r from-slate-300 to-transparent" />
+                      <div className="h-px flex-1 bg-gradient-to-r from-white/30 to-transparent" />
                     </div>
 
-                    <div className="mt-6 overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/90">
-                      <Image
-                        src="/images/egypt-poland.jpg"
-                        alt="Willi Med group visual"
-                        width={2481}
-                        height={3508}
-                        className="h-auto w-full object-contain"
-                        sizes="(max-width: 1024px) 100vw, 42vw"
-                        priority
-                      />
+                    <div className="mt-6 overflow-hidden rounded-[28px] border border-white/15 bg-white/10">
+                      <div className="flex aspect-[4/5] items-end bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.35))] p-5">
+                        <div>
+                          <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">
+                            Background video
+                          </p>
+                          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">
+                            A living visual for the Willi Med story.
+                          </h2>
+                          <p className="mt-3 max-w-sm text-sm leading-7 text-white/75">
+                            The hero now plays a muted looping video so the
+                            homepage feels more immersive on first load.
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-                        <p className="text-xs font-medium uppercase tracking-[0.24em] text-slate-400">
+                      <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                        <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/55">
                           Focus
                         </p>
-                        <p className="mt-2 text-sm font-semibold text-slate-950">
+                        <p className="mt-2 text-sm font-semibold text-white">
                           Healthcare and digital growth
                         </p>
                       </div>
-                      <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4">
-                        <p className="text-xs font-medium uppercase tracking-[0.24em] text-slate-400">
+                      <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                        <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/55">
                           Access
                         </p>
-                        <p className="mt-2 text-sm font-semibold text-slate-950">
+                        <p className="mt-2 text-sm font-semibold text-white">
                           Official routes only
                         </p>
                       </div>

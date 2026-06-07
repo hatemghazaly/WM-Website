@@ -18,7 +18,8 @@ const PediaProducts = [
   {
     name: "Willi D3 Drops",
     tagline: "Vitamin D3 Supplement",
-    image: "/images/Products/pedia/baby1.png",
+    cardImage: "/images/Products/pedia/baby1.png",
+    popupImage: "/images/Products/pedia/pediatric_bg.png",
     description: "",
     specs: [""],
   },
@@ -272,7 +273,7 @@ export default function PediaPage() {
                 >
                   {/* Background Image */}
                   <Image
-                    src={product.image}
+                    src={product.cardImage}
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -384,8 +385,8 @@ export default function PediaPage() {
                 <div className="flex flex-col">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
                     <Image
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
+                      src={activeProduct.popupImage}
+                      alt={`${activeProduct.name} packaging`}
                       fill
                       className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 220px"

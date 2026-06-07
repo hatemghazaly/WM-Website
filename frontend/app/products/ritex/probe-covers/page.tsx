@@ -10,6 +10,7 @@ const condomProducts = [
   {
     name: "Ritex Probe Covers",
     image: "/images/Products/ritex/probe.jpg",
+    popupImage: "/images/Products/ritex/probe.jp",
     slogan: "Reliable protection for precise diagnostics.",
     specs: [
       "For Vaginal & Rectal sonography Probes.",
@@ -303,8 +304,8 @@ export default function RitexProbeCoversPage() {
                 <div className="flex flex-col">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
                     <Image
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
+                      src={activeProduct.popupImage}
+                      alt={`${activeProduct.name} showcase`}
                       fill
                       className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 220px"

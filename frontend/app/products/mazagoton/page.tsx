@@ -2,10 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
-  ArrowLeft,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -16,7 +14,8 @@ import {
 
 type MazagotonProduct = {
   name: string;
-  image: string;
+  cardImage: string;
+  popupImage: string;
   slogan: string;
   specs: string[];
   imageClassName?: string;
@@ -25,7 +24,8 @@ type MazagotonProduct = {
 const mazagotonProducts: MazagotonProduct[] = [
   {
     name: "Mazagoton - F",
-    image: "/images/Products/mazagoton/female.png",
+    cardImage: "/images/Products/mazagoton/female.png",
+    popupImage: "/images/Products/mazagoton/mz-family.png",
     imageClassName: "scale-[1.14]",
     slogan: "Daily nutrition, naturally hers.",
     specs: [
@@ -37,7 +37,8 @@ const mazagotonProducts: MazagotonProduct[] = [
   },
   {
     name: "Mazagoton - M",
-    image: "/images/Products/mazagoton/male.png",
+    cardImage: "/images/Products/mazagoton/male.png",
+    popupImage: "/images/Products/mazagoton/mz-family.png",
     slogan: "Strength, stamina, and vitality — every day.",
     specs: [
       "Perfect Formula for Him.",
@@ -49,7 +50,8 @@ const mazagotonProducts: MazagotonProduct[] = [
   },
   {
     name: "Mazagoton Energy",
-    image: "/images/Products/mazagoton/energy_new.png",
+    cardImage: "/images/Products/mazagoton/energy_new.png",
+    popupImage: "/images/Products/mazagoton/mz-family.png",
     slogan: "Fuel your day. Fight fatigue. Feel alive.",
     specs: [
       "Perfect Formula for Everyone.",
@@ -81,6 +83,7 @@ export default function MazagotonPage() {
   });
   const itemsPerView = 4;
   const maxIndex = Math.max(0, mazagotonProducts.length - itemsPerView);
+  const isCompactDisplay = mazagotonProducts.length <= 3;
   const pastelColors = ["bg-blue-100", "bg-emerald-100", "bg-purple-100"];
   const activeProductIndex = activeProduct
     ? mazagotonProducts.indexOf(activeProduct)
@@ -219,6 +222,112 @@ export default function MazagotonPage() {
     }),
   } as const;
 
+  const renderProductCard = (product: MazagotonProduct, index: number) => (
+    <motion.div
+      key={product.name}
+      className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
+      style={{
+        width: isCompactDisplay ? "100%" : `calc(25% - 1.5rem)`,
+      }}
+      variants={reveal}
+      custom={0.12 + index * 0.08}
+      whileHover={{
+        scale: 1.05,
+        y: -12,
+        transition: { duration: 0.3, ease: "easeOut" },
+      }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <motion.div
+        className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-12">
+        <div className="relative h-full w-full">
+          <motion.div
+            className="relative h-full w-full"
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <Image
+              src={product.cardImage}
+              alt={product.name}
+              fill
+              className={`object-contain ${product.imageClassName ?? ""}`}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
+
+      <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+        <motion.div
+          className="flex flex-col"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-700">
+            Mazagoton
+          </p>
+          <h3 className="mt-3 text-3xl font-semibold tracking-[-0.03em] leading-tight text-slate-900 lg:text-4xl">
+            {product.name}
+          </h3>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex justify-end">
+            <motion.button
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
+              onClick={() => setActiveProduct(product)}
+              onPointerDown={(event) => event.stopPropagation()}
+              aria-label={`View specs for ${product.name}`}
+              whileHover={{
+                scale: 1.15,
+                backgroundColor: "rgba(100, 116, 139, 0.5)",
+                transition: { duration: 0.2 },
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.svg
+                className="h-6 w-6 text-slate-900"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                whileHover={{
+                  rotate: 90,
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </motion.svg>
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -312,9 +421,9 @@ export default function MazagotonPage() {
               >
                 <Image
                   src="/images/Products/mazagoton/mz-family.png"
-                  alt="Trust illustration"
+                  alt="Mazagoton family showcase"
                   fill
-                  className="object-cover"
+                  className="object-cover scale-[1.05]"
                   sizes="(max-width: 768px) 100vw, 900px"
                 />
               </motion.div>
@@ -331,11 +440,11 @@ export default function MazagotonPage() {
               balanced nutrition, and sustained daily energy.
             </p>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              With <strong>Mazagoton</strong>, Whether you're managing a busy
-              schedule, focusing on your wellness goals, or maintaining an
+              With <strong>Mazagoton</strong>, whether you&apos;re managing a
+              busy schedule, focusing on your wellness goals, or maintaining an
               active lifestyle, our targeted formulas help provide the
               nutritional support your body needs to perform at its best every
-              day.y.
+              day.
             </p>
           </motion.div>
           <motion.div className="mt-10 text-center" variants={reveal}>
@@ -345,185 +454,75 @@ export default function MazagotonPage() {
           </motion.div>
           {/* Carousel Section */}
           <motion.div className="mt-8 relative" variants={reveal}>
-            {/* Carousel Container */}
-            <div
-              ref={carouselViewportRef}
-              className={`overflow-hidden px-2 py-2 sm:px-4 sm:py-4 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
-              style={{ touchAction: "pan-y" }}
-            >
-              <motion.div
-                className={`flex gap-6 ${
-                  isDragging
-                    ? "transition-none"
-                    : "transition-transform duration-500 ease-out"
-                }`}
-                style={{
-                  transform: `translateX(calc(-${currentIndex * (100 / itemsPerView + 2.4)}% + ${dragOffset}px))`,
-                }}
-                onWheel={handleWheel}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={endDrag}
-                onPointerCancel={endDrag}
-              >
-                {mazagotonProducts.map((product, index) => (
-                  <motion.div
-                    key={product.name}
-                    className={`group relative overflow-hidden rounded-[32px] ${pastelColors[index]} h-[550px] cursor-pointer flex-shrink-0 shadow-lg`}
-                    style={{ width: `calc(25% - 1.5rem)` }}
-                    variants={reveal}
-                    custom={0.12 + index * 0.08}
-                    whileHover={{
-                      scale: 1.05,
-                      y: -12,
-                      transition: { duration: 0.3, ease: "easeOut" },
-                    }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    {/* Card Background Glow on Hover */}
-                    <motion.div
-                      className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        background:
-                          "radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)",
-                        pointerEvents: "none",
-                      }}
-                    />
-
-                    {/* Background Image */}
-                    <div className="absolute inset-0 p-8 lg:p-12 flex items-center justify-center">
-                      <div className="relative w-full h-full">
-                        <motion.div
-                          className="relative w-full h-full"
-                          whileHover={{ scale: 1.08 }}
-                          transition={{ duration: 0.4, ease: "easeOut" }}
-                        >
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            className={`object-contain ${product.imageClassName ?? ""}`}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          />
-                        </motion.div>
-                      </div>
-                    </div>
-
-                    {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-white/5 to-transparent" />
-
-                    {/* Content - Positioned at top and bottom */}
-                    <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
-                      {/* Top Section */}
-                      <motion.div
-                        className="flex flex-col"
-                        initial={{ opacity: 0, y: -10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1, duration: 0.5 }}
-                        viewport={{ once: true }}
-                      >
-                        <p className="text-xs font-medium tracking-[0.12em] text-slate-700 uppercase">
-                          Ritex Condom
-                        </p>
-                        <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-slate-900 leading-tight">
-                          {product.name}
-                        </h3>
-                      </motion.div>
-
-                      {/* Bottom Section */}
-                      <motion.div
-                        className="flex flex-col"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15, duration: 0.5 }}
-                        viewport={{ once: true }}
-                      >
-                        {/* Plus Button */}
-                        <div className="flex justify-end">
-                          <motion.button
-                            type="button"
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-400/30 backdrop-blur-sm"
-                            onClick={() => setActiveProduct(product)}
-                            onPointerDown={(event) => event.stopPropagation()}
-                            aria-label={`View specs for ${product.name}`}
-                            whileHover={{
-                              scale: 1.15,
-                              backgroundColor: "rgba(100, 116, 139, 0.5)",
-                              transition: { duration: 0.2 },
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <motion.svg
-                              className="h-6 w-6 text-slate-900"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              whileHover={{
-                                rotate: 90,
-                                transition: { duration: 0.3 },
-                              }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 4v16m8-8H4"
-                              />
-                            </motion.svg>
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-6">
-              <button
-                onClick={handlePrev}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
-                aria-label="Previous"
-              >
-                <ChevronLeft className="h-6 w-6 text-slate-900" />
-              </button>
-
-              {/* Dots Indicator */}
-              <div className="flex gap-2">
-                {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`h-2 rounded-full transition-all ${
-                      index === currentIndex
-                        ? "w-8 bg-slate-900"
-                        : "w-2 bg-slate-300"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
+            {isCompactDisplay ? (
+              <div className="grid gap-6 md:grid-cols-3 md:justify-items-center">
+                {mazagotonProducts.map((product, index) =>
+                  renderProductCard(product, index),
+                )}
               </div>
+            ) : (
+              <>
+                <div
+                  ref={carouselViewportRef}
+                  className={`overflow-hidden px-2 py-2 sm:px-4 sm:py-4 ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
+                  style={{ touchAction: "pan-y" }}
+                >
+                  <motion.div
+                    className={`flex gap-6 ${
+                      isDragging
+                        ? "transition-none"
+                        : "transition-transform duration-500 ease-out"
+                    }`}
+                    style={{
+                      transform: `translateX(calc(-${currentIndex * (100 / itemsPerView + 2.4)}% + ${dragOffset}px))`,
+                    }}
+                    onWheel={handleWheel}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={endDrag}
+                    onPointerCancel={endDrag}
+                  >
+                    {mazagotonProducts.map((product, index) =>
+                      renderProductCard(product, index),
+                    )}
+                  </motion.div>
+                </div>
 
-              <button
-                onClick={handleNext}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:bg-slate-50 hover:border-slate-300"
-                aria-label="Next"
-              >
-                <ChevronRight className="h-6 w-6 text-slate-900" />
-              </button>
-            </div>
+                <div className="mt-6 flex items-center justify-between">
+                  <button
+                    onClick={handlePrev}
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:border-slate-300 hover:bg-slate-50"
+                    aria-label="Previous"
+                  >
+                    <ChevronLeft className="h-6 w-6 text-slate-900" />
+                  </button>
+
+                  <div className="flex gap-2">
+                    {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        className={`h-2 rounded-full transition-all ${
+                          index === currentIndex
+                            ? "w-8 bg-slate-900"
+                            : "w-2 bg-slate-300"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={handleNext}
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white transition-all hover:border-slate-300 hover:bg-slate-50"
+                    aria-label="Next"
+                  >
+                    <ChevronRight className="h-6 w-6 text-slate-900" />
+                  </button>
+                </div>
+              </>
+            )}
           </motion.div>
-
-          {/* <motion.div className="mt-10 flex justify-center" variants={reveal}>
-            <Link
-              href="/products/ritex/ritex-overview"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Ritex GMBH
-            </Link>
-          </motion.div> */}
         </motion.div>
       </div>
 
@@ -564,10 +563,10 @@ export default function MazagotonPage() {
                 <div className="flex flex-col">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
                     <Image
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
+                      src={activeProduct.popupImage}
+                      alt={`${activeProduct.name} showcase`}
                       fill
-                      className={`object-contain p-4 ${activeProduct.imageClassName ?? ""}`}
+                      className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 220px"
                     />
                   </div>

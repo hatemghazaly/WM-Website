@@ -14,10 +14,10 @@ export function SiteNavbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <nav className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <nav className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:relative lg:px-8">
         <Link
           href="/"
-          className="flex items-center gap-3"
+          className="flex shrink-0 items-center gap-3"
           onClick={closeMobileMenu}
         >
           <Image
@@ -29,13 +29,13 @@ export function SiteNavbar() {
             priority
           />
           <span className="hidden text-lg font-semibold tracking-tight sm:block">
-            Willi Med For Pharmaceutical Industries
+            Willi Med
           </span>
         </Link>
 
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground lg:hidden"
+          className="inline-flex items-center justify-center rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground xl:hidden"
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-site-navigation"
           aria-label="Toggle navigation menu"
@@ -60,23 +60,23 @@ export function SiteNavbar() {
           </span>
         </button>
 
-        <ul className="hidden items-center gap-2 sm:gap-4 lg:flex">
+        <ul className="hidden items-center gap-1.5 xl:absolute xl:left-1/2 xl:flex xl:-translate-x-1/2 xl:flex-nowrap">
           {navItems.map((item) => (
-            <li key={item.href}>
+            <li key={item.href} className="shrink-0">
               <Link
                 href={item.href}
                 onClick={closeMobileMenu}
-                className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 {item.label}
               </Link>
             </li>
           ))}
 
-          <li className="group relative">
+          <li className="group relative shrink-0">
             <button
               type="button"
-              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               About Us
             </button>
@@ -99,10 +99,10 @@ export function SiteNavbar() {
             </div>
           </li>
 
-          <li className="group relative">
+          <li className="group relative shrink-0">
             <button
               type="button"
-              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               Products
             </button>
@@ -203,10 +203,10 @@ export function SiteNavbar() {
               </Link>
             </div>
           </li>
-          <li className="group relative">
+          <li className="group relative shrink-0">
             <button
               type="button"
-              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               Career
             </button>
@@ -229,20 +229,20 @@ export function SiteNavbar() {
             </div>
           </li>
 
-          <li>
+          <li className="shrink-0">
             <Link
               href="/employees_section"
               onClick={closeMobileMenu}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Employee&apos;s Section
             </Link>
           </li>
 
-          <li className="group relative">
+          <li className="group relative shrink-0">
             <button
               type="button"
-              className="cursor-default rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               B2B
             </button>
@@ -271,20 +271,20 @@ export function SiteNavbar() {
               </Link>
             </div>
           </li>
-          <li>
+          <li className="shrink-0">
             <Link
               href="/where_to_buy"
               onClick={closeMobileMenu}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Where to Buy?
             </Link>
           </li>
-          <li>
+          <li className="shrink-0">
             <Link
               href="/contact"
               onClick={closeMobileMenu}
-              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
               Contact Us
             </Link>
@@ -295,7 +295,7 @@ export function SiteNavbar() {
       {isMobileMenuOpen ? (
         <div
           id="mobile-site-navigation"
-          className="border-t border-border bg-background/98 lg:hidden"
+          className="border-t border-border bg-background/98 xl:hidden"
         >
           <div className="max-h-[calc(100vh-72px)] overflow-y-auto px-4 py-4 sm:px-6">
             <div className="space-y-2">

@@ -18,6 +18,7 @@ const condomProducts = [
   {
     name: "RR1",
     image: "/images/Products/ritex/rr1.jpg",
+    popupImage: "/images/Products/ritex/rr1.jpg",
     slogan: "Feel every moment with natural intensity.",
     specs: [
       "Intense Sensations.",
@@ -30,6 +31,7 @@ const condomProducts = [
   {
     name: "XXL",
     image: "/images/Products/ritex/xxl.jpg",
+    popupImage: "/images/Products/ritex/xxl.jpg",
     slogan: "Extra room. Extra comfort. Extra confidence.",
     specs: [
       "Extra Large.",
@@ -43,6 +45,7 @@ const condomProducts = [
   {
     name: "Lust",
     image: "/images/Products/ritex/lust.jpg",
+    popupImage: "/images/Products/ritex/lust.jpg",
     slogan: "Textured for stronger shared sensations.",
     specs: [
       "Dotted & Ribbed.",
@@ -54,6 +57,7 @@ const condomProducts = [
   {
     name: "Feeling",
     image: "/images/Products/ritex/feeling.jpg",
+    popupImage: "/images/Products/ritex/feeling.jpg",
     slogan: "A skin-tight fit made to feel natural.",
     specs: [
       "Perfect Fit.",
@@ -66,6 +70,7 @@ const condomProducts = [
   {
     name: "Longtime",
     image: "/images/Products/ritex/Longtime.jpg",
+    popupImage: "/images/Products/ritex/Longtime.jpg",
     slogan: "Made to help the moment last longer.",
     specs: [
       "Make love For longer.",
@@ -78,6 +83,7 @@ const condomProducts = [
   {
     name: "Extra Thin",
     image: "/images/Products/ritex/thin.jpg",
+    popupImage: "/images/Products/ritex/thin.jpg",
     slogan: "Ultra-thin touch, naturally intense.",
     specs: [
       "For a particularly natural feeling.",
@@ -89,6 +95,7 @@ const condomProducts = [
   {
     name: "Ideal",
     image: "/images/Products/ritex/ideal.jpg",
+    popupImage: "/images/Products/ritex/ideal.jpg",
     slogan: "Smooth comfort with added lubrication.",
     specs: [
       "Extra Lubricated.",
@@ -100,6 +107,7 @@ const condomProducts = [
   {
     name: "Mix",
     image: "/images/Products/ritex/mix.jpg",
+    popupImage: "/images/Products/ritex/mix.jpg",
     slogan: "Variety that keeps things exciting.",
     specs: [
       "Excitingly different every time!",
@@ -112,6 +120,7 @@ const condomProducts = [
   {
     name: "Kondom Automate",
     image: "/images/Products/ritex/ka.jpg",
+    popupImage: "/images/Products/ritex/ka.jpg",
     slogan: "Retro style with a full surprise mix.",
     specs: [
       "Retro Condom Machine.",
@@ -531,9 +540,9 @@ export default function RitexCondomsPage() {
                 and trust in the contraceptive.
               </p>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-                At <strong>Ritex</strong>, we're the experts when it comes to
-                passionate intimacy. It&apos;s more than 75 years now since we
-                first started manufacturing condoms and lubricants in premium
+                At <strong>Ritex</strong>, we&apos;re the experts when it comes
+                to passionate intimacy. It&apos;s more than 75 years now since
+                we first started manufacturing condoms and lubricants in premium
                 “made in Germany” quality – so that lovers can surrender to
                 life’s sensual moments, secure in their safety.
               </p>
@@ -683,8 +692,8 @@ export default function RitexCondomsPage() {
                 <div className="flex flex-col">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] bg-slate-100">
                     <Image
-                      src={activeProduct.image}
-                      alt={activeProduct.name}
+                      src={activeProduct.popupImage}
+                      alt={`${activeProduct.name} showcase`}
                       fill
                       className="object-contain p-4"
                       sizes="(max-width: 768px) 100vw, 220px"
