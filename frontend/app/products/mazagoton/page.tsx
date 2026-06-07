@@ -515,7 +515,7 @@ export default function MazagotonPage() {
             </div>
           </motion.div>
 
-          <motion.div className="mt-10 flex justify-center" variants={reveal}>
+          {/* <motion.div className="mt-10 flex justify-center" variants={reveal}>
             <Link
               href="/products/ritex/ritex-overview"
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
@@ -523,7 +523,7 @@ export default function MazagotonPage() {
               <ArrowLeft className="h-4 w-4" />
               Back to Ritex GMBH
             </Link>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </div>
 
