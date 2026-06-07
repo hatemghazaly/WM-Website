@@ -14,41 +14,49 @@ import {
   X,
 } from "lucide-react";
 
-const mazagotonProducts = [
+type MazagotonProduct = {
+  name: string;
+  image: string;
+  slogan: string;
+  specs: string[];
+  imageClassName?: string;
+};
+
+const mazagotonProducts: MazagotonProduct[] = [
   {
     name: "Mazagoton - F",
-    image: "/images/Products/mazagoton/rr1.jpg",
-    slogan: "Feel every moment with natural intensity.",
+    image: "/images/Products/mazagoton/female.png",
+    imageClassName: "scale-[1.14]",
+    slogan: "Daily nutrition, naturally hers.",
     specs: [
-      "Intense Sensations.",
-      "A guaranteed 100% natural experience.",
-      "Silky Soft Surface with sensitive lubrication.",
-      "Aviailable in packs of 3 and 10.",
-      "100% Made in Germany.",
+      "Perfect Formula for Her.",
+      "13 essential vitamins and 13 minerals.",
+      "One tablet per day.",
+      "Stylish, safely sealed & easily stored jar.",
     ],
   },
   {
     name: "Mazagoton - M",
-    image: "/images/Products/mazagoton/xxl.jpg",
-    slogan: "Extra room. Extra comfort. Extra confidence.",
+    image: "/images/Products/mazagoton/male.png",
+    slogan: "Strength, stamina, and vitality — every day.",
     specs: [
-      "Extra Large.",
-      "Highly elastic.",
-      "Intense in sensation.",
-      "Extra lubrication for a better experience.",
-      "Aviailable in packs of 3 and 8.",
-      "100% Made in Germany.",
+      "Perfect Formula for Him.",
+      "13 essential vitamins and 14 minerals.",
+      "Supports sperm quality and vitality.",
+      "One tablet per day.",
+      "Stylish, safely sealed & easily stored jar.",
     ],
   },
   {
     name: "Mazagoton Energy",
-    image: "/images/Products/mazagoton/energy.jpg",
-    slogan: "Textured for stronger shared sensations.",
+    image: "/images/Products/mazagoton/energy_new.png",
+    slogan: "Fuel your day. Fight fatigue. Feel alive.",
     specs: [
-      "Dotted & Ribbed.",
-      "Intense stimulation for both partners.",
-      "Available in packs of 3 and 8.",
-      "100% Made in Germany.",
+      "Perfect Formula for Everyone.",
+      "13 essential vitamins and 14 minerals.",
+      "Supports energy metabolism & reduces fatigue.",
+      "One tablet per day.",
+      "Stylish, safely sealed & easily stored jar.",
     ],
   },
 ];
@@ -57,9 +65,9 @@ export default function MazagotonPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [activeProduct, setActiveProduct] = useState<
-    (typeof mazagotonProducts)[number] | null
-  >(null);
+  const [activeProduct, setActiveProduct] = useState<MazagotonProduct | null>(
+    null,
+  );
   const carouselViewportRef = useRef<HTMLDivElement | null>(null);
   const trustRef = useRef<HTMLDivElement | null>(null);
   const wheelStateRef = useRef({
@@ -250,11 +258,11 @@ export default function MazagotonPage() {
               variants={reveal}
               custom={0.24}
             >
-              Engineered in Germany since 1948, Ritex condoms combine safety,
-              comfort and innovation to enhance intimate moments while providing
-              reliable protection. From ultra-thin and natural-feel options to
-              textured and specialty designs, Ritex offers a variety of choices
-              to suit different preferences and lifestyles.
+              Our commitment to quality starts with carefully selected
+              ingredients and a science-backed formula. Designed to provide
+              essential vitamins and minerals in optimal daily amounts, our
+              multivitamin helps support overall wellness, energy, and
+              vitality—so you can feel your best every day.
             </motion.p>
           </motion.div>
         </div>
@@ -287,7 +295,7 @@ export default function MazagotonPage() {
         >
           <motion.div className="mt-10 text-center" variants={reveal}>
             <h2 className="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:text-5xl">
-              Good Sex Is Based On <span className="font-black">Trust</span>
+              Daily Wellness, Made <span className="font-black">Simple</span>
             </h2>
             <div
               ref={trustRef}
@@ -303,7 +311,7 @@ export default function MazagotonPage() {
                 style={{ y: trustImageY, scale: trustImageScale }}
               >
                 <Image
-                  src="/images/Products/ritex/trust.png"
+                  src="/images/Products/mazagoton/mz-family.png"
                   alt="Trust illustration"
                   fill
                   className="object-cover"
@@ -312,20 +320,22 @@ export default function MazagotonPage() {
               </motion.div>
             </div>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              Tingling erotic excitement, sensual experiences, tender
-              togetherness - sex has many facets.
+              Our multivitamin range is designed to meet the unique needs of
+              every adult lifestyle, with three specialized formulas:{" "}
+              <strong>For Her</strong>, <strong>For Him</strong> and{" "}
+              <strong>For Athletes</strong>.
             </p>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              But for the most pleasurable thing in the world to feel free and
-              liberating, there must be trust as well – trust in each other and
-              trust in the contraceptive.
+              Each formula is carefully crafted with a comprehensive blend of
+              essential vitamins and minerals to support overall health,
+              balanced nutrition, and sustained daily energy.
             </p>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">
-              At <strong>Ritex</strong>, we're the experts when it comes to
-              passionate intimacy. It&apos;s more than 75 years now since we
-              first started manufacturing condoms and lubricants in premium
-              “made in Germany” quality – so that lovers can surrender to life’s
-              sensual moments, secure in their safety.
+              With <strong>Mazagoton</strong>, Whether you're managing a busy
+              schedule, focusing on your wellness goals, or maintaining an
+              active lifestyle, our targeted formulas help provide the
+              nutritional support your body needs to perform at its best every
+              day.y.
             </p>
           </motion.div>
           <motion.div className="mt-10 text-center" variants={reveal}>
@@ -392,7 +402,7 @@ export default function MazagotonPage() {
                             src={product.image}
                             alt={product.name}
                             fill
-                            className="object-contain"
+                            className={`object-contain ${product.imageClassName ?? ""}`}
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           />
                         </motion.div>
@@ -557,7 +567,7 @@ export default function MazagotonPage() {
                       src={activeProduct.image}
                       alt={activeProduct.name}
                       fill
-                      className="object-contain p-4"
+                      className={`object-contain p-4 ${activeProduct.imageClassName ?? ""}`}
                       sizes="(max-width: 768px) 100vw, 220px"
                     />
                   </div>
