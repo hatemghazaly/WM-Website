@@ -38,7 +38,7 @@ const mazagotonProducts: MazagotonProductData[] = [
   },
   {
     name: "Mazagoton - M",
-    cardImage: "/images/Products/mazagoton/male_man.png",
+    cardImage: "/images/Products/mazagoton/male_man_new.png",
     popupImage: "/images/Products/mazagoton/male.png",
     slogan: "Strength, stamina, and vitality — every day.",
     specs: [
