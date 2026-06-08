@@ -22,33 +22,7 @@
         "Strong communication, presentation, and relationship-building skills.",
         "Self-motivated, organized, and able to work toward sales targets."
       ],
-      "emailSubject": "Application for Full Time Medical Representative",
-      "appliedJob": "full"
-    },
-    {
-      "title": "Part Time Medical Representative",
-      "department": "Sales & Field Operations",
-      "location": "All Governrate, Egypt",
-      "type": "Part-time",
-      "experience": "0-3 years",
-      "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
-      "qualifications": [
-        "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-        "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-        "Strong communication, presentation, and relationship-building skills.",
-        "Self-motivated, organized, and able to work toward sales targets."
-      ],
-      "emailSubject": "Application for Part Time Medical Representative",
-      "appliedJob": "part"
+      "emailSubject": "Application for Full Time Medical Representative"
     },
     {
       "title": "District Manager",
@@ -72,8 +46,7 @@
         "Strong communication, presentation, and relationship-building skills.",
         "Self-motivated, organized, and able to work toward sales targets."
       ],
-      "emailSubject": "Application for Part Time Medical Representative",
-      "appliedJob": "dm"
+      "emailSubject": "Application for Part Time Medical Representative"
     },
     {
       "title": "Associate Product Manager",
@@ -97,8 +70,7 @@
         "Strong communication, presentation, and relationship-building skills.",
         "Self-motivated, organized, and able to work toward sales targets."
       ],
-      "emailSubject": "Application for Part Time Medical Representative",
-      "appliedJob": "apm"
+      "emailSubject": "Application for Part Time Medical Representative"
     },
     {
       "title": "National Sales Manager",
@@ -122,8 +94,7 @@
         "Strong communication, presentation, and relationship-building skills.",
         "Self-motivated, organized, and able to work toward sales targets."
       ],
-      "emailSubject": "Application for Part Time Medical Representative",
-      "appliedJob": "nsm"
+      "emailSubject": "Application for Part Time Medical Representative"
     },
     {
       "title": "General Manager",
@@ -138,8 +109,7 @@
       "qualifications": [
         "test3"
       ],
-      "emailSubject": "Application for General Manager",
-      "appliedJob": "gm"
+      "emailSubject": "Application for General Manager"
     }
   ],
   "availableRoles": [
@@ -226,10 +196,6 @@
     {
       "label": "General Manager",
       "code": "gm"
-    },
-    {
-      "label": "test",
-      "code": "j"
     }
   ]
 }

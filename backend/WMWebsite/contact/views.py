@@ -414,6 +414,7 @@ def submit_career_application(request):
             f"Email: {career_application.email}",
             f"Phone: {career_application.phone or 'N/A'}",
             f"Role: {career_application.role}",
+            f"Applied Job Code: {career_application.applied_job}",
             f"Subject: {career_application.subject}",
             "",
             "Message:",
@@ -517,6 +518,8 @@ def submit_career_application(request):
         "id": career_application.id,
         "email_sent": email_sent,
         "recruitment_sent": recruitment_sent,
+        "applied_job": career_application.applied_job,
+        "recruitment_applied_job": recruitment_payload["applied_job"],
     }
 
     if recruitment_sent:

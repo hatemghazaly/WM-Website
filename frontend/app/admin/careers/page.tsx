@@ -10,7 +10,6 @@ import {
   DEFAULT_CAREERS_CONFIG,
   mergeApplyRoles,
   normalizeCareersConfig,
-  getRoleCodeMap,
   type CareersConfig,
   type Vacancy,
 } from "@/lib/careers-data";
@@ -85,7 +84,6 @@ export default function CareersAdminPage() {
       ),
     [draft.availableRoles],
   );
-  const roleCodeMap = useMemo(() => getRoleCodeMap(draft), [draft]);
   const vacancyTypeOptions = [
     "Full-Time",
     "Part-Time",
@@ -107,11 +105,10 @@ export default function CareersAdminPage() {
   }
 
   function updateVacancyTitle(index: number, title: string) {
-    const appliedJob = roleCodeMap[title] ?? "";
     setDraft((current) => ({
       ...current,
       vacancies: current.vacancies.map((vacancy, currentIndex) =>
-        currentIndex === index ? { ...vacancy, title, appliedJob } : vacancy,
+        currentIndex === index ? { ...vacancy, title } : vacancy,
       ),
     }));
   }
