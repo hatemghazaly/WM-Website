@@ -46,11 +46,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "demo.wm360.info",
+    "willimed.wm360.info",
+    "www.willimed.wm360.info",
     "localhost",
     "127.0.0.1",
 ]
 CONTACT_ALLOWED_ORIGINS = [
     "https://wm-website-eight.vercel.app",
+    "https://willimed.wm360.info",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
@@ -177,8 +180,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 CORS_ALLOWED_ORIGINS = [
     "https://wm-website-eight.vercel.app",
+    "https://willimed.wm360.info",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://wm-website-eight.vercel.app",
+    "https://willimed.wm360.info",
 ]
