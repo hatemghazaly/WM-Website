@@ -9,15 +9,16 @@ import {
   normalizeCareersConfig,
   type CareersConfig,
 } from "@/lib/careers-data";
+import {
+  getCookieValue,
+  getCareersAdminCookieName,
+  isValidCareersAdminToken,
+} from "@/lib/careers-admin-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const configPath = path.join(process.cwd(), "data", "careers-config.json");
-
-function env(name: string, fallback: string) {
-  return process.env[name] ?? fallback;
-}
 
 function backendUrl() {
   return (
@@ -125,6 +126,17 @@ export async function POST(request: Request) {
   }
 
   const normalizedConfig = normalizeCareersConfig(payload);
+
+  const adminToken = getCookieValue(
+    request.headers.get("cookie"),
+    getCareersAdminCookieName(),
+  );
+  if (!(await isValidCareersAdminToken(adminToken))) {
+    return NextResponse.json(
+      { error: "Admin authentication is required." },
+      { status: 401 },
+    );
+  }
 
   if (
     normalizedConfig.vacancies.some(

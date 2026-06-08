@@ -8,6 +8,7 @@ export type Vacancy = {
   responsibilities: string[];
   qualifications: string[];
   emailSubject: string;
+  active: boolean;
 };
 
 export type AvailableRole = {
@@ -36,6 +37,7 @@ export function cloneCareersConfig(config: CareersConfig): CareersConfig {
       ...vacancy,
       responsibilities: [...vacancy.responsibilities],
       qualifications: [...vacancy.qualifications],
+      active: vacancy.active,
     })),
     availableRoles: config.availableRoles.map((role) => ({ ...role })),
   };
@@ -75,6 +77,7 @@ function normalizeVacancy(value: unknown): Vacancy {
     responsibilities: normalizeList(vacancy.responsibilities),
     qualifications: normalizeList(vacancy.qualifications),
     emailSubject: emailSubject || (title ? `Application for ${title}` : ""),
+    active: vacancy.active !== false,
   };
 }
 
@@ -122,6 +125,7 @@ export function createEmptyVacancy(): Vacancy {
     responsibilities: [],
     qualifications: [],
     emailSubject: "",
+    active: true,
   };
 }
 

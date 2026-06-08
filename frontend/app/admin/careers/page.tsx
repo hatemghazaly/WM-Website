@@ -1,8 +1,18 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
-import { ArrowLeft, Plus, RotateCcw, Save, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
+  LogOut,
+  Plus,
+  RotateCcw,
+  Save,
+  Trash2,
+} from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   cloneCareersConfig,
@@ -47,12 +57,14 @@ function toText(value: string[]) {
 }
 
 export default function CareersAdminPage() {
+  const router = useRouter();
   const [draft, setDraft] = useState<CareersConfig>(() =>
     cloneCareersConfig(EMPTY_CAREERS_CONFIG),
   );
   const [saveState, setSaveState] = useState<SaveState>("loading");
   const [message, setMessage] = useState("");
   const [activeTab, setActiveTab] = useState<"roles" | "vacancies">("roles");
+  const [expandedVacancies, setExpandedVacancies] = useState<boolean[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -63,13 +75,15 @@ export default function CareersAdminPage() {
           cache: "no-store",
         });
         const payload = await readJsonResponse(response);
+        const normalized = normalizeCareersConfig(payload);
 
         if (!response.ok) {
           throw new Error(responseError(payload, "We could not load the careers config."));
         }
 
         if (!cancelled) {
-          setDraft(cloneCareersConfig(normalizeCareersConfig(payload)));
+          setDraft(cloneCareersConfig(normalized));
+          setExpandedVacancies(normalized.vacancies.map(() => true));
           setSaveState("idle");
         }
       } catch (error) {
@@ -105,11 +119,15 @@ export default function CareersAdminPage() {
     "Remote Working",
     "Per Hour",
   ];
+  const allVacanciesExpanded =
+    draft.vacancies.length > 0 &&
+    expandedVacancies.length === draft.vacancies.length &&
+    expandedVacancies.every(Boolean);
 
   function updateVacancy(
     index: number,
     field: keyof Vacancy,
-    value: string | string[],
+    value: string | string[] | boolean,
   ) {
     setDraft((current) => ({
       ...current,
@@ -128,11 +146,23 @@ export default function CareersAdminPage() {
     }));
   }
 
+  function toggleVacancyActive(index: number) {
+    setDraft((current) => ({
+      ...current,
+      vacancies: current.vacancies.map((vacancy, currentIndex) =>
+        currentIndex === index
+          ? { ...vacancy, active: !vacancy.active }
+          : vacancy,
+      ),
+    }));
+  }
+
   function addVacancy() {
     setDraft((current) => ({
       ...current,
       vacancies: [...current.vacancies, createEmptyVacancy()],
     }));
+    setExpandedVacancies((current) => [...current, true]);
   }
 
   function removeVacancy(index: number) {
@@ -142,6 +172,9 @@ export default function CareersAdminPage() {
         (_, currentIndex) => currentIndex !== index,
       ),
     }));
+    setExpandedVacancies((current) =>
+      current.filter((_, currentIndex) => currentIndex !== index),
+    );
   }
 
   function updateRole(index: number, value: string) {
@@ -182,6 +215,12 @@ export default function CareersAdminPage() {
     setDraft(cloneCareersConfig(EMPTY_CAREERS_CONFIG));
     setMessage("Restored the default careers content.");
     setSaveState("idle");
+  }
+
+  async function logout() {
+    await fetch("/api/admin/careers/auth", { method: "DELETE" });
+    router.replace("/admin/careers/login");
+    router.refresh();
   }
 
   async function saveConfig() {
@@ -289,6 +328,14 @@ export default function CareersAdminPage() {
                 <Save className="h-4 w-4" />
                 {saveState === "saving" ? "Saving..." : "Save Changes"}
               </button>
+              <button
+                type="button"
+                onClick={logout}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
+              >
+                <LogOut className="h-4 w-4" />
+                Log Out
+              </button>
             </div>
 
             <div className="mt-6 text-sm text-slate-500">
@@ -313,17 +360,6 @@ export default function CareersAdminPage() {
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveTab("roles")}
-                  className={`rounded-full px-5 py-3 text-sm font-medium transition ${
-                    activeTab === "roles"
-                      ? "bg-slate-950 text-white shadow-sm"
-                      : "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-950"
-                  }`}
-                >
-                  Available Roles
-                </button>
-                <button
-                  type="button"
                   onClick={() => setActiveTab("vacancies")}
                   className={`rounded-full px-5 py-3 text-sm font-medium transition ${
                     activeTab === "vacancies"
@@ -332,6 +368,17 @@ export default function CareersAdminPage() {
                   }`}
                 >
                   Vacancy Cards
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("roles")}
+                  className={`rounded-full px-5 py-3 text-sm font-medium transition ${
+                    activeTab === "roles"
+                      ? "bg-slate-950 text-white shadow-sm"
+                      : "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+                  }`}
+                >
+                  Available Roles
                 </button>
               </div>
             </div>
@@ -423,133 +470,198 @@ export default function CareersAdminPage() {
                     </h2>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={addVacancy}
-                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
-                  >
-                    <Plus className="h-4 w-4" />
-                    Add Vacancy
-                  </button>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setExpandedVacancies(
+                          draft.vacancies.map(() => !allVacanciesExpanded),
+                        )
+                      }
+                      disabled={draft.vacancies.length === 0}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {allVacanciesExpanded ? "Collapse All" : "Expand All"}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={addVacancy}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Add Vacancy
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-5 grid gap-5">
-                  {draft.vacancies.map((vacancy, index) => (
-                    <article
-                      key={index}
-                      className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 sm:p-5"
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-3">
-                        <div>
-                          <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                            Vacancy {index + 1}
-                          </p>
-                          <h3 className="mt-2 text-xl font-semibold tracking-[-0.04em] text-slate-950">
-                            {vacancy.title || "Untitled vacancy"}
-                          </h3>
+                  {draft.vacancies.map((vacancy, index) => {
+                    const isExpanded = expandedVacancies[index] ?? true;
+
+                    return (
+                      <article
+                        key={index}
+                        className={`rounded-[28px] border p-4 sm:p-5 ${
+                          vacancy.active === false
+                            ? "border-slate-200 bg-slate-100/80 opacity-80"
+                            : "border-slate-200 bg-slate-50"
+                        }`}
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setExpandedVacancies((current) =>
+                                current.map((item, currentIndex) =>
+                                  currentIndex === index ? !item : item,
+                                ),
+                              )
+                            }
+                            className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                          >
+                            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700">
+                              {isExpanded ? (
+                                <ChevronUp className="h-4 w-4" />
+                              ) : (
+                                <ChevronDown className="h-4 w-4" />
+                              )}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                                Vacancy {index + 1}
+                              </p>
+                              <h3 className="mt-2 truncate text-xl font-semibold tracking-[-0.04em] text-slate-950">
+                                {vacancy.title || "Untitled vacancy"}
+                              </h3>
+                            </div>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => removeVacancy(index)}
+                            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                            Remove
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => removeVacancy(index)}
-                          className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          Remove
-                        </button>
-                      </div>
 
-                      <div className="mt-5 grid gap-4 md:grid-cols-2">
-                        <SelectField
-                          label="Title"
-                          value={vacancy.title}
-                          onChange={(value) => updateVacancyTitle(index, value)}
-                          options={vacancyTitleOptions.map(
-                            (role) => role.label,
-                          )}
-                          placeholder="Choose from available roles"
-                        />
-                        <Field
-                          label="Department"
-                          value={vacancy.department}
-                          onChange={(value) =>
-                            updateVacancy(index, "department", value)
-                          }
-                          placeholder="Department"
-                        />
-                        <Field
-                          label="Location"
-                          value={vacancy.location}
-                          onChange={(value) =>
-                            updateVacancy(index, "location", value)
-                          }
-                          placeholder="Location"
-                        />
-                        <SelectField
-                          label="Type"
-                          value={vacancy.type}
-                          onChange={(value) =>
-                            updateVacancy(index, "type", value)
-                          }
-                          options={vacancyTypeOptions}
-                          placeholder="Select type"
-                        />
-                        <Field
-                          label="Experience"
-                          value={vacancy.experience}
-                          onChange={(value) =>
-                            updateVacancy(index, "experience", value)
-                          }
-                          placeholder="0-3 years"
-                        />
-                        <Field
-                          label="Email Subject"
-                          value={vacancy.emailSubject}
-                          onChange={(value) =>
-                            updateVacancy(index, "emailSubject", value)
-                          }
-                          placeholder="Application subject"
-                        />
-                      </div>
+                        <div className="mt-3 flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => toggleVacancyActive(index)}
+                            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] transition ${
+                              vacancy.active === false
+                                ? "border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
+                                : "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                            }`}
+                          >
+                            {vacancy.active === false
+                              ? "Inactive"
+                              : "Active"}
+                          </button>
+                        </div>
 
-                      <div className="mt-4 grid gap-4">
-                        <TextareaField
-                          label="Summary"
-                          value={vacancy.summary}
-                          onChange={(value) =>
-                            updateVacancy(index, "summary", value)
-                          }
-                          placeholder="Short role summary"
-                          rows={6}
-                        />
-                        <TextareaField
-                          label="Responsibilities"
-                          value={toText(vacancy.responsibilities)}
-                          onChange={(value) =>
-                            updateVacancy(
-                              index,
-                              "responsibilities",
-                              splitLines(value),
-                            )
-                          }
-                          placeholder="One responsibility per line"
-                          rows={9}
-                        />
-                        <TextareaField
-                          label="Qualifications"
-                          value={toText(vacancy.qualifications)}
-                          onChange={(value) =>
-                            updateVacancy(
-                              index,
-                              "qualifications",
-                              splitLines(value),
-                            )
-                          }
-                          placeholder="One qualification per line"
-                          rows={8}
-                        />
-                      </div>
-                    </article>
-                  ))}
+                        {isExpanded ? (
+                          <>
+                            <div className="mt-5 grid gap-4 md:grid-cols-2">
+                              <SelectField
+                                label="Title"
+                                value={vacancy.title}
+                                onChange={(value) =>
+                                  updateVacancyTitle(index, value)
+                                }
+                                options={vacancyTitleOptions.map(
+                                  (role) => role.label,
+                                )}
+                                placeholder="Choose from available roles"
+                              />
+                              <Field
+                                label="Department"
+                                value={vacancy.department}
+                                onChange={(value) =>
+                                  updateVacancy(index, "department", value)
+                                }
+                                placeholder="Department"
+                              />
+                              <Field
+                                label="Location"
+                                value={vacancy.location}
+                                onChange={(value) =>
+                                  updateVacancy(index, "location", value)
+                                }
+                                placeholder="Location"
+                              />
+                              <SelectField
+                                label="Type"
+                                value={vacancy.type}
+                                onChange={(value) =>
+                                  updateVacancy(index, "type", value)
+                                }
+                                options={vacancyTypeOptions}
+                                placeholder="Select type"
+                              />
+                              <Field
+                                label="Experience"
+                                value={vacancy.experience}
+                                onChange={(value) =>
+                                  updateVacancy(index, "experience", value)
+                                }
+                                placeholder="0-3 years"
+                              />
+                              <Field
+                                label="Email Subject"
+                                value={vacancy.emailSubject}
+                                onChange={(value) =>
+                                  updateVacancy(index, "emailSubject", value)
+                                }
+                                placeholder="Application subject"
+                              />
+                            </div>
+
+                            <div className="mt-4 grid gap-4">
+                              <TextareaField
+                                label="Summary"
+                                value={vacancy.summary}
+                                onChange={(value) =>
+                                  updateVacancy(index, "summary", value)
+                                }
+                                placeholder="Short role summary"
+                                rows={6}
+                              />
+                              <TextareaField
+                                label="Responsibilities"
+                                value={toText(vacancy.responsibilities)}
+                                onChange={(value) =>
+                                  updateVacancy(
+                                    index,
+                                    "responsibilities",
+                                    splitLines(value),
+                                  )
+                                }
+                                placeholder="One responsibility per line"
+                                rows={9}
+                              />
+                              <TextareaField
+                                label="Qualifications"
+                                value={toText(vacancy.qualifications)}
+                                onChange={(value) =>
+                                  updateVacancy(
+                                    index,
+                                    "qualifications",
+                                    splitLines(value),
+                                  )
+                                }
+                                placeholder="One qualification per line"
+                                rows={8}
+                              />
+                            </div>
+                          </>
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
               </section>
             )}

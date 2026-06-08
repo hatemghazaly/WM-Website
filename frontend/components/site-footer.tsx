@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type SocialIconProps = {
   className?: string;
 };
@@ -152,6 +154,13 @@ export function SiteFooter() {
           <p className="pt-2 text-xs text-white/70">
             © {new Date().getFullYear()} Willi Med. All rights reserved.
           </p>
+
+          <Link
+            href="/admin/careers/login"
+            className="sr-only focus:not-sr-only focus:mt-3 focus:inline-flex focus:rounded-full focus:border focus:border-white/20 focus:bg-white/10 focus:px-3 focus:py-2 focus:text-white"
+          >
+            Careers Admin Login
+          </Link>
         </div>
       </div>
     </footer>

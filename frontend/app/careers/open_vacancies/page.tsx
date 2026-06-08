@@ -93,7 +93,7 @@ export default function OpenVacanciesPage() {
         const config = normalizeCareersConfig(payload);
 
         if (!cancelled) {
-          setVacancies(config.vacancies);
+          setVacancies(config.vacancies.filter((vacancy) => vacancy.active !== false));
         }
       } catch {
         if (!cancelled) {
