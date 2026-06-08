@@ -154,10 +154,14 @@ export async function POST(request: Request) {
       typeof backend.data === "object" && backend.data && "error" in backend.data
         ? String((backend.data as { error?: unknown }).error ?? "")
         : "The live careers backend could not save the config.";
+    const message =
+      backend.status === 404
+        ? "The live Django backend is missing /api/admin/careers. Deploy the updated backend code and run migrations before saving careers config from Vercel."
+        : backendError;
 
     return NextResponse.json(
       {
-        error: backendError,
+        error: message,
         backend_status: backend.status,
         backend_url: backendCareersUrl(),
       },
