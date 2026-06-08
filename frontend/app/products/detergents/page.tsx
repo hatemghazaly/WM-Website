@@ -5,54 +5,61 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  Award,
+  BadgeCheck,
   Sparkles,
-  HeartPulse,
-  Baby,
+  ShieldCheck,
+  SprayCan,
   CheckCircle2,
   ArrowLeft,
   X,
 } from "lucide-react";
 
-const PediaProducts = [
+const DetergentProducts = [
   {
-    name: "Willi D3 Drops",
-    tagline: "Vitamin D3 Supplement",
-    cardImage: "/images/Products/pedia/baby1.png",
-    popupImage: "/images/Products/pedia/willi_d3.jpg",
+    name: "Tetatol",
+    tagline: "Detergents",
+    cardImage: "/images/Products/detergents/granny.png",
+    cardImageClassName: "scale-[1.12] object-[center_38%]",
+    popupImage: "/images/Products/detergents/tetatol2.png",
     description: "",
     specs: [
-      "400 Cholecalciferol/Drop.",
-      "Supports bone health and immune function.",
-      "Natural Coconut Flavour.",
-      "Accurate Dropper.",
-      "Sleek & Stylish Packaging.",
+      "Powerful cleaning & disinfecting.",
+      "Helps eliminating germs & bacteria.",
+      "Suitable for everyday household cleaning.",
+      "Leaves surfaces fresh, clean, & hygienic.",
+      "Made in Poland to high-quality European standards.",
     ],
   },
 
   {
     name: "Product Coming Soon",
-    tagline: "Pediatrics",
-    cardImage: "/images/Products/pedia/baby2.png",
-    popupImage: "/images/Products/pedia/baby2.png",
+    tagline: "Hand Soap",
+    cardImage: "/images/Products/detergents/granny2.png",
+    popupImage: "/images/Products/detergents/handsoap.png",
     description: "",
     specs: ["DETAILS COMING SOON."],
   },
 
   {
     name: "More Product Coming Soon",
-    tagline: "Pediatrics",
-    cardImage: "/images/Products/pedia/baby3.png",
-    popupImage: "/images/Products/pedia/baby3.png",
+    tagline: "Shower Gel",
+    cardImage: "/images/Products/detergents/shower_lady.png",
+    popupImage: "/images/Products/detergents/shower_gel.png",
     description: "",
     specs: ["DETAILS COMING SOON."],
   },
 ];
 
-export default function PediaPage() {
+export default function DetergentPage() {
   const [activeProduct, setActiveProduct] = useState<
-    (typeof PediaProducts)[number] | null
+    (typeof DetergentProducts)[number] | null
   >(null);
+  const activeProductIndex = activeProduct
+    ? DetergentProducts.indexOf(activeProduct)
+    : -1;
+  const pastelColors = ["bg-green-100", "bg-pink-100", "bg-yellow-100"];
+  const activeProductColor =
+    activeProductIndex >= 0 ? pastelColors[activeProductIndex] : "bg-slate-50";
   const reveal = {
     hidden: { opacity: 0, y: 16, scale: 0.985 },
     visible: {
@@ -106,36 +113,40 @@ export default function PediaPage() {
               variants={reveal}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Pediatrics Care
+              Cleanliness Meets Quality
             </motion.div>
             <motion.h1
               className="mt-5 text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl lg:text-6xl"
               variants={reveal}
             >
-              Pedia Line
+              Detergent Line
             </motion.h1>
             <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
               variants={reveal}
             >
-              At Willi Med, we are committed to supporting healthy growth and
-              development from the earliest stages of life. Our Pediatric Line
-              is focused on providing safe, effective, and high-quality
-              healthcare solutions tailored to the unique needs of infants and
-              children.
+              Our detergents are formulated to deliver powerful cleaning
+              performance while remaining gentle on fabrics and surfaces.
+              Designed for everyday use, they help remove dirt and stains
+              effectively, leaving a long-lasting fresh scent and the
+              cleanliness you can trust for your home and family.{" "}
             </motion.p>
 
             <motion.p
               className="mx-auto mt-6 max-w-3xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg"
               variants={reveal}
             >
-              As the first product in this growing portfolio, Willi D3 delivers
-              400 IU of Vitamin D3 per drop, helping support healthy bone
-              development, immune function, and overall child well-being. As
-              part of our commitment to pediatric healthcare, we continue to
-              expand our pipeline with innovative products designed to support
-              children&apos;s health at every stage of development.{" "}
+              <strong>Tetatol</strong> Surface Cleaner is the first product in
+              our growing home care range, bringing the quality and reliability
+              of <strong>Polish</strong> manufacturing to everyday cleaning.
+              Developed and produced in <strong>Poland</strong>,{" "}
+              <strong>Tetatol</strong> delivers effective surface cleaning while
+              reflecting the high standards our brand stands for. As the
+              beginning of an expanding product line, it marks the first step in
+              a wide range of <strong>Premium Polish-made solutions</strong>{" "}
+              that will soon be available to meet more of your household
+              needs.{" "}
             </motion.p>
           </div>
 
@@ -155,10 +166,10 @@ export default function PediaPage() {
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
-                src="/images/Products/pedia/pediatric_bg.png"
-                alt="Pediatric care"
+                src="/images/Products/detergents/detergents2.png"
+                alt="Detergent"
                 fill
-                className="object-cover"
+                className="object-cover object-[center_100%] scale-[1.55]"
                 sizes="100vw"
                 priority
               />
@@ -176,22 +187,22 @@ export default function PediaPage() {
           >
             {[
               {
-                icon: Award,
-                title: "Innovation",
+                icon: BadgeCheck,
+                title: "Polish Quality",
                 description:
-                  "Beautiful and durable, by design. Crafted to meet the premium standard of Willi Med's excellence.",
+                  "Proudly made in Poland with a commitment to quality, performance, and consistency.",
               },
               {
-                icon: HeartPulse,
-                title: "Care Focused",
+                icon: ShieldCheck,
+                title: "Family Clean Care",
                 description:
-                  "A line shaped around comfort, clarity and age-aware support for younger patients.",
+                  "Helping families maintain cleaner, fresher spaces with products they can rely on.",
               },
               {
-                icon: Baby,
-                title: "Gentle Formulation",
+                icon: SprayCan,
+                title: "Powerful Cleaning",
                 description:
-                  "Built with a soft, careful approach for everyday baby needs.",
+                  "Advanced cleaning formulas developed to tackle everyday messes with ease.",
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -237,10 +248,10 @@ export default function PediaPage() {
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
-                src="/images/Products/pedia/mom_baby.png"
-                alt="Pediatric care illustration"
+                src="/images/Products/detergents/cleaning_lady.png"
+                alt="Cleaning lady illustration"
                 fill
-                className="object-cover"
+                className="object-cover object-[center_32%]"
                 sizes="100vw"
               />
             </motion.div>
@@ -255,7 +266,7 @@ export default function PediaPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
           >
-            Tested Quality
+            Premium Excellence
           </motion.h2>
 
           <motion.p
@@ -265,9 +276,12 @@ export default function PediaPage() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
           >
-            Willi Med products are made with the highest quality standards,
-            ensuring safety and efficacy for your little ones. Below is an
-            overview of our pediatric product.
+            Built on a foundation of <strong>trust</strong>,{" "}
+            <strong>quality</strong> and <strong>excellence</strong>, our
+            products are carefully crafted to meet the highest standards of{" "}
+            <strong>performance</strong> & <strong>reliability</strong>. With
+            premium ingredients and advanced formulations, we deliver solutions
+            you can depend on every day.{" "}
           </motion.p>
 
           {/* Product Showcase - Apple Card Carousel */}
@@ -287,7 +301,7 @@ export default function PediaPage() {
             }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
-              {PediaProducts.map((product) => (
+              {DetergentProducts.map((product) => (
                 <motion.div
                   key={product.name}
                   className="group relative overflow-hidden rounded-[32px] bg-black h-[720px]"
@@ -300,7 +314,7 @@ export default function PediaPage() {
                     src={product.cardImage}
                     alt={product.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className={`object-cover group-hover:scale-105 transition-transform duration-500 ${product.cardImageClassName ?? ""}`}
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
 
@@ -310,13 +324,17 @@ export default function PediaPage() {
                   {/* Content - Positioned at top and bottom */}
                   <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
                     {/* Top Section */}
-                    <div className="flex flex-col">
-                      <p className="text-xs font-medium tracking-[0.12em] text-slate-300 uppercase">
+                    {/* Top Section */}
+                    <div className="flex flex-col items-center text-center">
+                      <p className="text-xs font-medium tracking-[0.12em] text-black uppercase">
+                        {" "}
                         {product.tagline}
                       </p>
-                      <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-white leading-tight">
-                        {product.name}
-                      </h3>
+                      <div className="mt-3 w-max max-w-[85%] rounded-full bg-slate-900/50 px-4 py-2 backdrop-blur-sm">
+                        <h3 className="whitespace-nowrap text-xl font-semibold tracking-[-0.03em] text-white lg:text-2xl">
+                          {product.name}
+                        </h3>
+                      </div>
                     </div>
 
                     {/* Bottom Section */}
@@ -361,13 +379,13 @@ export default function PediaPage() {
 
           {/* Back Button */}
           <motion.div className="mt-10 flex justify-center" variants={reveal}>
-            <Link
+            {/* <Link
               href="/products"
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-0.5"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Products
-            </Link>
+            </Link> */}
           </motion.div>
         </motion.div>
       </div>
@@ -416,7 +434,9 @@ export default function PediaPage() {
                       sizes="(max-width: 768px) 100vw, 220px"
                     />
                   </div>
-                  <p className="mt-4 rounded-2xl bg-purple-100 px-4 py-3 text-sm leading-6 text-slate-700">
+                  <p
+                    className={`mt-4 rounded-2xl px-4 py-3 text-sm leading-6 text-slate-700 ${activeProductColor}`}
+                  >
                     {activeProduct.tagline}
                   </p>
                 </div>
