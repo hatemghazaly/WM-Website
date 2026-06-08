@@ -180,6 +180,15 @@ export function SiteNavbar() {
               >
                 Pedia Line
               </Link>
+
+              <Link
+                href="/products/detergents"
+                onClick={closeMobileMenu}
+                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                Detergents
+              </Link>
+
               <Link
                 href="/coming_soon"
                 onClick={closeMobileMenu}
