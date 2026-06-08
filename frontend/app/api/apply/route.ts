@@ -8,6 +8,7 @@ type ApplyPayload = {
   phone?: string;
   residence?: string;
   role?: string;
+  applied_job?: string;
   subject?: string;
   message?: string;
   has_a_car?: boolean;
@@ -22,6 +23,7 @@ type NormalizedApplyPayload = {
   phone: string;
   residence: string;
   role: string;
+  applied_job?: string;
   subject: string;
   message: string;
   has_a_car: boolean;
@@ -52,6 +54,7 @@ function normalizePayload(payload: ApplyPayload): NormalizedApplyPayload {
     phone: String(payload.phone ?? "").trim(),
     residence: String(payload.residence ?? "").trim(),
     role: String(payload.role ?? "").trim(),
+    applied_job: String(payload.applied_job ?? "").trim() || undefined,
     subject: String(payload.subject ?? "").trim(),
     message: String(payload.message ?? "").trim(),
     has_a_car: Boolean(payload.has_a_car),
@@ -112,6 +115,16 @@ export async function POST(request: Request) {
   if (missingFields.length > 0) {
     return NextResponse.json(
       { error: "Missing required fields.", missing_fields: missingFields },
+      { status: 400 },
+    );
+  }
+
+  if (!normalizedPayload.applied_job) {
+    return NextResponse.json(
+      {
+        error: "Missing applied job code.",
+        missing_fields: ["applied_job"],
+      },
       { status: 400 },
     );
   }

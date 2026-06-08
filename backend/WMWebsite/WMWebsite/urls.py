@@ -18,10 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from contact.views import submit_career_application
+from contact.views import admin_careers_config, submit_career_application
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/admin/careers", admin_careers_config),
     path("api/contact/", include("contact.urls")),
     path("api/apply/", submit_career_application),
 ]
