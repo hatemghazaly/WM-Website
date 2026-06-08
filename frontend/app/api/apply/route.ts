@@ -130,7 +130,11 @@ export async function POST(request: Request) {
   }
 
   const backendResponse = await forwardToBackend(normalizedPayload);
-  return NextResponse.json(backendResponse.data, {
+  return NextResponse.json({
+    ...backendResponse.data,
+    submitted_role: normalizedPayload.role,
+    submitted_applied_job: normalizedPayload.applied_job,
+  }, {
     status: backendResponse.status,
   });
 }

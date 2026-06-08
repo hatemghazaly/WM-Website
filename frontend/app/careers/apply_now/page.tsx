@@ -464,8 +464,14 @@ function ApplyNowForm() {
                         `Application for ${nextRole?.label ?? nextRoleCode}`,
                       );
                     }}
+                    disabled={!availableRoles.length}
                     className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
                   >
+                    <option value="">
+                      {availableRoles.length
+                        ? "Select a role"
+                        : "No roles available"}
+                    </option>
                     {availableRoles.map((item) => (
                       <option key={item.code} value={item.code}>
                         {item.label}
