@@ -6,7 +6,7 @@ import {
   isValidCareersAdminToken,
 } from "@/lib/careers-admin-auth";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin/careers/login")) {
