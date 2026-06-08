@@ -4,7 +4,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 
 import {
-  DEFAULT_CAREERS_CONFIG,
+  EMPTY_CAREERS_CONFIG,
   cloneCareersConfig,
   normalizeCareersConfig,
   type CareersConfig,
@@ -31,7 +31,7 @@ async function readLocalConfig(): Promise<CareersConfig> {
     const fileContents = await readFile(configPath, "utf8");
     return normalizeCareersConfig(JSON.parse(fileContents));
   } catch {
-    return cloneCareersConfig(DEFAULT_CAREERS_CONFIG);
+    return cloneCareersConfig(EMPTY_CAREERS_CONFIG);
   }
 }
 
