@@ -21,7 +21,31 @@ const PediaProducts = [
     cardImage: "/images/Products/pedia/baby1.png",
     popupImage: "/images/Products/pedia/willi_d3.jpg",
     description: "",
-    specs: [""],
+    specs: [
+      "400 Cholecalciferol/Drop.",
+      "Supports bone health and immune function.",
+      "Natural Coconut Flavour.",
+      "Accurate Dropper.",
+      "Sleek & Stylish Packaging.",
+    ],
+  },
+
+  {
+    name: "Product Coming Soon",
+    tagline: "Pediatrics",
+    cardImage: "/images/Products/pedia/baby2.png",
+    popupImage: "/images/Products/pedia/baby2.png",
+    description: "",
+    specs: ["DETAILS COMING SOON."],
+  },
+
+  {
+    name: "More Product Coming Soon",
+    tagline: "Pediatrics",
+    cardImage: "/images/Products/pedia/baby3.png",
+    popupImage: "/images/Products/pedia/baby3.png",
+    description: "",
+    specs: ["DETAILS COMING SOON."],
   },
 ];
 
@@ -213,7 +237,7 @@ export default function PediaPage() {
               viewport={{ once: true, amount: 0.25 }}
             >
               <Image
-                src="/images/Products/ritex/intimacy.png"
+                src="/images/Products/pedia/mom_baby.png"
                 alt="Pediatric care illustration"
                 fill
                 className="object-cover"
@@ -392,7 +416,7 @@ export default function PediaPage() {
                       sizes="(max-width: 768px) 100vw, 220px"
                     />
                   </div>
-                  <p className="mt-4 rounded-2xl bg-sky-100 px-4 py-3 text-sm leading-6 text-slate-700">
+                  <p className="mt-4 rounded-2xl bg-purple-100 px-4 py-3 text-sm leading-6 text-slate-700">
                     {activeProduct.tagline}
                   </p>
                 </div>
