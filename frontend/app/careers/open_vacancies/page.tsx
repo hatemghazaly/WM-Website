@@ -17,7 +17,7 @@ import {
 
 import {
   cloneCareersConfig,
-  DEFAULT_CAREERS_CONFIG,
+  EMPTY_CAREERS_CONFIG,
   normalizeCareersConfig,
   type Vacancy,
 } from "@/lib/careers-data";
@@ -54,7 +54,7 @@ const highlights: Benefit[] = [
 export default function OpenVacanciesPage() {
   const [openVacancy, setOpenVacancy] = useState<string | null>(null);
   const [vacancies, setVacancies] = useState<Vacancy[]>(
-    () => cloneCareersConfig(DEFAULT_CAREERS_CONFIG).vacancies,
+    () => cloneCareersConfig(EMPTY_CAREERS_CONFIG).vacancies,
   );
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -97,7 +97,7 @@ export default function OpenVacanciesPage() {
         }
       } catch {
         if (!cancelled) {
-          setVacancies(cloneCareersConfig(DEFAULT_CAREERS_CONFIG).vacancies);
+          setVacancies(cloneCareersConfig(EMPTY_CAREERS_CONFIG).vacancies);
         }
       }
     }

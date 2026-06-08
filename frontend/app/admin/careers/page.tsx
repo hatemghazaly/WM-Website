@@ -7,10 +7,9 @@ import Link from "next/link";
 import {
   cloneCareersConfig,
   createEmptyVacancy,
-  DEFAULT_CAREERS_CONFIG,
+  EMPTY_CAREERS_CONFIG,
   mergeApplyRoles,
   normalizeCareersConfig,
-  getRoleCodeMap,
   type CareersConfig,
   type Vacancy,
 } from "@/lib/careers-data";
@@ -30,7 +29,7 @@ function toText(value: string[]) {
 
 export default function CareersAdminPage() {
   const [draft, setDraft] = useState<CareersConfig>(() =>
-    cloneCareersConfig(DEFAULT_CAREERS_CONFIG),
+    cloneCareersConfig(EMPTY_CAREERS_CONFIG),
   );
   const [saveState, setSaveState] = useState<SaveState>("loading");
   const [message, setMessage] = useState("");
@@ -85,7 +84,6 @@ export default function CareersAdminPage() {
       ),
     [draft.availableRoles],
   );
-  const roleCodeMap = useMemo(() => getRoleCodeMap(draft), [draft]);
   const vacancyTypeOptions = [
     "Full-Time",
     "Part-Time",
@@ -107,11 +105,10 @@ export default function CareersAdminPage() {
   }
 
   function updateVacancyTitle(index: number, title: string) {
-    const appliedJob = roleCodeMap[title] ?? "";
     setDraft((current) => ({
       ...current,
       vacancies: current.vacancies.map((vacancy, currentIndex) =>
-        currentIndex === index ? { ...vacancy, title, appliedJob } : vacancy,
+        currentIndex === index ? { ...vacancy, title } : vacancy,
       ),
     }));
   }
@@ -167,7 +164,7 @@ export default function CareersAdminPage() {
   }
 
   function resetToDefaults() {
-    setDraft(cloneCareersConfig(DEFAULT_CAREERS_CONFIG));
+    setDraft(cloneCareersConfig(EMPTY_CAREERS_CONFIG));
     setMessage("Restored the default careers content.");
     setSaveState("idle");
   }
