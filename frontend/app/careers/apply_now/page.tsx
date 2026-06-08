@@ -16,12 +16,18 @@ import {
 } from "lucide-react";
 
 import {
+  DEFAULT_CAREERS_CONFIG,
   getRoleOptions,
+  mergeApplyRoles,
   normalizeCareersConfig,
+  resolveAppliedJobCode,
   type RoleOption,
 } from "@/lib/careers-data";
 
 export const dynamic = "force-dynamic";
+
+const defaultRoleOptions = mergeApplyRoles(DEFAULT_CAREERS_CONFIG);
+const defaultRoleSelection = getRoleOptions(DEFAULT_CAREERS_CONFIG)[0];
 
 const residenceOptions = [
   { value: "", label: "Select your residence" },
@@ -65,9 +71,19 @@ export default function ApplyNowPage() {
 function ApplyNowForm() {
   const searchParams = useSearchParams();
   const roleParam = searchParams.get("role");
-  const initialRole = roleParam ?? "";
+  const initialRole = defaultRoleOptions.includes(roleParam ?? "")
+    ? (roleParam ?? defaultRoleOptions[0])
+    : defaultRoleOptions[0];
 
-  const [availableRoles, setAvailableRoles] = useState<RoleOption[]>([]);
+  const [availableRoles, setAvailableRoles] = useState<RoleOption[]>(
+    getRoleOptions(DEFAULT_CAREERS_CONFIG),
+  );
+  const [careersConfig, setCareersConfig] = useState(DEFAULT_CAREERS_CONFIG);
+  const [roleCode, setRoleCode] = useState(
+    resolveAppliedJobCode(DEFAULT_CAREERS_CONFIG, roleParam ?? "") ||
+      defaultRoleSelection?.code ||
+      "",
+  );
   const [role, setRole] = useState(initialRole);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -112,42 +128,46 @@ function ApplyNowForm() {
         const config = normalizeCareersConfig(payload);
         const nextRoles = getRoleOptions(config);
         const preferredRole = roleParam ?? "";
+        const preferredRoleCode = resolveAppliedJobCode(config, preferredRole);
 
         if (!cancelled) {
+          setCareersConfig(config);
           setAvailableRoles(nextRoles);
 
-          setRole((currentRole) => {
+          setRoleCode((currentRoleCode) => {
+            const currentRoleOption = nextRoles.find(
+              (option) => option.code === currentRoleCode,
+            );
             const preferredRoleOption = nextRoles.find(
-              (option) =>
-                option.label === preferredRole || option.code === preferredRole,
+              (option) => option.code === preferredRoleCode,
             );
 
             if (preferredRoleOption) {
+              setRole(preferredRoleOption.label);
               setSubject(`Application for ${preferredRoleOption.label}`);
-              return preferredRoleOption.label;
+              return preferredRoleOption.code;
             }
 
-            const currentRoleOption = nextRoles.find(
-              (option) => option.label === currentRole,
-            );
             if (currentRoleOption) {
-              return currentRoleOption.label;
+              setRole(currentRoleOption.label);
+              return currentRoleOption.code;
             }
 
             const fallbackRole = nextRoles[0];
             if (fallbackRole) {
+              setRole(fallbackRole.label);
               setSubject(`Application for ${fallbackRole.label}`);
-              return fallbackRole.label;
+              return fallbackRole.code;
             }
 
-            return currentRole;
+            return currentRoleCode;
           });
         }
       } catch {
         if (!cancelled) {
-          setAvailableRoles([]);
-          setRole("");
-          setSubject("");
+          setCareersConfig(DEFAULT_CAREERS_CONFIG);
+          setAvailableRoles(getRoleOptions(DEFAULT_CAREERS_CONFIG));
+          setRoleCode(defaultRoleSelection?.code || "");
         }
       }
     }
@@ -168,12 +188,22 @@ function ApplyNowForm() {
     setCvError("");
 
     try {
-      const selectedRole = availableRoles.find((item) => item.label === role);
-      const appliedJob = selectedRole?.code.trim() ?? "";
-      if (!selectedRole || !appliedJob) {
+      const appliedJob = roleCode.trim();
+      if (!appliedJob) {
         setStatus("error");
         setFeedback(
           "The selected role is missing an applied job code. Please refresh the page or contact support.",
+        );
+        return;
+      }
+
+      const selectedRole = availableRoles.find(
+        (item) => item.code === appliedJob,
+      );
+      if (!selectedRole) {
+        setStatus("error");
+        setFeedback(
+          "The selected role is not available in the current careers list. Please refresh the page and try again.",
         );
         return;
       }
@@ -422,15 +452,16 @@ function ApplyNowForm() {
                     Role
                   </label>
                   <select
-                    value={role}
+                    value={roleCode}
                     onChange={(event) => {
-                      const nextRoleLabel = event.target.value;
+                      const nextRoleCode = event.target.value;
                       const nextRole = availableRoles.find(
-                        (item) => item.label === nextRoleLabel,
+                        (item) => item.code === nextRoleCode,
                       );
-                      setRole(nextRole?.label ?? nextRoleLabel);
+                      setRoleCode(nextRoleCode);
+                      setRole(nextRole?.label ?? nextRoleCode);
                       setSubject(
-                        `Application for ${nextRole?.label ?? nextRoleLabel}`,
+                        `Application for ${nextRole?.label ?? nextRoleCode}`,
                       );
                     }}
                     disabled={!availableRoles.length}
@@ -442,7 +473,7 @@ function ApplyNowForm() {
                         : "No roles available"}
                     </option>
                     {availableRoles.map((item) => (
-                      <option key={`${item.label}:${item.code}`} value={item.label}>
+                      <option key={item.code} value={item.code}>
                         {item.label}
                       </option>
                     ))}
