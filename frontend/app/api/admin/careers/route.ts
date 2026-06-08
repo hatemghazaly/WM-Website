@@ -20,10 +20,19 @@ function env(name: string, fallback: string) {
 }
 
 function backendUrl() {
-  return env("CAREERS_BACKEND_URL", "https://willimed.wm360.info").replace(
-    /\/$/,
-    "",
-  );
+  return (
+    process.env.CAREERS_BACKEND_URL ??
+    process.env.RECRUITMENT_BACKEND_URL ??
+    "https://demo.wm360.info"
+  ).replace(/\/$/, "");
+}
+
+function backendCareersUrl() {
+  try {
+    return new URL("/api/admin/careers", backendUrl()).toString();
+  } catch {
+    return "";
+  }
 }
 
 async function readLocalConfig(): Promise<CareersConfig> {
@@ -45,8 +54,20 @@ async function writeLocalConfig(config: CareersConfig) {
 }
 
 async function fetchBackendConfig(method: "GET" | "POST", body?: string) {
+  const url = backendCareersUrl();
+  if (!url) {
+    return {
+      ok: false,
+      status: 500,
+      data: {
+        error:
+          "CAREERS_BACKEND_URL must be a full URL, for example https://demo.wm360.info.",
+      },
+    };
+  }
+
   try {
-    const response = await fetch(`${backendUrl()}/api/admin/careers`, {
+    const response = await fetch(url, {
       method,
       headers: {
         "Content-Type": "application/json",
@@ -126,6 +147,22 @@ export async function POST(request: Request) {
 
   if (backend.ok && backend.data) {
     return NextResponse.json(backend.data, { status: 200 });
+  }
+
+  if (process.env.VERCEL) {
+    const backendError =
+      typeof backend.data === "object" && backend.data && "error" in backend.data
+        ? String((backend.data as { error?: unknown }).error ?? "")
+        : "The live careers backend could not save the config.";
+
+    return NextResponse.json(
+      {
+        error: backendError,
+        backend_status: backend.status,
+        backend_url: backendCareersUrl(),
+      },
+      { status: 502 },
+    );
   }
 
   await writeLocalConfig(normalizedConfig);

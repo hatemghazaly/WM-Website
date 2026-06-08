@@ -16,6 +16,25 @@ import {
 
 type SaveState = "idle" | "loading" | "saving" | "saved" | "error";
 
+async function readJsonResponse(response: Response) {
+  const raw = await response.text();
+  if (!raw) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return { error: raw };
+  }
+}
+
+function responseError(payload: unknown, fallback: string) {
+  return typeof payload === "object" && payload && "error" in payload
+    ? String((payload as { error?: unknown }).error ?? fallback)
+    : fallback;
+}
+
 function splitLines(value: string) {
   return value
     .split(/\r?\n/)
@@ -43,14 +62,10 @@ export default function CareersAdminPage() {
         const response = await fetch("/api/admin/careers", {
           cache: "no-store",
         });
-        const payload = (await response.json()) as unknown;
+        const payload = await readJsonResponse(response);
 
         if (!response.ok) {
-          throw new Error(
-            typeof payload === "object" && payload && "error" in payload
-              ? String((payload as { error?: string }).error ?? "")
-              : "We could not load the careers config.",
-          );
+          throw new Error(responseError(payload, "We could not load the careers config."));
         }
 
         if (!cancelled) {
@@ -205,14 +220,10 @@ export default function CareersAdminPage() {
         body: JSON.stringify(payload),
       });
 
-      const result = (await response.json()) as unknown;
+      const result = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(
-          typeof result === "object" && result && "error" in result
-            ? String((result as { error?: string }).error ?? "")
-            : "We could not save the careers config.",
-        );
+        throw new Error(responseError(result, "We could not save the careers config."));
       }
 
       setDraft(cloneCareersConfig(normalizeCareersConfig(result)));
