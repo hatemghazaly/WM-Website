@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowUpRight,
@@ -15,150 +15,12 @@ import {
   Trophy,
 } from "lucide-react";
 
-type Vacancy = {
-  title: string;
-  department: string;
-  location: string;
-  type: string;
-  experience: string;
-  summary: string;
-  responsibilities: string[];
-  qualifications: string[];
-  emailSubject: string;
-};
-
-const vacancies: Vacancy[] = [
-  // Full Time Medical Representative
-  {
-    title: "Full Time Medical Representative",
-    department: "Sales & Field Operations",
-    location: "All Governrate, Egypt",
-    type: "Full-time",
-    experience: "0-3 years",
-    summary:
-      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-    responsibilities: [
-      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
-    ],
-    qualifications: [
-      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-      "Strong communication, presentation, and relationship-building skills.",
-      "Self-motivated, organized, and able to work toward sales targets.",
-    ],
-    emailSubject: "Application for Full Time Medical Representative",
-  },
-  // Part Time Medical Representative
-  {
-    title: "Part Time Medical Representative",
-    department: "Sales & Field Operations",
-    location: "All Governrate, Egypt",
-    type: "Part-time",
-    experience: "0-3 years",
-    summary:
-      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-    responsibilities: [
-      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
-    ],
-    qualifications: [
-      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-      "Strong communication, presentation, and relationship-building skills.",
-      "Self-motivated, organized, and able to work toward sales targets.",
-    ],
-    emailSubject: "Application for Part Time Medical Representative",
-  },
-  // District Manager
-  {
-    title: "District Manager",
-    department: "Sales & Field Operations",
-    location: "All Governrate, Egypt",
-    type: "Part-time",
-    experience: "0-3 years",
-    summary:
-      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-    responsibilities: [
-      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
-    ],
-    qualifications: [
-      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-      "Strong communication, presentation, and relationship-building skills.",
-      "Self-motivated, organized, and able to work toward sales targets.",
-    ],
-    emailSubject: "Application for Part Time Medical Representative",
-  },
-  // Associate Product Manager
-  {
-    title: "Associate Product Manager",
-    department: "Sales & Field Operations",
-    location: "All Governrate, Egypt",
-    type: "Part-time",
-    experience: "0-3 years",
-    summary:
-      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-    responsibilities: [
-      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
-    ],
-    qualifications: [
-      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-      "Strong communication, presentation, and relationship-building skills.",
-      "Self-motivated, organized, and able to work toward sales targets.",
-    ],
-    emailSubject: "Application for Part Time Medical Representative",
-  },
-  // National Sales Manager
-  {
-    title: "National Sales Manager",
-    department: "Sales & Field Operations",
-    location: "All Governrate, Egypt",
-    type: "Full-time",
-    experience: "0-3 years",
-    summary:
-      "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-    responsibilities: [
-      "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-      "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-      "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-      "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-      "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-      "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-      "Collaborate with the marketing team to develop promotional materials and campaigns. ",
-    ],
-    qualifications: [
-      "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-      "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-      "Strong communication, presentation, and relationship-building skills.",
-      "Self-motivated, organized, and able to work toward sales targets.",
-    ],
-    emailSubject: "Application for Part Time Medical Representative",
-  },
-];
+import {
+  cloneCareersConfig,
+  DEFAULT_CAREERS_CONFIG,
+  normalizeCareersConfig,
+  type Vacancy,
+} from "@/lib/careers-data";
 
 type Benefit = {
   icon: typeof BadgeDollarSign;
@@ -191,6 +53,9 @@ const highlights: Benefit[] = [
 
 export default function OpenVacanciesPage() {
   const [openVacancy, setOpenVacancy] = useState<string | null>(null);
+  const [vacancies, setVacancies] = useState<Vacancy[]>(
+    () => cloneCareersConfig(DEFAULT_CAREERS_CONFIG).vacancies,
+  );
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -210,6 +75,39 @@ export default function OpenVacanciesPage() {
       },
     },
   } as const;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadVacancies() {
+      try {
+        const response = await fetch("/api/admin/careers", {
+          cache: "no-store",
+        });
+        const payload = (await response.json()) as unknown;
+
+        if (!response.ok) {
+          throw new Error("We could not load the latest vacancies.");
+        }
+
+        const config = normalizeCareersConfig(payload);
+
+        if (!cancelled) {
+          setVacancies(config.vacancies);
+        }
+      } catch {
+        if (!cancelled) {
+          setVacancies(cloneCareersConfig(DEFAULT_CAREERS_CONFIG).vacancies);
+        }
+      }
+    }
+
+    loadVacancies();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section className="relative isolate overflow-hidden px-4 py-10 sm:px-6 lg:px-8">

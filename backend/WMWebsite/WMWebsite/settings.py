@@ -78,6 +78,10 @@ RECRUITMENT_SERVICE_URL = os.environ.get(
 RECRUITMENT_DB = os.environ.get("RECRUITMENT_DB", "")
 RECRUITMENT_USER = os.environ.get("RECRUITMENT_USER", "")
 RECRUITMENT_PASSWORD = os.environ.get("RECRUITMENT_PASSWORD", "")
+CAREERS_CONFIG_URL = os.environ.get(
+    "CAREERS_CONFIG_URL",
+    "https://willimed.wm360.info/api/admin/careers",
+)
 
 
 # Application definition

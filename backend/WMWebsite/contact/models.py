@@ -24,6 +24,7 @@ class CareerApplication(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=30, blank=True)
     role = models.CharField(max_length=150)
+    applied_job = models.CharField(max_length=50, blank=True)
     subject = models.CharField(max_length=200)
     message = models.TextField()
     cv_attachment_name = models.CharField(max_length=255, blank=True)
@@ -35,3 +36,11 @@ class CareerApplication(models.Model):
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name} - {self.role}"
+
+
+class CareersConfigState(models.Model):
+    payload = models.JSONField(default=dict)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"Careers config updated {self.updated_at:%Y-%m-%d %H:%M:%S}"

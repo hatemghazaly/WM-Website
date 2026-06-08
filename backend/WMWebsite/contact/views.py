@@ -12,32 +12,9 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .models import CareerApplication, ContactMessage
+from .models import CareerApplication, CareersConfigState, ContactMessage
 
 logger = logging.getLogger(__name__)
-
-ROLE_TO_APPLIED_JOB = {
-    "Full Time Medical Representative": "full",
-    "Part Time Medical Representative": "part",
-    "District Manager": "dm",
-    "National Sales Manager": "nsm",
-    "Product Manager": "pm",
-    "Associate Product Manager": "apm",
-    "Business Unit Manager": "bum",
-    "Accountant": "accountant",
-    "HR Specialist": "hr",
-    "IT": "it",
-    "HR Manager": "hrm",
-    "Sales Representative": "sr",
-    "Supply Chain Specialist": "sc",
-    "Supply Chain Manager": "scm",
-    "Office Administrator": "oa",
-    "Franchise Manager": "fm",
-    "Regulatory Affairs Specialist": "ra",
-    "Regulatory Affairs Manager": "ram",
-    "Office Boy": "ob",
-    "Other": "other",
-}
 
 RESIDENCE_CHOICES = {
     "cai": "Cairo",
@@ -72,6 +49,48 @@ RESIDENCE_CHOICES = {
 RESIDENCE_LABEL_TO_CODE = {
     label.lower(): code for code, label in RESIDENCE_CHOICES.items()
 }
+
+
+def _careers_config_paths() -> list:
+    return [
+        settings.BASE_DIR / "data" / "careers-config.json",
+        settings.BASE_DIR.parent.parent / "frontend" / "data" / "careers-config.json",
+    ]
+
+
+def _load_careers_config_from_files() -> dict | None:
+    for path in _careers_config_paths():
+        try:
+            if path.exists():
+                return json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            logger.warning("Failed to read careers config from %s: %s", path, exc)
+
+    return None
+
+
+def _save_careers_config_to_files(payload: dict) -> None:
+    target_path = _careers_config_paths()[0]
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _load_careers_config_payload() -> dict:
+    try:
+        state = CareersConfigState.objects.order_by("id").first()
+        if state and isinstance(state.payload, dict):
+            return state.payload
+    except Exception as exc:
+        logger.warning("Failed to read careers config from database: %s", exc)
+
+    file_payload = _load_careers_config_from_files()
+    if isinstance(file_payload, dict):
+        return file_payload
+
+    return {"vacancies": [], "availableRoles": []}
 
 
 def _error_response(message: str, *, status: int = 400, **extra):
@@ -162,6 +181,69 @@ def _normalize_residence(value: object) -> str:
     return RESIDENCE_LABEL_TO_CODE.get(residence.lower(), "")
 
 
+def _resolve_applied_job_from_config(role: object, applied_job: object = "") -> str:
+    applied = str(applied_job or "").strip()
+    if applied and applied != "other":
+        return applied
+
+    role_label = str(role or "").strip()
+    if not role_label:
+        return applied
+
+    config = _load_careers_config_payload()
+    available_roles = config.get("availableRoles")
+    if not isinstance(available_roles, list):
+        return applied
+
+    normalized_role = role_label.lower()
+    for item in available_roles:
+        if not isinstance(item, dict):
+            continue
+
+        label = str(item.get("label") or "").strip()
+        code = str(item.get("code") or "").strip()
+        if label and code and label.lower() == normalized_role:
+            return code
+
+    return applied
+
+
+@csrf_exempt
+@require_http_methods(["GET", "POST", "OPTIONS"])
+def admin_careers_config(request):
+    if request.method == "OPTIONS":
+        return JsonResponse({"ok": True})
+
+    if request.method == "GET":
+        return JsonResponse(_load_careers_config_payload(), status=200)
+
+    try:
+        payload = json.loads(request.body.decode("utf-8") or "{}")
+    except json.JSONDecodeError:
+        return _error_response("Invalid JSON payload.")
+
+    if not isinstance(payload, dict):
+        return _error_response("Invalid careers config payload.")
+
+    vacancies = payload.get("vacancies")
+    available_roles = payload.get("availableRoles")
+    if not isinstance(vacancies, list) or not isinstance(available_roles, list):
+        return _error_response("Invalid careers config payload.")
+
+    try:
+        state = CareersConfigState.objects.order_by("id").first()
+        if state:
+            state.payload = payload
+            state.save(update_fields=["payload", "updated_at"])
+        else:
+            CareersConfigState.objects.create(payload=payload)
+    except Exception as exc:
+        logger.warning("Failed to save careers config to database: %s", exc)
+        _save_careers_config_to_files(payload)
+
+    return JsonResponse(payload, status=200)
+
+
 def _parse_bool(value: object) -> bool:
     if isinstance(value, bool):
         return value
@@ -209,11 +291,14 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
         "phone_no": payload.get("phone"),
         "date": payload.get("date") or _today_in_cairo(),
         "cover_message": payload.get("message"),
-        "applied_jobs": ROLE_TO_APPLIED_JOB.get(
-            str(payload.get("role") or "").strip(), "other"
-        ),
         "source": "wb",
     }
+    applicant_values["applied_jobs"] = _resolve_applied_job_from_config(
+        payload.get("role"),
+        payload.get("applied_job"),
+    )
+    if not applicant_values["applied_jobs"]:
+        return False, "Missing applied job code."
     if payload.get("has_a_car") is not None:
         applicant_values["has_a_car"] = _parse_bool(payload.get("has_a_car"))
 
@@ -280,12 +365,23 @@ def submit_career_application(request):
             missing_fields=missing_fields,
         )
 
+    applied_job = _resolve_applied_job_from_config(
+        payload.get("role"),
+        payload.get("applied_job"),
+    )
+    if not applied_job:
+        return _error_response(
+            "Missing applied job code.",
+            missing_fields=["applied_job"],
+        )
+
     career_application = CareerApplication.objects.create(
         first_name=first_name,
         last_name=last_name,
         email=str(payload["email"]).strip(),
         phone=str(payload.get("phone", "")).strip(),
         role=str(payload["role"]).strip(),
+        applied_job=applied_job,
         subject=str(payload["subject"]).strip(),
         message=str(payload["message"]).strip(),
         cv_attachment_name=str(payload.get("cv_attachment_name", "")).strip(),
@@ -401,6 +497,7 @@ def submit_career_application(request):
         "date": _today_in_cairo(),
         "residence": normalized_residence,
         "role": career_application.role,
+        "applied_job": career_application.applied_job,
         "subject": career_application.subject,
         "message": career_application.message,
         "cv_attachment_base64": str(payload.get("cv_attachment_base64", "")).strip(),
