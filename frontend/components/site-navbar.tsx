@@ -101,12 +101,13 @@ export function SiteNavbar() {
           ))}
 
           <li className="group relative shrink-0">
-            <button
-              type="button"
-              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            <Link
+              href="/about_us"
+              onClick={closeMobileMenu}
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               About Us
-            </button>
+            </Link>
 
             <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <Link
@@ -127,12 +128,13 @@ export function SiteNavbar() {
           </li>
 
           <li className="group relative shrink-0">
-            <button
-              type="button"
-              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            <Link
+              href="/products/ritex/ritex-overview"
+              onClick={closeMobileMenu}
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               Products
-            </button>
+            </Link>
 
             <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <div
@@ -240,12 +242,13 @@ export function SiteNavbar() {
             </div>
           </li>
           <li className="group relative shrink-0">
-            <button
-              type="button"
-              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            <Link
+              href="/careers/open_vacancies"
+              onClick={closeMobileMenu}
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               Career
-            </button>
+            </Link>
 
             <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <Link
@@ -276,13 +279,13 @@ export function SiteNavbar() {
           </li>
 
           <li className="group relative shrink-0">
-            <button
-              type="button"
-              className="cursor-default whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+            <Link
+              href="/b2b/pharmaoverseas"
+              onClick={closeMobileMenu}
+              className="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
             >
               B2B
-            </button>
-
+            </Link>
             <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-52 translate-y-1 rounded-xl border border-border bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <Link
                 href="/b2b/pharmaoverseas"
@@ -370,13 +373,13 @@ export function SiteNavbar() {
                   Products
                 </summary>
                 <div className="mt-3 space-y-2 pl-2">
-                  <Link
+                  {/* <Link
                     href="/products"
                     onClick={closeMobileMenu}
                     className="block rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
                     Products Overview
-                  </Link>
+                  </Link> */}
                   <div className="rounded-lg border border-border/60 p-2">
                     <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                       Ritex
