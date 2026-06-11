@@ -4,8 +4,8 @@ import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "WM Website",
-  description: "Welcome to WM Website",
+  title: "Willi Med's Official Website",
+  description: "Welcome to Willi Med's Official Website.",
 };
 
 export default function RootLayout({
