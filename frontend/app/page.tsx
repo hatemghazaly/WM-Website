@@ -70,7 +70,7 @@ export default function Home() {
       filter: "blur(0px)",
       transition: {
         duration: 1.1,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     },
   } as const;
@@ -82,7 +82,7 @@ export default function Home() {
       y: 0,
       transition: {
         duration: 1.05,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
         staggerChildren: 0.18,
         delayChildren: 0.12,
       },
@@ -97,7 +97,7 @@ export default function Home() {
       filter: "blur(0px)",
       transition: {
         duration: 0.95,
-        ease: [0.16, 1, 0.3, 1],
+        ease: [0.16, 1, 0.3, 1] as const,
       },
     },
   } as const;
@@ -111,7 +111,7 @@ export default function Home() {
           y: 0,
           transition: {
             duration: 1.8,
-            ease: [0.16, 1, 0.3, 1],
+            ease: [0.16, 1, 0.3, 1] as const,
           },
         },
       };
@@ -186,7 +186,7 @@ export default function Home() {
             filter: "blur(0px)",
             transition: {
               duration: 1,
-              ease: [0.16, 1, 0.3, 1],
+              ease: [0.16, 1, 0.3, 1] as const,
             },
           }}
         >
@@ -466,7 +466,7 @@ export default function Home() {
               initial={{ scaleY: 0, opacity: 0 }}
               whileInView={{ scaleY: 1, opacity: 1 }}
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] as const }}
             />
             <motion.div className="space-y-5" variants={timelineReveal}>
               {timeline.map((item) => (
