@@ -177,6 +177,36 @@ export default function CareersAdminPage() {
     );
   }
 
+  function moveVacancy(index: number, direction: "up" | "down") {
+    const nextIndex = direction === "up" ? index - 1 : index + 1;
+
+    setDraft((current) => {
+      if (nextIndex < 0 || nextIndex >= current.vacancies.length) {
+        return current;
+      }
+
+      const vacancies = [...current.vacancies];
+      const [movedItem] = vacancies.splice(index, 1);
+      vacancies.splice(nextIndex, 0, movedItem);
+
+      return {
+        ...current,
+        vacancies,
+      };
+    });
+
+    setExpandedVacancies((current) => {
+      if (nextIndex < 0 || nextIndex >= current.length) {
+        return current;
+      }
+
+      const nextExpanded = [...current];
+      const [movedItem] = nextExpanded.splice(index, 1);
+      nextExpanded.splice(nextIndex, 0, movedItem);
+      return nextExpanded;
+    });
+  }
+
   function updateRole(index: number, value: string) {
     setDraft((current) => ({
       ...current,
@@ -545,6 +575,28 @@ export default function CareersAdminPage() {
                             <Trash2 className="h-4 w-4" />
                             Remove
                           </button>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => moveVacancy(index, "up")}
+                              disabled={index === 0}
+                              className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                              aria-label={`Move vacancy ${index + 1} up`}
+                            >
+                              <ChevronUp className="h-4 w-4" />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => moveVacancy(index, "down")}
+                              disabled={index === draft.vacancies.length - 1}
+                              className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                              aria-label={`Move vacancy ${index + 1} down`}
+                            >
+                              <ChevronDown className="h-4 w-4" />
+                            </button>
+                          </div>
                         </div>
 
                         <div className="mt-3 flex items-center gap-2">

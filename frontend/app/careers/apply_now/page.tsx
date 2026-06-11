@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -63,6 +63,7 @@ export default function ApplyNowPage() {
 }
 
 function ApplyNowForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const roleParam = searchParams.get("role");
   const initialRole = roleParam ?? "";
@@ -78,6 +79,7 @@ function ApplyNowForm() {
   const [message, setMessage] = useState("");
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [cvError, setCvError] = useState("");
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -163,13 +165,35 @@ function ApplyNowForm() {
     event.preventDefault();
 
     const form = event.currentTarget;
-    setStatus("submitting");
+    setAttemptedSubmit(true);
     setFeedback("");
     setCvError("");
 
+    const selectedRole = availableRoles.find((item) => item.label === role);
+    const appliedJob = selectedRole?.code.trim() ?? "";
+    const missingRequiredField =
+      !fullName.trim() ||
+      !email.trim() ||
+      !phone.trim() ||
+      !residence ||
+      !role.trim() ||
+      !subject.trim() ||
+      !message.trim() ||
+      !cvFile;
+
+    if (missingRequiredField) {
+      setStatus("error");
+      setFeedback(
+        !cvFile
+          ? "Please attach your CV before submitting."
+          : "Please complete all required fields highlighted in red.",
+      );
+      return;
+    }
+
+    setStatus("submitting");
+
     try {
-      const selectedRole = availableRoles.find((item) => item.label === role);
-      const appliedJob = selectedRole?.code.trim() ?? "";
       if (!selectedRole || !appliedJob) {
         setStatus("error");
         setFeedback(
@@ -254,9 +278,7 @@ function ApplyNowForm() {
       }
 
       setStatus("success");
-      setFeedback(
-        payload?.message ?? "Your application was sent successfully.",
-      );
+      setAttemptedSubmit(false);
 
       setFullName("");
       setEmail("");
@@ -266,6 +288,10 @@ function ApplyNowForm() {
       setMessage("");
       setCvFile(null);
       form.reset();
+
+      router.replace(
+        `/careers/apply_now/confirmation?role=${encodeURIComponent(selectedRole.label)}&name=${encodeURIComponent(fullName)}`,
+      );
     } catch (error) {
       setStatus("error");
       setFeedback(
@@ -317,6 +343,10 @@ function ApplyNowForm() {
               Share your details below and our team will review your application
               for the role that fits you best.
             </motion.p>
+            <p className="mx-auto mt-3 text-sm font-medium text-rose-600">
+              All fields are mandatory. Missing fields will be highlighted in
+              red when you submit.
+            </p>
           </div>
         </motion.div>
 
@@ -370,7 +400,7 @@ function ApplyNowForm() {
           </div>
 
           <div className="p-6 sm:p-7 lg:p-8">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate>
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
                   label="Full Name"
@@ -378,6 +408,7 @@ function ApplyNowForm() {
                   value={fullName}
                   onChange={setFullName}
                   icon={User}
+                  error={attemptedSubmit && !fullName.trim()}
                   required
                 />
                 <Field
@@ -387,6 +418,7 @@ function ApplyNowForm() {
                   onChange={setEmail}
                   type="email"
                   icon={Mail}
+                  error={attemptedSubmit && !email.trim()}
                   required
                 />
                 <Field
@@ -396,17 +428,29 @@ function ApplyNowForm() {
                   onChange={setPhone}
                   type="tel"
                   icon={Phone}
+                  error={attemptedSubmit && !phone.trim()}
+                  required
                 />
               </div>
 
               <div className="mt-4 space-y-2">
-                <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                  Residence
+                <label
+                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                    attemptedSubmit && !residence
+                      ? "text-rose-500"
+                      : "text-slate-400"
+                  }`}
+                >
+                  Residence <span className="text-rose-500">*</span>
                 </label>
                 <select
                   value={residence}
                   onChange={(event) => setResidence(event.target.value)}
-                  className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                  className={`h-12 w-full rounded-2xl border bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:ring-4 ${
+                    attemptedSubmit && !residence
+                      ? "border-rose-300 bg-rose-50/50 focus:border-rose-500 focus:ring-rose-100"
+                      : "border-slate-200 focus:border-slate-400 focus:ring-slate-200/70"
+                  }`}
                 >
                   {residenceOptions.map((item) => (
                     <option key={item.value || "empty"} value={item.value}>
@@ -418,8 +462,14 @@ function ApplyNowForm() {
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                    Role
+                  <label
+                    className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                      attemptedSubmit && !role.trim()
+                        ? "text-rose-500"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    Role <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={role}
@@ -434,7 +484,11 @@ function ApplyNowForm() {
                       );
                     }}
                     disabled={!availableRoles.length}
-                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                    className={`h-12 w-full rounded-2xl border bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:ring-4 ${
+                      attemptedSubmit && !role.trim()
+                        ? "border-rose-300 bg-rose-50/50 focus:border-rose-500 focus:ring-rose-100"
+                        : "border-slate-200 focus:border-slate-400 focus:ring-slate-200/70"
+                    }`}
                   >
                     <option value="">
                       {availableRoles.length
@@ -467,23 +521,44 @@ function ApplyNowForm() {
               <div className="mt-4 space-y-2">
                 <label
                   htmlFor="cv"
-                  className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400"
+                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                    attemptedSubmit && !cvFile
+                      ? "text-rose-500"
+                      : "text-slate-400"
+                  }`}
                 >
-                  CV Attachment
+                  CV Attachment <span className="text-rose-500">*</span>
                 </label>
-                <label className="flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-600 transition hover:bg-slate-100">
+                <label
+                  className={`flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-dashed px-4 py-4 text-sm transition hover:bg-slate-100 ${
+                    attemptedSubmit && !cvFile
+                      ? "border-rose-300 bg-rose-50/50 text-rose-700"
+                      : "border-slate-300 bg-slate-50 text-slate-600"
+                  }`}
+                >
                   <span className="inline-flex items-center gap-3">
-                    <Paperclip className="h-4 w-4 text-slate-400" />
+                    <Paperclip
+                      className={`h-4 w-4 ${
+                        attemptedSubmit && !cvFile
+                          ? "text-rose-400"
+                          : "text-slate-400"
+                      }`}
+                    />
                     {cvFile ? cvFile.name : "Attach your CV (PDF, DOC, DOCX)"}
                   </span>
-                  <span className="font-medium text-slate-900">
+                  <span
+                    className={`font-medium ${
+                      attemptedSubmit && !cvFile
+                        ? "text-rose-700"
+                        : "text-slate-900"
+                    }`}
+                  >
                     Choose file
                   </span>
                   <input
                     id="cv"
                     name="cv"
                     type="file"
-                    required
                     accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                     className="hidden"
                     onChange={(event) => {
@@ -504,12 +579,28 @@ function ApplyNowForm() {
               <div className="mt-4 space-y-2">
                 <label
                   htmlFor="subject"
-                  className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400"
+                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                    attemptedSubmit && !subject.trim()
+                      ? "text-rose-500"
+                      : "text-slate-400"
+                  }`}
                 >
-                  Subject
+                  Subject <span className="text-rose-500">*</span>
                 </label>
-                <div className="flex h-12 items-center overflow-hidden rounded-2xl border border-slate-200 bg-white/95 text-sm text-slate-900 transition focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-200/70">
-                  <MessageSquareText className="ml-7 h-4 w-4 shrink-0 text-slate-400" />
+                <div
+                  className={`flex h-12 items-center overflow-hidden rounded-2xl border bg-white/95 text-sm text-slate-900 transition focus-within:ring-4 ${
+                    attemptedSubmit && !subject.trim()
+                      ? "border-rose-300 focus-within:border-rose-500 focus-within:ring-rose-100"
+                      : "border-slate-200 focus-within:border-slate-400 focus-within:ring-slate-200/70"
+                  }`}
+                >
+                  <MessageSquareText
+                    className={`ml-7 h-4 w-4 shrink-0 ${
+                      attemptedSubmit && !subject.trim()
+                        ? "text-rose-400"
+                        : "text-slate-400"
+                    }`}
+                  />
                   <input
                     id="subject"
                     name="subject"
@@ -523,8 +614,14 @@ function ApplyNowForm() {
               </div>
 
               <div className="mt-4 space-y-2">
-                <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
-                  Cover Message
+                <label
+                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                    attemptedSubmit && !message.trim()
+                      ? "text-rose-500"
+                      : "text-slate-400"
+                  }`}
+                >
+                  Cover Message <span className="text-rose-500">*</span>
                 </label>
                 <textarea
                   rows={6}
@@ -533,7 +630,11 @@ function ApplyNowForm() {
                   onChange={(event) => setMessage(event.target.value)}
                   name="message"
                   required
-                  className="w-full rounded-2xl border border-slate-200 bg-white/95 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                  className={`w-full rounded-2xl border bg-white/95 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-4 ${
+                    attemptedSubmit && !message.trim()
+                      ? "border-rose-300 bg-rose-50/50 focus:border-rose-500 focus:ring-rose-100"
+                      : "border-slate-200 focus:border-slate-400 focus:ring-slate-200/70"
+                  }`}
                 />
               </div>
 
@@ -550,17 +651,9 @@ function ApplyNowForm() {
                 </button>
 
                 <p className="text-sm text-slate-500">
-                  {status === "success"
-                    ? "Your application was submitted."
-                    : "This form now uses the contact API and includes your CV."}
+                  All fields must be completed before submission.
                 </p>
               </div>
-
-              {status === "success" && feedback ? (
-                <div className="mt-4 rounded-[24px] border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm leading-7 text-emerald-900">
-                  {feedback}
-                </div>
-              ) : null}
 
               {status === "error" && feedback ? (
                 <div className="mt-4 rounded-[24px] border border-rose-200 bg-rose-50 px-4 py-4 text-sm leading-7 text-rose-900">
@@ -599,6 +692,7 @@ function Field({
   onChange,
   type = "text",
   icon: Icon,
+  error = false,
   required = false,
 }: {
   label: string;
@@ -607,18 +701,30 @@ function Field({
   onChange: (value: string) => void;
   type?: string;
   icon: typeof User;
+  error?: boolean;
   required?: boolean;
 }) {
   return (
     <div className="space-y-2">
       <label
         htmlFor={name}
-        className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400"
+        className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+          error ? "text-rose-500" : "text-slate-400"
+        }`}
       >
         {label}
+        {required ? <span className="ml-1 text-rose-500">*</span> : null}
       </label>
-      <div className="flex h-14 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5">
-        <Icon className="h-5 w-5 text-slate-400 flex-none" />
+      <div
+        className={`flex h-14 items-center gap-3 rounded-2xl border bg-white px-5 ${
+          error
+            ? "border-rose-300 bg-rose-50/50"
+            : "border-slate-200"
+        }`}
+      >
+        <Icon
+          className={`h-5 w-5 flex-none ${error ? "text-rose-400" : "text-slate-400"}`}
+        />
         <input
           id={name}
           name={name}
@@ -627,9 +733,11 @@ function Field({
           onChange={(event) => onChange(event.target.value)}
           required={required}
           placeholder={label}
+          aria-invalid={error}
           className="h-full w-full bg-transparent px-5 text-base text-slate-900 outline-none placeholder:text-slate-400"
         />
       </div>
+      {error ? <p className="text-sm text-rose-600">This field is required.</p> : null}
     </div>
   );
 }

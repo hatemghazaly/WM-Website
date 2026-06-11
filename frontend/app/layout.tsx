@@ -19,7 +19,7 @@ export default function RootLayout({
         <SiteNavbar />
 
         <main
-          className="w-full flex-1 pb-8"
+          className="w-full flex-1"
           style={{
             paddingTop: "calc(var(--navbar-height) + var(--page-top-spacing))",
           }}

@@ -159,6 +159,16 @@
     background-attachment: fixed;
     background-size: cover;
   }
+
+  html.home-page {
+    background: #000;
+    background-image: none;
+  }
+
+  html.home-page body {
+    background-color: #000;
+  }
+
   body {
     min-height: 100%;
     margin: 0;

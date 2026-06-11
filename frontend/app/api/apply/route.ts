@@ -334,7 +334,7 @@ async function forwardDirectlyToRecruitment(
           recruitment_sent: true,
           applied_job: payload.applied_job,
           recruitment_applied_job: payload.applied_job,
-          message: "Your career application was forwarded to recruitment.",
+          message: "Your application was received successfully.",
           recruitment_response: createResponse.data,
         }
       : {

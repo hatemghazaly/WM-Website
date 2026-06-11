@@ -45,8 +45,8 @@ function TelegramLogo({ className }: SocialIconProps) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-8 rounded-t-[2rem] border-t border-gray-700 bg-gray-800 px-4 py-8 text-sm text-white shadow-[0_-12px_40px_rgba(0,0,0,0.18)] md:px-6 lg:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+    <footer className="mt-0 rounded-t-[2rem] border-t border-white/5 bg-[linear-gradient(180deg,rgba(0,0,0,0.98),rgba(7,20,39,0.98))] px-4 py-10 text-sm text-white shadow-[0_-12px_40px_rgba(0,0,0,0.2)] md:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 xl:grid-cols-3">
         <div className="max-w-md text-center sm:text-left">
           <p className="text-lg font-semibold text-white">Willi Med Group</p>
 
@@ -84,6 +84,57 @@ export function SiteFooter() {
                 info@willimed.com
               </a>
             </p>
+          </div>
+        </div>
+
+        <div className="text-center sm:text-left">
+          <p className="text-lg font-semibold text-white">Quick Links</p>
+
+          <div className="mt-4 grid gap-2 text-white/85">
+            <Link href="/" className="transition hover:text-gray-200">
+              Home
+            </Link>
+
+            <Link href="/about_us" className="transition hover:text-gray-200">
+              About Us
+            </Link>
+
+            <Link
+              href="/meet_our_leaders"
+              className="transition hover:text-gray-200"
+            >
+              Meet Our Leaders
+            </Link>
+
+            <Link
+              href="/products/ritex/ritex-overview"
+              className="transition hover:text-gray-200"
+            >
+              Ritex GmbH
+            </Link>
+
+            <Link
+              href="/careers/open_vacancies"
+              className="transition hover:text-gray-200"
+            >
+              Open Vacancies
+            </Link>
+
+            <Link
+              href="/employees_section"
+              className="transition hover:text-gray-200"
+            >
+              Employee&apos;s Section
+            </Link>
+            <Link
+              href="/where_to_buy"
+              className="transition hover:text-gray-200"
+            >
+              Where to buy?{" "}
+            </Link>
+            <Link href="/contact" className="transition hover:text-gray-200">
+              Contact Us
+            </Link>
           </div>
         </div>
 
