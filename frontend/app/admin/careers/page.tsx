@@ -31,6 +31,7 @@ import {
   type CareersConfig,
   type Vacancy,
 } from "@/lib/careers-data";
+import { sanitizeRichTextHtml } from "@/lib/rich-text";
 
 type SaveState = "idle" | "loading" | "saving" | "saved" | "error";
 

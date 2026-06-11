@@ -6,13 +6,14 @@ export const metadata: Metadata = {
   description: "Confirmation page after submitting a career application.",
 };
 
-export default function ApplicationConfirmationPage({
+export default async function ApplicationConfirmationPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const nameValue = searchParams?.name;
-  const roleValue = searchParams?.role;
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const nameValue = resolvedSearchParams.name;
+  const roleValue = resolvedSearchParams.role;
   const name = Array.isArray(nameValue) ? nameValue[0] : nameValue;
   const role = Array.isArray(roleValue) ? roleValue[0] : roleValue;
 
