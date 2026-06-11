@@ -21,6 +21,7 @@ import {
   normalizeCareersConfig,
   type Vacancy,
 } from "@/lib/careers-data";
+import { sanitizeRichTextHtml } from "@/lib/rich-text";
 
 type Benefit = {
   icon: typeof BadgeDollarSign;
@@ -279,36 +280,35 @@ export default function OpenVacanciesPage() {
 
               {openVacancy === vacancy.title && (
                 <div className="border-t border-slate-200 px-6 py-6 sm:px-7">
-                  <p className="text-sm leading-7 text-slate-600 sm:text-base">
-                    {vacancy.summary}
-                  </p>
+                  <div
+                    className="rich-text text-sm leading-7 text-slate-600 sm:text-base [&_br]:content-[''] [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_b]:font-semibold [&_em]:italic [&_i]:italic [&_u]:underline [&_h1]:text-[1.8rem] [&_h2]:text-[1.45rem] [&_h3]:text-[1.2rem] [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_h1]:leading-tight [&_h2]:leading-tight [&_h3]:leading-tight"
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeRichTextHtml(vacancy.summary),
+                    }}
+                  />
 
                   <div className="mt-6">
                     <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
                       Key responsibilities
                     </p>
-                    <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
-                      {vacancy.responsibilities.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span className="mt-2 h-2 w-2 rounded-full bg-emerald-400" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div
+                      className="rich-text mt-3 text-sm leading-7 text-slate-600 [&_br]:content-[''] [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_b]:font-semibold [&_em]:italic [&_i]:italic [&_u]:underline"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeRichTextHtml(vacancy.responsibilities),
+                      }}
+                    />
                   </div>
 
                   <div className="mt-6">
                     <p className="text-[0.68rem] font-medium uppercase tracking-[0.28em] text-slate-400">
                       Qualifications
                     </p>
-                    <ul className="mt-3 space-y-2 text-sm leading-7 text-slate-600">
-                      {vacancy.qualifications.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span className="mt-2 h-2 w-2 rounded-full bg-sky-400" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div
+                      className="rich-text mt-3 text-sm leading-7 text-slate-600 [&_br]:content-[''] [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_b]:font-semibold [&_em]:italic [&_i]:italic [&_u]:underline"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeRichTextHtml(vacancy.qualifications),
+                      }}
+                    />
                   </div>
 
                   <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">

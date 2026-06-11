@@ -1,139 +1,77 @@
 {
   "vacancies": [
     {
+      "title": "Product Manager",
+      "department": "Marketing",
+      "location": "Cairo, Egypt",
+      "type": "Full-Time",
+      "experience": "1-2 years",
+      "summary": "We are looking for a motivated Product Manager to join our Marketing team. The ideal candidate will have 1–2 years of experience in product management or marketing, preferably in OTC or FMCG, along with strong analytical and communication skills, and a passion for driving product growth. This role offers the opportunity to work cross-functionally, contribute to product strategy, and support the successful launch and management of our products.",
+      "responsibilities": "<ul><li><span style=\"font-size: var(--text-sm);\">Develop and i</span><span style=\"font-size: var(--text-sm);\"><b>mplement marketing </b><b><font color=\"#942192\">strategie</font></b></span><font color=\"#942192\" style=\"font-size: var(--text-sm);\"><b>s</b></font><span style=\"font-size: var(--text-sm);\"> and brand plans for OTC products.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Enhance marketing strategies of existing products and developing new products aligned with the company’s goals.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Evaluate monthly budget plan and recommend cost-reduction initiatives.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Manage the entire product lifecycle, from launch to discontinuation.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Ensuring that the quality and strengths of the product are not <font color=\"#1a0a53\">compromised</font>.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Perform measuring, analyzing and positioning of the product line.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Conduct competitor and industry analysis for identifying and proposing product improvement initiatives.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Deliver product knowledge and training sessions to the sales force.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Conduct one-to-one field visits with healthcare professionals to gather insights, support brand positioning, and strengthen key relationships.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Perform double field visits with medical representatives to ensure effective message delivery.</span><br></li><li><span style=\"font-size: var(--text-sm);\">Collaborate with the sales team to boost product visibility and achieve business targets.</span><br></li></ul>",
+      "qualifications": [
+        "Bachelor's Degree in (Pharmacy, Vet, or Science).",
+        "MBA is preferred.",
+        "Strong understanding of OTC market trends and consumer healthcare.",
+        "Perfect written & spoken English.",
+        "Highly creative and autonomous.",
+        "1–2 years of relevant experience in Marketing; OTC/FMCG experience preferred.",
+        "Excellent Negotiation skills.",
+        "Strong research skills.",
+        "Cairo Resident.",
+        "Own's a Car."
+      ],
+      "emailSubject": "Application for Product Manager - Willi Med",
+      "active": true
+    },
+    {
       "title": "Full Time Medical Representative",
       "department": "Sales & Field Operations",
       "location": "All Governrate, Egypt",
       "type": "Remote Working",
       "experience": "0-3 years",
       "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
+      "responsibilities": "<ul><li>Promote and detail the company&#39;s pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.</li><li>Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.</li><li>Achieve sales targets and objectives by effectively implementing sales and marketing strategies.</li><li>Conduct product presentations, organize seminars, and participate in medical conferences and events.</li><li>Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.</li><li>Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.</li><li>Collaborate with the marketing team to develop promotional materials and campaigns.</li></ul>",
       "qualifications": [
         "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
         "0 to 3 years of experience in pharmaceutical sales or medical representation.",
         "Strong communication, presentation, and relationship-building skills.",
         "Self-motivated, organized, and able to work toward sales targets."
       ],
-      "emailSubject": "Application for Full Time Medical Representative"
+      "emailSubject": "Application for Full Time Medical Representative",
+      "active": false
     },
     {
-      "title": "Part Time Medical Representative",
-      "department": "Sales & Field Operations",
-      "location": "All Governrate, Egypt",
-      "type": "Part-time",
-      "experience": "0-3 years",
-      "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
+      "title": "Software Sales Representative",
+      "department": "IT",
+      "location": "Cairo",
+      "type": "Full-Time",
+      "experience": "3",
+      "summary": "TEST",
+      "responsibilities": "<ul><li>TEST</li></ul>",
       "qualifications": [
-        "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-        "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-        "Strong communication, presentation, and relationship-building skills.",
-        "Self-motivated, organized, and able to work toward sales targets."
+        "TEST"
       ],
-      "emailSubject": "Application for Part Time Medical Representative"
-    },
-    {
-      "title": "District Manager",
-      "department": "Sales & Field Operations",
-      "location": "All Governrate, Egypt",
-      "type": "Part-time",
-      "experience": "0-3 years",
-      "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
-      "qualifications": [
-        "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-        "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-        "Strong communication, presentation, and relationship-building skills.",
-        "Self-motivated, organized, and able to work toward sales targets."
-      ],
-      "emailSubject": "Application for Part Time Medical Representative"
-    },
-    {
-      "title": "Associate Product Manager",
-      "department": "Sales & Field Operations",
-      "location": "All Governrate, Egypt",
-      "type": "Part-time",
-      "experience": "0-3 years",
-      "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
-      "qualifications": [
-        "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-        "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-        "Strong communication, presentation, and relationship-building skills.",
-        "Self-motivated, organized, and able to work toward sales targets."
-      ],
-      "emailSubject": "Application for Part Time Medical Representative"
+      "emailSubject": "Application for Software Sales Representative",
+      "active": false
     },
     {
       "title": "National Sales Manager",
-      "department": "Sales & Field Operations",
-      "location": "All Governrate, Egypt",
-      "type": "Full-time",
-      "experience": "0-3 years",
-      "summary": "Promote our pharmaceutical portfolio, support healthcare professionals, and grow long-term territory relationships.",
-      "responsibilities": [
-        "Promote and detail the company's pharmaceutical products to healthcare professionals, including doctors, pharmacists, and hospitals within the assigned territory.",
-        "Build strong relationships with healthcare professionals, identify their needs, and provide appropriate product information and support.",
-        "Achieve sales targets and objectives by effectively implementing sales and marketing strategies.",
-        "Conduct product presentations, organize seminars, and participate in medical conferences and events.",
-        "Monitor market trends, competitors, and customer feedback to develop strategies for increased market share.",
-        "Provide regular reports on sales activities, customer feedback, and market intelligence to the sales management team.",
-        "Collaborate with the marketing team to develop promotional materials and campaigns."
-      ],
+      "department": "Sales",
+      "location": "Cairo, Egypt",
+      "type": "Full-Time",
+      "experience": "3-5 years",
+      "summary": "We are seeking a dynamic National Sales Manager to lead the field sales force, managing District Managers across all governorates and ensuring the performance, development, and alignment of Medical Representatives to achieve national sales objectives.",
+      "responsibilities": "<ul><li>Lead and manage District Managers across all governorates in Egypt.</li><li>Oversee Medical Representatives’ performance, productivity, and territory execution.</li><li>Develop and implement national sales strategies to achieve growth and revenue targets.</li><li>Cascade sales targets and ensure alignment across all regional teams.</li><li>Monitor field activities, market coverage, and execution quality.</li><li>Analyze market trends, competitor activity, and regional performance gaps.</li><li>Strengthen relationships with key healthcare stakeholders and distributors.</li><li>Drive OTC and pharmaceutical product penetration across all territories.</li><li>Ensure consistent coaching, development, and performance management of field force.</li></ul>",
       "qualifications": [
-        "Bachelor's degree in Pharmacy, Medicine, Science, or a related field.",
-        "0 to 3 years of experience in pharmaceutical sales or medical representation.",
-        "Strong communication, presentation, and relationship-building skills.",
-        "Self-motivated, organized, and able to work toward sales targets."
+        "Bachelor’s degree in Pharmacy, Medicine, Veterinary, or related field.",
+        "8–12 years of experience in pharmaceutical sales.",
+        "Minimum 3–5 years in a senior leadership role managing District Managers/Medical Reps.",
+        "Strong background in RX/OTC.",
+        "Demonstrated ability to lead large sales teams and deliver strong commercial results.",
+        "Excellent leadership, strategic thinking, and communication skills."
       ],
-      "emailSubject": "Application for Part Time Medical Representative"
-    },
-    {
-      "title": "General Manager",
-      "department": "HQ",
-      "location": "Cairo",
-      "type": "Full Time",
-      "experience": "10 Years",
-      "summary": "Test",
-      "responsibilities": [
-        "Test"
-      ],
-      "qualifications": [
-        "test3"
-      ],
-      "emailSubject": "Application for General Manager"
+      "emailSubject": "Application for National Sales Manager - Willi Med",
+      "active": true
     }
   ],
   "availableRoles": [
@@ -222,16 +160,12 @@
       "code": "gm"
     },
     {
-      "label": "test",
-      "code": "j"
+      "label": "Area Manager",
+      "code": "am"
     },
     {
-      "label": "111",
-      "code": "gm"
-    },
-    {
-      "label": "ghjhgj",
-      "code": "jjj"
+      "label": "Software Sales Representative",
+      "code": "ssr"
     }
   ]
 }

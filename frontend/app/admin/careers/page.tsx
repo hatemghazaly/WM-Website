@@ -1,6 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ClipboardEvent,
+  type ChangeEvent,
+  type ReactNode,
+} from "react";
 import {
   ArrowLeft,
   ChevronDown,
@@ -45,17 +53,6 @@ function responseError(payload: unknown, fallback: string) {
     : fallback;
 }
 
-function splitLines(value: string) {
-  return value
-    .split(/\r?\n/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function toText(value: string[]) {
-  return value.join("\n");
-}
-
 export default function CareersAdminPage() {
   const router = useRouter();
   const [draft, setDraft] = useState<CareersConfig>(() =>
@@ -63,7 +60,9 @@ export default function CareersAdminPage() {
   );
   const [saveState, setSaveState] = useState<SaveState>("loading");
   const [message, setMessage] = useState("");
-  const [activeTab, setActiveTab] = useState<"roles" | "vacancies">("roles");
+  const [activeTab, setActiveTab] = useState<"roles" | "vacancies">(
+    "vacancies",
+  );
   const [expandedVacancies, setExpandedVacancies] = useState<boolean[]>([]);
 
   useEffect(() => {
@@ -83,7 +82,7 @@ export default function CareersAdminPage() {
 
         if (!cancelled) {
           setDraft(cloneCareersConfig(normalized));
-          setExpandedVacancies(normalized.vacancies.map(() => true));
+          setExpandedVacancies(normalized.vacancies.map(() => false));
           setSaveState("idle");
         }
       } catch (error) {
@@ -162,7 +161,7 @@ export default function CareersAdminPage() {
       ...current,
       vacancies: [...current.vacancies, createEmptyVacancy()],
     }));
-    setExpandedVacancies((current) => [...current, true]);
+    setExpandedVacancies((current) => [...current, false]);
   }
 
   function removeVacancy(index: number) {
@@ -527,7 +526,7 @@ export default function CareersAdminPage() {
 
                 <div className="mt-5 grid gap-5">
                   {draft.vacancies.map((vacancy, index) => {
-                    const isExpanded = expandedVacancies[index] ?? true;
+                    const isExpanded = expandedVacancies[index] ?? false;
 
                     return (
                       <article
@@ -673,40 +672,32 @@ export default function CareersAdminPage() {
                             </div>
 
                             <div className="mt-4 grid gap-4">
-                              <TextareaField
+                              <RichTextEditorField
                                 label="Summary"
                                 value={vacancy.summary}
                                 onChange={(value) =>
                                   updateVacancy(index, "summary", value)
                                 }
-                                placeholder="Short role summary"
-                                rows={6}
+                                placeholder="Write the summary like a short introduction"
+                                helperText="You can format the summary the same way as the responsibilities."
                               />
-                              <TextareaField
+                              <RichTextEditorField
                                 label="Responsibilities"
-                                value={toText(vacancy.responsibilities)}
+                                value={vacancy.responsibilities}
                                 onChange={(value) =>
-                                  updateVacancy(
-                                    index,
-                                    "responsibilities",
-                                    splitLines(value),
-                                  )
+                                  updateVacancy(index, "responsibilities", value)
                                 }
-                                placeholder="One responsibility per line"
-                                rows={9}
+                                placeholder="Write the responsibilities like an email"
+                                helperText="Use the toolbar to add bold text, colors, and bullet lists."
                               />
-                              <TextareaField
+                              <RichTextEditorField
                                 label="Qualifications"
-                                value={toText(vacancy.qualifications)}
+                                value={vacancy.qualifications}
                                 onChange={(value) =>
-                                  updateVacancy(
-                                    index,
-                                    "qualifications",
-                                    splitLines(value),
-                                  )
+                                  updateVacancy(index, "qualifications", value)
                                 }
-                                placeholder="One qualification per line"
-                                rows={8}
+                                placeholder="Write the qualifications like bullets in an email"
+                                helperText="You can use bullets, bold text, and colors here too."
                               />
                             </div>
                           </>
@@ -785,31 +776,229 @@ function SelectField({
   );
 }
 
-function TextareaField({
+function RichTextEditorField({
   label,
   value,
   onChange,
   placeholder,
-  rows = 4,
+  helperText,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  rows?: number;
+  helperText?: string;
 }) {
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor || editor.innerHTML === value) {
+      return;
+    }
+
+    editor.innerHTML = value;
+  }, [value]);
+
+  function syncEditor() {
+    const editor = editorRef.current;
+    if (!editor) {
+      return;
+    }
+
+    onChange(editor.innerHTML);
+  }
+
+  function insertCleanHtml(html: string) {
+    const editor = editorRef.current;
+    if (!editor) {
+      return;
+    }
+
+    const cleaned = sanitizeRichTextHtml(html);
+    if (!cleaned) {
+      return;
+    }
+
+    editor.focus();
+    document.execCommand("insertHTML", false, cleaned);
+    syncEditor();
+  }
+
+  function runCommand(command: string, commandValue?: string) {
+    const editor = editorRef.current;
+    if (!editor) {
+      return;
+    }
+
+    editor.focus();
+    document.execCommand(command, false, commandValue);
+    syncEditor();
+  }
+
+  function handlePaste(event: ClipboardEvent<HTMLDivElement>) {
+    event.preventDefault();
+    const clipboardHtml = event.clipboardData.getData("text/html");
+    const clipboardText = event.clipboardData.getData("text/plain");
+    insertCleanHtml(clipboardHtml || clipboardText);
+  }
+
   return (
-    <label className="space-y-2">
+    <div className="space-y-2">
       <span className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
         {label}
       </span>
-      <textarea
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        rows={rows}
-        className="w-full resize-y rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
-      />
-    </label>
+
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50 px-3 py-2">
+          <ToolbarGroup label="Text">
+            <ToolbarButton onClick={() => runCommand("bold")} label="Bold">
+              B
+            </ToolbarButton>
+            <ToolbarButton onClick={() => runCommand("italic")} label="Italic">
+              I
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("removeFormat")}
+              label="Clear formatting"
+            >
+              Clear
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup label="Blocks">
+            <ToolbarButton
+              onClick={() => runCommand("formatBlock", "<h2>")}
+              label="Heading 2"
+            >
+              H2
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("formatBlock", "<h3>")}
+              label="Heading 3"
+            >
+              H3
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("formatBlock", "<p>")}
+              label="Paragraph"
+            >
+              P
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup label="Lists">
+            <ToolbarButton
+              onClick={() => runCommand("insertUnorderedList")}
+              label="Bullets"
+            >
+              • List
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("insertOrderedList")}
+              label="Numbered list"
+            >
+              1. List
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <ToolbarGroup label="Align">
+            <ToolbarButton
+              onClick={() => runCommand("justifyLeft")}
+              label="Align left"
+            >
+              Left
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("justifyCenter")}
+              label="Align center"
+            >
+              Center
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => runCommand("justifyRight")}
+              label="Align right"
+            >
+              Right
+            </ToolbarButton>
+          </ToolbarGroup>
+
+          <label className="ml-auto flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600">
+            Color
+            <input
+              type="color"
+              onChange={(event) => runCommand("foreColor", event.target.value)}
+              className="h-7 w-8 cursor-pointer border-0 bg-transparent p-0"
+              aria-label="Text color"
+              title="Text color"
+            />
+          </label>
+
+          <ToolbarButton onClick={() => runCommand("undo")} label="Undo">
+            Undo
+          </ToolbarButton>
+          <ToolbarButton onClick={() => runCommand("redo")} label="Redo">
+            Redo
+          </ToolbarButton>
+        </div>
+
+        <div
+          ref={editorRef}
+          contentEditable
+          suppressContentEditableWarning
+          onPaste={handlePaste}
+          onInput={syncEditor}
+          className="rich-text min-h-[220px] px-4 py-3 text-sm leading-7 text-slate-900 outline-none [&_ul]:my-2 [&_ol]:my-2 [&_li]:my-1 [&_strong]:font-semibold [&_b]:font-semibold [&_em]:italic [&_i]:italic [&_u]:underline"
+          aria-label={label}
+        />
+
+        {!value ? (
+          <div className="pointer-events-none -mt-[220px] px-4 py-3 text-sm leading-7 text-slate-400">
+            {placeholder ?? "Start typing here"}
+          </div>
+        ) : null}
+      </div>
+
+      {helperText ? <p className="text-xs leading-5 text-slate-500">{helperText}</p> : null}
+    </div>
+  );
+}
+
+function ToolbarButton({
+  children,
+  onClick,
+  label,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(event) => event.preventDefault()}
+      onClick={onClick}
+      aria-label={label}
+      className="inline-flex h-9 items-center justify-center rounded-full border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+    >
+      {children}
+    </button>
+  );
+}
+
+function ToolbarGroup({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) {
+  return (
+    <div className="flex flex-wrap items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1">
+      <span className="px-1 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-slate-400">
+        {label}
+      </span>
+      {children}
+    </div>
   );
 }

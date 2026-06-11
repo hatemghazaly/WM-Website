@@ -5,8 +5,8 @@ export type Vacancy = {
   type: string;
   experience: string;
   summary: string;
-  responsibilities: string[];
-  qualifications: string[];
+  responsibilities: string;
+  qualifications: string;
   emailSubject: string;
   active: boolean;
 };
@@ -35,8 +35,6 @@ export function cloneCareersConfig(config: CareersConfig): CareersConfig {
   return {
     vacancies: config.vacancies.map((vacancy) => ({
       ...vacancy,
-      responsibilities: [...vacancy.responsibilities],
-      qualifications: [...vacancy.qualifications],
       active: vacancy.active,
     })),
     availableRoles: config.availableRoles.map((role) => ({ ...role })),
@@ -47,10 +45,26 @@ function normalizeText(value: unknown) {
   return String(value ?? "").trim();
 }
 
-function normalizeList(value: unknown) {
-  return Array.isArray(value)
-    ? value.map((item) => normalizeText(item)).filter(Boolean)
-    : [];
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function normalizeRichText(value: unknown) {
+  if (Array.isArray(value)) {
+    const items = value.map((item) => normalizeText(item)).filter(Boolean);
+    if (!items.length) {
+      return "";
+    }
+
+    return `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+  }
+
+  return normalizeText(value);
 }
 
 function normalizeAvailableRole(value: unknown): AvailableRole {
@@ -73,9 +87,9 @@ function normalizeVacancy(value: unknown): Vacancy {
     location: normalizeText(vacancy.location),
     type: normalizeText(vacancy.type),
     experience: normalizeText(vacancy.experience),
-    summary: normalizeText(vacancy.summary),
-    responsibilities: normalizeList(vacancy.responsibilities),
-    qualifications: normalizeList(vacancy.qualifications),
+    summary: normalizeRichText(vacancy.summary),
+    responsibilities: normalizeRichText(vacancy.responsibilities),
+    qualifications: normalizeRichText(vacancy.qualifications),
     emailSubject: emailSubject || (title ? `Application for ${title}` : ""),
     active: vacancy.active !== false,
   };
@@ -122,8 +136,8 @@ export function createEmptyVacancy(): Vacancy {
     type: "",
     experience: "",
     summary: "",
-    responsibilities: [],
-    qualifications: [],
+    responsibilities: "",
+    qualifications: "",
     emailSubject: "",
     active: true,
   };

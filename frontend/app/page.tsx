@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { normalizeCareersConfig, type Vacancy } from "@/lib/careers-data";
+import { sanitizeRichTextHtml } from "@/lib/rich-text";
 
 const leaders = [
   {
@@ -387,9 +388,12 @@ export default function Home() {
                     <h3 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-white sm:text-4xl">
                       {firstVacancy.title}
                     </h3>
-                    <p className="mt-4 max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
-                      {firstVacancy.summary}
-                    </p>
+                    <div
+                      className="rich-text mt-4 max-w-2xl text-sm leading-7 text-white/72 sm:text-base [&_br]:content-[''] [&_ul]:my-2 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-5 [&_li]:my-1 [&_strong]:font-semibold [&_b]:font-semibold [&_em]:italic [&_i]:italic [&_u]:underline [&_h1]:text-[1.8rem] [&_h2]:text-[1.45rem] [&_h3]:text-[1.2rem] [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_h1]:leading-tight [&_h2]:leading-tight [&_h3]:leading-tight"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeRichTextHtml(firstVacancy.summary),
+                      }}
+                    />
 
                     <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
                       <span className="inline-flex items-center rounded-full border border-white/12 bg-black/25 px-3 py-2">

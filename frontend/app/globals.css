@@ -175,6 +175,53 @@
     color: var(--foreground);
     background-color: transparent;
   }
+
+  .rich-text ul {
+    list-style: disc;
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+  }
+
+  .rich-text ol {
+    list-style: decimal;
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+  }
+
+  .rich-text li {
+    margin: 0.25rem 0;
+  }
+
+  .rich-text h1,
+  .rich-text h2,
+  .rich-text h3 {
+    margin: 0.75rem 0 0.4rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .rich-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .rich-text h2 {
+    font-size: 1.45rem;
+  }
+
+  .rich-text h3 {
+    font-size: 1.2rem;
+  }
+
+  .rich-text ul > li::marker {
+    color: #34d399;
+    font-size: 1.35em;
+  }
+
+  .rich-text ol > li::marker {
+    color: #0f172a;
+    font-weight: 600;
+  }
 }
 
 @layer utilities {
