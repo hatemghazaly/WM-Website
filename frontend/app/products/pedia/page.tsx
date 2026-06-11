@@ -141,7 +141,7 @@ export default function PediaPage() {
 
           {/* Hero Background Image */}
           <motion.div
-            className="relative mt-8 h-[260px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[340px] lg:h-[420px]"
+            className="relative mt-8 h-[220px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[300px] lg:h-[420px]"
             variants={reveal}
             initial="hidden"
             whileInView="visible"
@@ -223,7 +223,7 @@ export default function PediaPage() {
 
           {/* Second Background Image */}
           <motion.div
-            className="relative mt-6 h-[220px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[280px]"
+            className="relative mt-6 h-[180px] overflow-hidden rounded-[30px] bg-slate-100 sm:h-[240px] lg:h-[280px]"
             variants={reveal}
             initial="hidden"
             whileInView="visible"
@@ -286,11 +286,11 @@ export default function PediaPage() {
               },
             }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 auto-rows-max">
               {PediaProducts.map((product) => (
                 <motion.div
                   key={product.name}
-                className="group relative overflow-hidden rounded-[32px] bg-black h-[560px] sm:h-[640px] lg:h-[720px]"
+                  className="group relative overflow-hidden rounded-[32px] bg-black h-[420px] sm:h-[520px] lg:h-[720px]"
                   variants={reveal}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
@@ -308,13 +308,13 @@ export default function PediaPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                   {/* Content - Positioned at top and bottom */}
-                  <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
+                  <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 lg:p-8">
                     {/* Top Section */}
                     <div className="flex flex-col">
                       <p className="text-xs font-medium tracking-[0.12em] text-slate-300 uppercase">
                         {product.tagline}
                       </p>
-                      <h3 className="mt-3 text-3xl lg:text-4xl font-semibold tracking-[-0.03em] text-white leading-tight">
+                      <h3 className="mt-3 text-balance text-2xl font-semibold tracking-[-0.03em] text-white leading-tight sm:text-3xl lg:text-4xl">
                         {product.name}
                       </h3>
                     </div>

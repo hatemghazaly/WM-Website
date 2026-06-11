@@ -177,9 +177,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03),transparent_45%)]" />
       </div>
 
-      <section className="relative min-h-screen">
+      <section className="relative min-h-[56vh] sm:min-h-[68vh] lg:min-h-screen">
         <motion.div
-          className="flex justify-center px-6 pt-10 sm:px-8 sm:pt-12 lg:px-10 lg:pt-14"
+          className="flex justify-center px-6 pt-6 sm:px-8 sm:pt-8 lg:px-10 lg:pt-14"
           initial={{ opacity: 0, y: -14, filter: "blur(8px)" }}
           animate={{
             opacity: 1,
@@ -198,7 +198,7 @@ export default function Home() {
             height={174}
             priority
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 32vw, 24vw"
-            className="h-auto w-[45vw] max-w-[520px] drop-shadow-[0_12px_40px_rgba(0,0,0,0.55)]"
+            className="h-auto w-[40vw] max-w-[520px] drop-shadow-[0_12px_40px_rgba(0,0,0,0.55)] sm:w-[45vw]"
           />
         </motion.div>
       </section>

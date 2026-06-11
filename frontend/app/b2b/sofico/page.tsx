@@ -249,12 +249,9 @@ export default function SoficoPage() {
           <div className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.18)_0%,rgba(59,130,246,0.10)_32%,transparent_72%)] blur-3xl animate-glow-slow" />
           <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.14)_0%,rgba(16,185,129,0.08)_32%,transparent_72%)] blur-3xl animate-glow-slow-delayed" />
 
-          <motion.div
+          <div
             ref={heroRef}
             className="relative px-6 py-12 sm:px-10 lg:px-14 lg:py-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.28 }}
           >
             <div className="mx-auto max-w-6xl text-center lg:text-left">
               <motion.div
@@ -347,20 +344,13 @@ export default function SoficoPage() {
               </div>
             </div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.18 }}
-              className="mt-14 grid gap-4 md:grid-cols-3"
-            >
+            <div className="mt-14 grid gap-4 md:grid-cols-3">
               {strengths.map((item) => {
                 const Icon = item.icon;
 
                 return (
-                  <motion.div
+                  <div
                     key={item.title}
-                    variants={reveal}
-                    whileHover={{ y: -4 }}
                     className="rounded-[28px] border border-slate-200/70 bg-white/90 p-6 shadow-[0_20px_50px_-30px_rgba(15,23,42,0.18)] backdrop-blur"
                   >
                     <div className="flex items-center gap-4">
@@ -371,18 +361,12 @@ export default function SoficoPage() {
                         {item.title}
                       </h2>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.16 }}
-              variants={reveal}
-              className="mt-6 overflow-hidden rounded-[34px] border border-sky-100/80 bg-[linear-gradient(180deg,rgba(239,246,255,0.95),rgba(240,253,244,0.9))] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.22)]"
-            >
+            <div className="mt-6 overflow-hidden rounded-[34px] border border-sky-100/80 bg-[linear-gradient(180deg,rgba(239,246,255,0.95),rgba(240,253,244,0.9))] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.22)]">
               <div className="border-b border-slate-200/70 px-6 py-8 sm:px-8">
                 <h2 className="text-center text-4xl font-semibold tracking-[-0.06em] text-slate-950 sm:text-5xl">
                   Items Codes
@@ -433,16 +417,8 @@ export default function SoficoPage() {
                   <tbody>
                     {filteredItems.length > 0 ? (
                       filteredItems.map((row, index) => (
-                        <motion.tr
+                        <tr
                           key={`${row.itemName}-${row.soficoCode}`}
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, amount: 0.3 }}
-                          transition={{
-                            delay: 0.05 * index,
-                            duration: 0.45,
-                            ease: [0.22, 1, 0.36, 1] as const,
-                          }}
                           className="border-b border-white/70 last:border-b-0"
                         >
                           <td className="px-6 py-4 text-sm text-slate-700 sm:px-8">
@@ -454,7 +430,7 @@ export default function SoficoPage() {
                           <td className="px-6 py-4 text-center text-sm text-slate-700 sm:px-8">
                             {row.category}
                           </td>
-                        </motion.tr>
+                        </tr>
                       ))
                     ) : (
                       <tr>
@@ -469,8 +445,8 @@ export default function SoficoPage() {
                   </tbody>
                 </table>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
