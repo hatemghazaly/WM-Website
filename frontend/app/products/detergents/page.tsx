@@ -304,7 +304,7 @@ export default function DetergentPage() {
               {DetergentProducts.map((product) => (
                 <motion.div
                   key={product.name}
-                  className="group relative overflow-hidden rounded-[32px] bg-black h-[720px]"
+                className="group relative overflow-hidden rounded-[32px] bg-black h-[560px] sm:h-[640px] lg:h-[720px]"
                   variants={reveal}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
@@ -331,7 +331,7 @@ export default function DetergentPage() {
                         {product.tagline}
                       </p>
                       <div className="mt-3 w-max max-w-[85%] rounded-full bg-slate-900/50 px-4 py-2 backdrop-blur-sm">
-                        <h3 className="whitespace-nowrap text-xl font-semibold tracking-[-0.03em] text-white lg:text-2xl">
+                        <h3 className="text-balance text-xl font-semibold tracking-[-0.03em] text-white lg:text-2xl">
                           {product.name}
                         </h3>
                       </div>

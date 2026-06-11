@@ -290,7 +290,7 @@ export default function PediaPage() {
               {PediaProducts.map((product) => (
                 <motion.div
                   key={product.name}
-                  className="group relative overflow-hidden rounded-[32px] bg-black h-[720px]"
+                className="group relative overflow-hidden rounded-[32px] bg-black h-[560px] sm:h-[640px] lg:h-[720px]"
                   variants={reveal}
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}

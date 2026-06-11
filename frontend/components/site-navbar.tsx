@@ -62,7 +62,7 @@ export function SiteNavbar() {
 
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground xl:hidden"
+          className="inline-flex items-center justify-center rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground lg:hidden"
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-site-navigation"
           aria-label="Toggle navigation menu"
@@ -87,7 +87,7 @@ export function SiteNavbar() {
           </span>
         </button>
 
-        <ul className="hidden items-center gap-1.5 xl:absolute xl:left-1/2 xl:flex xl:-translate-x-1/2 xl:flex-nowrap">
+        <ul className="hidden items-center gap-1.5 lg:absolute lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:flex-nowrap">
           {navItems.map((item) => (
             <li key={item.href} className="shrink-0">
               <Link
@@ -331,7 +331,7 @@ export function SiteNavbar() {
       {isMobileMenuOpen ? (
         <div
           id="mobile-site-navigation"
-          className="border-t border-border bg-background/98 xl:hidden"
+          className="border-t border-border bg-background/98 lg:hidden"
         >
           <div className="max-h-[calc(100vh-72px)] overflow-y-auto px-4 py-4 sm:px-6">
             <div className="space-y-2">
