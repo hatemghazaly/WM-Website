@@ -52,7 +52,26 @@ const residenceOptions = [
   { value: "red", label: "Red Sea" },
   { value: "ns", label: "North Sinai" },
   { value: "ss", label: "South Sinai" },
+  { value: "pl", label: "Poland" },
+  { value: "ksa", label: "Kingdom Of Saudi Arabia" },
+  { value: "jor", label: "Jordan" },
 ] as const;
+
+const countryOptions = [
+  { value: "", label: "Select your country" },
+  { value: "egy", label: "Egypt" },
+  { value: "pl", label: "Poland" },
+  { value: "ksa", label: "Kingdom Of Saudi Arabia" },
+  { value: "jor", label: "Jordan" },
+] as const;
+
+function mapCountryToResidence(value: string) {
+  if (value === "pl" || value === "ksa" || value === "jor") {
+    return value;
+  }
+
+  return "";
+}
 
 export default function ApplyNowPage() {
   return (
@@ -74,6 +93,8 @@ function ApplyNowForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [residence, setResidence] = useState("");
+  const [country, setCountry] = useState("");
+  const [linkedinProfile, setLinkedinProfile] = useState("");
   const [hasACar, setHasACar] = useState(false);
   const [subject, setSubject] = useState(`Application for ${initialRole}`);
   const [message, setMessage] = useState("");
@@ -238,6 +259,8 @@ function ApplyNowForm() {
           applied_job: appliedJob,
           subject,
           message,
+          country,
+          linkedin_profile: linkedinProfile,
           has_a_car: hasACar,
           cv_attachment_name,
           cv_attachment_type,
@@ -284,6 +307,8 @@ function ApplyNowForm() {
       setEmail("");
       setPhone("");
       setResidence("");
+      setCountry("");
+      setLinkedinProfile("");
       setHasACar(false);
       setMessage("");
       setCvFile(null);
@@ -344,8 +369,8 @@ function ApplyNowForm() {
               for the role that fits you best.
             </motion.p>
             <p className="mx-auto mt-3 text-sm font-medium text-rose-600">
-              All fields are mandatory. Missing fields will be highlighted in
-              red when you submit.
+              Fields marked with * are mandatory. Country and LinkedIn Profile
+              are optional.
             </p>
           </div>
         </motion.div>
@@ -398,9 +423,9 @@ function ApplyNowForm() {
               </div>
             </div>
           </div>
-
           <div className="p-6 sm:p-7 lg:p-8">
             <form onSubmit={handleSubmit} noValidate>
+              {/* Name, email & Phone */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
                   label="Full Name"
@@ -431,35 +456,82 @@ function ApplyNowForm() {
                   error={attemptedSubmit && !phone.trim()}
                   required
                 />
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="linkedin_profile"
+                    className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400"
+                  >
+                    LinkedIn Profile
+                  </label>
+                  <div className="flex h-14 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5">
+                    <MessageSquareText className="h-5 w-5 flex-none text-slate-400" />
+                    <input
+                      id="linkedin_profile"
+                      name="linkedin_profile"
+                      type="text"
+                      value={linkedinProfile}
+                      onChange={(event) =>
+                        setLinkedinProfile(event.target.value)
+                      }
+                      placeholder="Paste your LinkedIn URL or profile"
+                      className="h-full w-full bg-transparent px-5 text-base text-slate-900 outline-none placeholder:text-slate-400"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* Country and residence */}
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                    Country
+                  </label>
+                  <select
+                    value={country}
+                    onChange={(event) => {
+                      const nextCountry = event.target.value;
+                      setCountry(nextCountry);
+                      setResidence(mapCountryToResidence(nextCountry));
+                    }}
+                    className="h-12 w-full rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200/70"
+                  >
+                    {countryOptions.map((item) => (
+                      <option key={item.value || "empty"} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
+                      attemptedSubmit && !residence
+                        ? "text-rose-500"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    Residence <span className="text-rose-500">*</span>
+                  </label>
+                  <select
+                    value={residence}
+                    onChange={(event) => setResidence(event.target.value)}
+                    className={`h-12 w-full rounded-2xl border bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:ring-4 ${
+                      attemptedSubmit && !residence
+                        ? "border-rose-300 bg-rose-50/50 focus:border-rose-500 focus:ring-rose-100"
+                        : "border-slate-200 focus:border-slate-400 focus:ring-slate-200/70"
+                    }`}
+                  >
+                    {residenceOptions.map((item) => (
+                      <option key={item.value || "empty"} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <div className="mt-4 space-y-2">
-                <label
-                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
-                    attemptedSubmit && !residence
-                      ? "text-rose-500"
-                      : "text-slate-400"
-                  }`}
-                >
-                  Residence <span className="text-rose-500">*</span>
-                </label>
-                <select
-                  value={residence}
-                  onChange={(event) => setResidence(event.target.value)}
-                  className={`h-12 w-full rounded-2xl border bg-white/95 px-4 text-sm text-slate-900 outline-none transition focus:ring-4 ${
-                    attemptedSubmit && !residence
-                      ? "border-rose-300 bg-rose-50/50 focus:border-rose-500 focus:ring-rose-100"
-                      : "border-slate-200 focus:border-slate-400 focus:ring-slate-200/70"
-                  }`}
-                >
-                  {residenceOptions.map((item) => (
-                    <option key={item.value || "empty"} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+              {/* Role */}
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <label
@@ -496,28 +568,35 @@ function ApplyNowForm() {
                         : "No roles available"}
                     </option>
                     {availableRoles.map((item) => (
-                      <option key={`${item.label}:${item.code}`} value={item.label}>
+                      <option
+                        key={`${item.label}:${item.code}`}
+                        value={item.label}
+                      >
                         {item.label}
                       </option>
                     ))}
                   </select>
                 </div>
+
+                <div className="space-y-2">
+                  <label className="text-[0.72rem] font-medium uppercase tracking-[0.28em] text-slate-400">
+                    Car Ownership
+                  </label>
+                  <label className="flex h-12 items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 text-sm text-slate-700 shadow-sm transition hover:border-slate-300">
+                    <input
+                      type="checkbox"
+                      checked={hasACar}
+                      onChange={(event) => setHasACar(event.target.checked)}
+                      className="h-4 w-4 rounded border-slate-300 text-slate-950 focus:ring-slate-300"
+                    />
+                    <span className="font-medium text-slate-900">
+                      Have a Car
+                    </span>
+                  </label>
+                </div>
               </div>
 
-              <div className="mt-4 space-y-2">
-                <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 px-4 py-4 text-sm text-slate-700 shadow-sm transition hover:border-slate-300">
-                  <input
-                    type="checkbox"
-                    checked={hasACar}
-                    onChange={(event) => setHasACar(event.target.checked)}
-                    className="h-4 w-4 rounded border-slate-300 text-slate-950 focus:ring-slate-300"
-                  />
-                  <span className="font-medium text-slate-900">
-                    Have a Car
-                  </span>
-                </label>
-              </div>
-
+              {/* CV Attachment */}
               <div className="mt-4 space-y-2">
                 <label
                   htmlFor="cv"
@@ -575,44 +654,7 @@ function ApplyNowForm() {
                   <p className="text-sm text-rose-700">{cvError}</p>
                 ) : null}
               </div>
-
-              <div className="mt-4 space-y-2">
-                <label
-                  htmlFor="subject"
-                  className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
-                    attemptedSubmit && !subject.trim()
-                      ? "text-rose-500"
-                      : "text-slate-400"
-                  }`}
-                >
-                  Subject <span className="text-rose-500">*</span>
-                </label>
-                <div
-                  className={`flex h-12 items-center overflow-hidden rounded-2xl border bg-white/95 text-sm text-slate-900 transition focus-within:ring-4 ${
-                    attemptedSubmit && !subject.trim()
-                      ? "border-rose-300 focus-within:border-rose-500 focus-within:ring-rose-100"
-                      : "border-slate-200 focus-within:border-slate-400 focus-within:ring-slate-200/70"
-                  }`}
-                >
-                  <MessageSquareText
-                    className={`ml-7 h-4 w-4 shrink-0 ${
-                      attemptedSubmit && !subject.trim()
-                        ? "text-rose-400"
-                        : "text-slate-400"
-                    }`}
-                  />
-                  <input
-                    id="subject"
-                    name="subject"
-                    value={subject}
-                    onChange={(event) => setSubject(event.target.value)}
-                    type="text"
-                    required
-                    className="h-full w-full bg-transparent px-4 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-                  />
-                </div>
-              </div>
-
+              {/* Cover Message */}
               <div className="mt-4 space-y-2">
                 <label
                   className={`text-[0.72rem] font-medium uppercase tracking-[0.28em] ${
@@ -717,9 +759,7 @@ function Field({
       </label>
       <div
         className={`flex h-14 items-center gap-3 rounded-2xl border bg-white px-5 ${
-          error
-            ? "border-rose-300 bg-rose-50/50"
-            : "border-slate-200"
+          error ? "border-rose-300 bg-rose-50/50" : "border-slate-200"
         }`}
       >
         <Icon
@@ -737,7 +777,9 @@ function Field({
           className="h-full w-full bg-transparent px-5 text-base text-slate-900 outline-none placeholder:text-slate-400"
         />
       </div>
-      {error ? <p className="text-sm text-rose-600">This field is required.</p> : null}
+      {error ? (
+        <p className="text-sm text-rose-600">This field is required.</p>
+      ) : null}
     </div>
   );
 }

@@ -44,10 +44,24 @@ RESIDENCE_CHOICES = {
     "red": "Red Sea",
     "ns": "North Sinai",
     "ss": "South Sinai",
+    "pl": "Poland",
+    "ksa": "Kingdom Of Saudi Arabia",
+    "jor": "Jordan",
 }
 
 RESIDENCE_LABEL_TO_CODE = {
     label.lower(): code for code, label in RESIDENCE_CHOICES.items()
+}
+
+COUNTRY_CHOICES = {
+    "egy": "Egypt",
+    "pl": "Poland",
+    "ksa": "Kingdom Of Saudi Arabia",
+    "jor": "Jordan",
+}
+
+COUNTRY_LABEL_TO_CODE = {
+    label.lower(): code for code, label in COUNTRY_CHOICES.items()
 }
 
 
@@ -181,6 +195,17 @@ def _normalize_residence(value: object) -> str:
     return RESIDENCE_LABEL_TO_CODE.get(residence.lower(), "")
 
 
+def _normalize_country(value: object) -> str:
+    country = str(value or "").strip()
+    if not country:
+        return ""
+
+    if country in COUNTRY_CHOICES:
+        return country
+
+    return COUNTRY_LABEL_TO_CODE.get(country.lower(), "")
+
+
 def _resolve_applied_job_from_config(role: object, applied_job: object = "") -> str:
     applied = str(applied_job or "").strip()
     if applied and applied != "other":
@@ -305,6 +330,12 @@ def send_to_recruitment_service(payload: dict) -> tuple[bool, str]:
     residence = str(payload.get("residence") or "").strip()
     if residence:
         applicant_values["residence"] = residence
+    country = str(payload.get("country") or "").strip()
+    if country:
+        applicant_values["country"] = country
+    linkedin_profile = str(payload.get("linkedin_profile") or "").strip()
+    if linkedin_profile:
+        applicant_values["linkedin_profile"] = linkedin_profile
     cv_attachment_base64 = str(payload.get("cv_attachment_base64") or "").strip()
     if cv_attachment_base64:
         applicant_values["cv_attachment"] = cv_attachment_base64
@@ -359,6 +390,12 @@ def submit_career_application(request):
             "Invalid residence selection.",
             valid_residences=list(RESIDENCE_CHOICES.keys()),
         )
+    normalized_country = _normalize_country(payload.get("country"))
+    if payload.get("country") and not normalized_country:
+        return _error_response(
+            "Invalid country selection.",
+            valid_countries=list(COUNTRY_CHOICES.keys()),
+        )
     if missing_fields:
         return _error_response(
             "Missing required fields.",
@@ -384,6 +421,8 @@ def submit_career_application(request):
         applied_job=applied_job,
         subject=str(payload["subject"]).strip(),
         message=str(payload["message"]).strip(),
+        country=normalized_country,
+        linkedin_profile=str(payload.get("linkedin_profile", "")).strip(),
         cv_attachment_name=str(payload.get("cv_attachment_name", "")).strip(),
         cv_attachment_type=str(payload.get("cv_attachment_type", "")).strip(),
     )
@@ -497,6 +536,8 @@ def submit_career_application(request):
         "phone": career_application.phone,
         "date": _today_in_cairo(),
         "residence": normalized_residence,
+        "country": normalized_country,
+        "linkedin_profile": str(payload.get("linkedin_profile", "")).strip(),
         "role": career_application.role,
         "applied_job": career_application.applied_job,
         "subject": career_application.subject,

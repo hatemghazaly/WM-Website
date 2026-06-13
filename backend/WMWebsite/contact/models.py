@@ -27,6 +27,8 @@ class CareerApplication(models.Model):
     applied_job = models.CharField(max_length=50, blank=True)
     subject = models.CharField(max_length=200)
     message = models.TextField()
+    country = models.CharField(max_length=3, blank=True, default="")
+    linkedin_profile = models.TextField(blank=True, default="")
     cv_attachment_name = models.CharField(max_length=255, blank=True)
     cv_attachment_type = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

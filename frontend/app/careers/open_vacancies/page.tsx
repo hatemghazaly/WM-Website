@@ -9,6 +9,7 @@ import {
   BadgeDollarSign,
   BriefcaseBusiness,
   GraduationCap,
+  HeartPulse,
   MapPin,
   ShieldCheck,
   Sparkles,
@@ -49,6 +50,16 @@ const highlights: Benefit[] = [
     icon: ShieldCheck,
     label: "Social insurance",
     description: "Social Insurance.",
+  },
+  {
+    icon: Sparkles,
+    label: "Career growth",
+    description: "Opportunities for career advancement.",
+  },
+  {
+    icon: HeartPulse,
+    label: "Healthy Environment",
+    description: "A healthy work environment.",
   },
 ];
 
@@ -94,7 +105,9 @@ export default function OpenVacanciesPage() {
         const config = normalizeCareersConfig(payload);
 
         if (!cancelled) {
-          setVacancies(config.vacancies.filter((vacancy) => vacancy.active !== false));
+          setVacancies(
+            config.vacancies.filter((vacancy) => vacancy.active !== false),
+          );
         }
       } catch {
         if (!cancelled) {

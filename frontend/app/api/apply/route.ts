@@ -21,6 +21,8 @@ type ApplyPayload = {
   email?: string;
   phone?: string;
   residence?: string;
+  country?: string;
+  linkedin_profile?: string;
   role?: string;
   applied_job?: string;
   subject?: string;
@@ -36,6 +38,8 @@ type NormalizedApplyPayload = {
   email: string;
   phone: string;
   residence: string;
+  country: string;
+  linkedin_profile: string;
   role: string;
   applied_job?: string;
   applied_jobs?: string;
@@ -131,6 +135,8 @@ function normalizePayload(payload: ApplyPayload): NormalizedApplyPayload {
     email: String(payload.email ?? "").trim(),
     phone: String(payload.phone ?? "").trim(),
     residence: String(payload.residence ?? "").trim(),
+    country: String(payload.country ?? "").trim(),
+    linkedin_profile: String(payload.linkedin_profile ?? "").trim(),
     role: String(payload.role ?? "").trim(),
     applied_job: String(payload.applied_job ?? "").trim() || undefined,
     subject: String(payload.subject ?? "").trim(),
@@ -284,6 +290,12 @@ async function forwardDirectlyToRecruitment(
   }
   if (payload.residence) {
     applicantValues.residence = payload.residence;
+  }
+  if (payload.country) {
+    applicantValues.country = payload.country;
+  }
+  if (payload.linkedin_profile) {
+    applicantValues.linkedin_profile = payload.linkedin_profile;
   }
   if (payload.cv_attachment_base64) {
     applicantValues.cv_attachment = payload.cv_attachment_base64;
