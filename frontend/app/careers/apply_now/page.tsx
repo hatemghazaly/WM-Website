@@ -368,10 +368,6 @@ function ApplyNowForm() {
               Share your details below and our team will review your application
               for the role that fits you best.
             </motion.p>
-            <p className="mx-auto mt-3 text-sm font-medium text-rose-600">
-              Fields marked with * are mandatory. Country and LinkedIn Profile
-              are optional.
-            </p>
           </div>
         </motion.div>
 
@@ -691,9 +687,8 @@ function ApplyNowForm() {
                     : "Submit Application"}
                   <ArrowRight className="h-4 w-4" />
                 </button>
-
-                <p className="text-sm text-slate-500">
-                  All fields must be completed before submission.
+                <p className="text-sm text-rose-600">
+                  Fields marked with * are mandatory.
                 </p>
               </div>
 
